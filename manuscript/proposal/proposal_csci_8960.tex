@@ -98,20 +98,20 @@
 
     \subsection{Rationale for Choosing DP-SGD}\label{subsec:rationale-for-choosing-dp-sgd}
     \begin{itemize}
-        \item provides well-documented privacy guarantees (Abadi et al. 2016)
-            while maintaining decent utility for image classification tasks.
+        \item provides well-documented privacy guarantees \citet{Abadi_2016_DeepLearningDifferentialPrivacy}
+        while maintaining decent utility for image classification tasks.
         \item The addition of noise and gradient clipping help ensure $(\epsilon, \delta)$-differential privacy,
-            making it ideal for sensitive applications.
+        making it ideal for sensitive applications.
         \item Previous work shows that DP-SGD, when optimized, can yield near state-of-the-art accuracy
-            for differentially private models (De et al. 2022).
+        for differentially private models \citet{De_2022_ScaleDP_ImageClassification}.
     \end{itemize}
 
     \subsection{Why This Approach Will Outperform Others}\label{subsec:why-this-approach-will-outperform-others}
     \begin{itemize}
         \item Our approach leverages the simplicity of ResNet-20, optimized for smaller datasets like CIFAR-10,
-            combined with DP-SGD, a proven differential privacy technique.
+        combined with DP-SGD, a proven differential privacy technique.
         \item By experimenting with different gradient clipping techniques and noise scales,
-            we aim to find an optimal trade-off between accuracy and privacy.
+        we aim to find an optimal trade-off between accuracy and privacy.
         \item We will investigate modifications like adaptive clipping to enhance performance.
     \end{itemize}
 
@@ -151,7 +151,9 @@
 
 
     \section{Related Work}\label{sec:related-work}
-    Several approaches to differentially private deep learning have been explored in the literature. \citet{abadi2016deep} introduced DP-SGD, which remains the most widely used technique for privacy-preserving model training. Recent works like \citet{de2022unlocking} have explored scaling DP training for improved accuracy, which is also one of our goals.
+    Several approaches to differentially private deep learning have been explored in the literature. \citet{Abadi_2016_DeepLearningDifferentialPrivacy}
+    introduced DP-SGD, which remains the most widely used technique for privacy-preserving model training.
+    Recent works like \citet{De_2022_ScaleDP_ImageClassification} have explored scaling DP training for improved accuracy, which is also one of our goals.
 
 \section{Timeline and Milestones}
 \begin{itemize}
@@ -167,12 +169,9 @@
     state-of-the-art accuracy on CIFAR-10 while providing strong privacy guarantees.
     We will explore DP-SGD as a baseline and investigate potential improvements in both privacy and efficiency.
 
-    \section*{References}
-    \small{
-        [1] Abadi, M., Chu, A., Goodfellow, I., McMahan, H. B., Mironov, I., Talwar, K., \& Zhang, L. (2016). Deep learning with differential privacy. In Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security (pp. 308–318).
+    \bibliographystyle{plainnat}
+    \bibliography{references}
 
-        [2] De, S., Berrada, L., Hayes, J., Smith, S. L., \& Balle, B. (2022). Unlocking high-accuracy differentially private image classification through scale. arXiv preprint arXiv:2204.13650.
-    }
 
 \section*{GitHub Contributions}
 The code and related materials for this project are available at our GitHub repository: \url{https://github.com/CS8960-Privacy-Preserving-Data-Analysis/final-project}. Contributions, issues, and discussions are welcome.
