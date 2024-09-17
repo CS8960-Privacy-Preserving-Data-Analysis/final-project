@@ -14,111 +14,144 @@
 \title{Differential Privacy in Image Classification using ResNet-20 and DP-SGD Optimization}
 
 \author{
-  Praveen Rangavajhula\\
-  Department of Computer Science\\
-  University of Georgia\\
-  Athens, GA, 30602\\
-  \texttt{praveen.rangavajhula@uga.edu} \\
-  \And
-  Alexander Darwiche\\
-  Department of Computer Science\\
-  University of Georgia\\
-  Athens, GA, 30605 \\
-  \texttt{alexander.darwiche@uga.edu} \\
-  \And
-  Deven Allen\\
-  Department of Computer Science\\
-  University of Georgia\\
-  Athens, GA, 30605 \\
-  \texttt{dca09692@uga.edu} \\
+    Praveen Rangavajhula\\
+    Department of Computer Science\\
+    University of Georgia\\
+    Athens, GA, 30602\\
+    \texttt{praveen.rangavajhula@uga.edu} \\
+    \And
+    Alexander Darwiche\\
+    Department of Computer Science\\
+    University of Georgia\\
+    Athens, GA, 30605 \\
+    \texttt{alexander.darwiche@uga.edu} \\
+    \And
+    Deven Allen\\
+    Department of Computer Science\\
+    University of Georgia\\
+    Athens, GA, 30605 \\
+    \texttt{dca09692@uga.edu} \\
 }
 
 \begin{document}
 
-\maketitle
+    \maketitle
 
-\begin{abstract}
-  This project proposes a differentially private image classification system using ResNet-20 and Differentially Private Stochastic Gradient Descent (DP-SGD). We explore both non-private optimizers and DP versions, justifying the choices based on prior work and their potential to outperform others. The project will focus on achieving competitive accuracy while satisfying privacy guarantees.
-\end{abstract}
+    \begin{abstract}
+        This project proposes a differentially private image classification system using ResNet-20 and Differentially
+        Private Stochastic Gradient Descent (DP-SGD). We explore both non-private optimizers and DP versions,
+        justifying the choices based on prior work and their potential to outperform others.
+        The project will focus on achieving competitive accuracy while satisfying privacy guarantees.
+    \end{abstract}
 
-\section{Introduction}
-The proliferation of machine learning models, especially in image classification, has raised concerns over privacy. Differential privacy (DP) addresses these concerns by ensuring that the model does not inadvertently leak sensitive information about individual data points. In this proposal, we focus on the ResNet-20 model, which is suited for tasks like CIFAR-10, and aim to implement and improve DP-SGD, an existing algorithm for training deep learning models with privacy guarantees.
 
-\section{Motivation and Problem Statement}
-In many real-world applications, such as healthcare and finance, privacy concerns hinder the deployment of machine learning models. Current state-of-the-art models like ResNet-20 achieve high accuracy but are vulnerable to attacks that could leak sensitive information. By incorporating differential privacy through the use of DP-SGD, we aim to develop a model that balances both accuracy and privacy.
+    \section{Introduction}\label{sec:introduction}
+    The proliferation of machine learning models, especially in image classification, has raised concerns over privacy.
+    Differential privacy (DP) addresses these concerns by ensuring that the model does not inadvertently leak sensitive
+    information about individual data points.
+    In this proposal, we focus on the ResNet-20 model, which is suited for tasks like CIFAR-10, and aim to implement
+    and improve DP-SGD, an existing algorithm for training deep learning models with privacy guarantees.
 
-\section{Methodology}
-\subsection{Model Architecture: ResNet-20}
-We will implement the ResNet-20 model for CIFAR-10, a standard dataset for image classification tasks. Although ResNet-18 is more common, we chose ResNet-20 for its deeper structure, making it a suitable candidate for our privacy-preserving project. If necessary, we may modify the architecture slightly to optimize for DP compatibility.
 
-\subsection{Non-private Optimizers to Try}
-We will first experiment with non-private optimizers to establish baseline performance for ResNet-20 on CIFAR-10. The following optimizers will be explored:
-\begin{itemize}
-    \item \textbf{SGD:} Standard Stochastic Gradient Descent for baseline comparison.
-    \item \textbf{Adam:} Adaptive Moment Estimation for better convergence in non-private settings.
-    \item \textbf{RMSprop:} To explore gradient normalization impact in non-private training.
-\end{itemize}
+    \section{Motivation and Problem Statement}\label{sec:motivation-and-problem-statement}
+    In many real-world applications, such as healthcare and finance, privacy concerns hinder the deployment of machine
+    learning models.
+    Current state-of-the-art models like ResNet-20 achieve high accuracy but are vulnerable to attacks
+    that could leak sensitive information.
+    By incorporating differential privacy through the use of DP-SGD, we aim to
+    develop a model that balances both accuracy and privacy.
 
-\subsection{Differentially Private Optimizer: DP-SGD}
-We will implement DP-SGD as our privacy-preserving algorithm. The key components of DP-SGD are:
-\begin{itemize}
-    \item \textbf{Gradient Clipping:} Limits the influence of individual examples during training.
-    \item \textbf{Noise Addition:} Adds noise to gradients to ensure privacy (via Opacus or TensorFlow Privacy libraries).
-    \item \textbf{Privacy Accounting:} We will use Rényi Differential Privacy (RDP) for privacy budget tracking.
-\end{itemize}
 
-\subsection{Incremental Improvements}
-We plan to explore the following enhancements:
-\begin{itemize}
-    \item Alternative noise mechanisms and their effect on utility-privacy tradeoffs.
-    \item Adaptive gradient clipping methods that dynamically adjust the clipping threshold.
-    \item Experimenting with different optimizers (e.g., DP-Adam).
-\end{itemize}
+    \section{Methodology}\label{sec:methodology}
 
-\subsection{Rationale for Choosing DP-SGD}
-\begin{itemize}
-    \item DP-SGD provides well-documented privacy guarantees (Abadi et al. 2016) while maintaining decent utility for image classification tasks.
-    \item The addition of noise and gradient clipping help ensure $(\epsilon, \delta)$-differential privacy, making it ideal for sensitive applications.
-    \item Previous work shows that DP-SGD, when optimized, can yield near state-of-the-art accuracy for differentially private models (De et al. 2022).
-\end{itemize}
+    \subsection{Model Architecture: ResNet-20}\label{subsec:model-architecture:-resnet-20}
+    We will implement the ResNet-20 model for CIFAR-10, a standard dataset for image classification tasks.
+    Although ResNet-18 is more common, we chose ResNet-20 for its deeper structure, making it a suitable candidate
+    for our privacy-preserving project.
+    If necessary, we may modify the architecture slightly to optimize for DP compatibility.
 
-\subsection{Why This Approach Will Outperform Others}
-\begin{itemize}
-    \item Our approach leverages the simplicity of ResNet-20, optimized for smaller datasets like CIFAR-10, combined with DP-SGD, a proven differential privacy technique.
-    \item By experimenting with different gradient clipping techniques and noise scales, we aim to find an optimal trade-off between accuracy and privacy.
-    \item We will investigate modifications like adaptive clipping to enhance performance.
-\end{itemize}
+    \subsection{Non-private Optimizers to Try}\label{subsec:non-private-optimizers-to-try}
+    We will first experiment with non-private optimizers to establish baseline performance for ResNet-20 on CIFAR-10.
+    The following optimizers will be explored:
+    \begin{itemize}
+        \item \textbf{SGD:} Standard Stochastic Gradient Descent for baseline comparison.
+        \item \textbf{Adam:} Adaptive Moment Estimation for better convergence in non-private settings.
+        \item \textbf{RMSprop:} To explore gradient normalization impact in non-private training.
+    \end{itemize}
 
-\subsection{Pseudo-code for Non-Private SGD}
-Below is a simplified pseudo-code for the non-private SGD we plan to privatize:
-\begin{verbatim}
-for each batch (X, y):
-    pred = model(X)
-    loss = loss_fn(pred, y)
-    loss.backward()
-    optimizer.step()
-    optimizer.zero_grad()
-\end{verbatim}
+    \subsection{Differentially Private Optimizer: DP-SGD}\label{subsec:differentially-private-optimizer:-dp-sgd}
+    We will implement DP-SGD as our privacy-preserving algorithm.
+    The key components of DP-SGD are:
+    \begin{itemize}
+        \item \textbf{Gradient Clipping:} Limits the influence of individual examples during training.
+        \item \textbf{Noise Addition:} Adds noise to gradients to ensure privacy (via Opacus or TensorFlow Privacy libraries).
+        \item \textbf{Privacy Accounting:} We will use Rényi Differential Privacy (RDP) for privacy budget tracking.
+    \end{itemize}
 
-\section{Experimental Setup}
-\subsection{System Description}
-We will use PyTorch for model implementation and training. The DP-SGD implementation will be based on the Opacus library. Training will be performed on GPUs available via our departmental server.
+    \subsection{Incremental Improvements}\label{subsec:incremental-improvements}
+    We plan to explore the following enhancements:
+    \begin{itemize}
+        \item Alternative noise mechanisms and their effect on utility-privacy tradeoffs.
+        \item Adaptive gradient clipping methods that dynamically adjust the clipping threshold.
+        \item Experimenting with different optimizers (e.g., DP-Adam).
+    \end{itemize}
 
-\subsection{Dataset}
-We will use the CIFAR-10 dataset, consisting of 60,000 32x32 RGB images, which is commonly used for image classification tasks. The dataset is built-in in PyTorch, and we will load it using standard libraries.
+    \subsection{Rationale for Choosing DP-SGD}\label{subsec:rationale-for-choosing-dp-sgd}
+    \begin{itemize}
+        \item provides well-documented privacy guarantees (Abadi et al. 2016)
+            while maintaining decent utility for image classification tasks.
+        \item The addition of noise and gradient clipping help ensure $(\epsilon, \delta)$-differential privacy,
+            making it ideal for sensitive applications.
+        \item Previous work shows that DP-SGD, when optimized, can yield near state-of-the-art accuracy
+            for differentially private models (De et al. 2022).
+    \end{itemize}
 
-\subsection{Metrics}
-\begin{itemize}
-    \item \textbf{Training Loss/Accuracy:} Standard accuracy on CIFAR-10 for both non-private and private models.
-    \item \textbf{Privacy Budget:} We will measure $(\epsilon, \delta)$ using RDP to ensure privacy compliance.
-    \item \textbf{Efficiency:} Time complexity and memory usage will be tracked.
-\end{itemize}
+    \subsection{Why This Approach Will Outperform Others}\label{subsec:why-this-approach-will-outperform-others}
+    \begin{itemize}
+        \item Our approach leverages the simplicity of ResNet-20, optimized for smaller datasets like CIFAR-10,
+            combined with DP-SGD, a proven differential privacy technique.
+        \item By experimenting with different gradient clipping techniques and noise scales,
+            we aim to find an optimal trade-off between accuracy and privacy.
+        \item We will investigate modifications like adaptive clipping to enhance performance.
+    \end{itemize}
 
-\subsection{Baseline Models}
-We will compare the performance of DP-SGD with non-private models and other private optimizers like DiceSGD test. 
+    \subsection{Pseudocode for Non-Private SGD}\label{subsec:pseudo-code-for-non-private-sgd}
+    Below is a simplified pseudocode for the non-private SGD we plan to privatize:
+    \begin{verbatim}
+        for each batch (X, y):
+            pred = model(X)
+            loss = loss_fn(pred, y)
+            loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+    \end{verbatim}
 
-\section{Related Work}
-Several approaches to differentially private deep learning have been explored in the literature. \citet{abadi2016deep} introduced DP-SGD, which remains the most widely used technique for privacy-preserving model training. Recent works like \citet{de2022unlocking} have explored scaling DP training for improved accuracy, which is also one of our goals.
+
+    \section{Experimental Setup}\label{sec:experimental-setup}
+
+    \subsection{System Description}\label{subsec:system-description}
+    We will use PyTorch for model implementation and training.
+    The DP-SGD implementation will be based on the Opacus library.
+    Training will be performed on GPUs available via our departmental server.
+
+    \subsection{Dataset}\label{subsec:dataset}
+    We will use the CIFAR-10 dataset, consisting of 60,000 32x32 RGB images, which is commonly used for
+    image classification tasks.
+    The dataset is built-in in PyTorch, and we will load it using standard libraries.
+
+    \subsection{Metrics}\label{subsec:metrics}
+    \begin{itemize}
+        \item \textbf{Training Loss/Accuracy:} Standard accuracy on CIFAR-10 for both non-private and private models.
+        \item \textbf{Privacy Budget:} We will measure $(\epsilon, \delta)$ using RDP to ensure privacy compliance.
+        \item \textbf{Efficiency:} Time complexity and memory usage will be tracked.
+    \end{itemize}
+
+    \subsection{Baseline Models}\label{subsec:baseline-models}
+    We will compare the performance of DP-SGD with non-private models and other private optimizers like DiceSGD test.
+
+
+    \section{Related Work}\label{sec:related-work}
+    Several approaches to differentially private deep learning have been explored in the literature. \citet{abadi2016deep} introduced DP-SGD, which remains the most widely used technique for privacy-preserving model training. Recent works like \citet{de2022unlocking} have explored scaling DP training for improved accuracy, which is also one of our goals.
 
 \section{Timeline and Milestones}
 \begin{itemize}
@@ -128,15 +161,18 @@ Several approaches to differentially private deep learning have been explored in
     \item November 22, 2024: Final Report Due.
 \end{itemize}
 
-\section{Conclusion}
-Through this proposal, we aim to develop a differentially private deep learning model that can achieve state-of-the-art accuracy on CIFAR-10 while providing strong privacy guarantees. We will explore DP-SGD as a baseline and investigate potential improvements in both privacy and efficiency.
 
-\section*{References}
-\small{
-[1] Abadi, M., Chu, A., Goodfellow, I., McMahan, H. B., Mironov, I., Talwar, K., \& Zhang, L. (2016). Deep learning with differential privacy. In Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security (pp. 308–318).
+    \section{Conclusion}\label{sec:conclusion}
+    Through this proposal, we aim to develop a differentially private deep learning model that can achieve
+    state-of-the-art accuracy on CIFAR-10 while providing strong privacy guarantees.
+    We will explore DP-SGD as a baseline and investigate potential improvements in both privacy and efficiency.
 
-[2] De, S., Berrada, L., Hayes, J., Smith, S. L., \& Balle, B. (2022). Unlocking high-accuracy differentially private image classification through scale. arXiv preprint arXiv:2204.13650.
-}
+    \section*{References}
+    \small{
+        [1] Abadi, M., Chu, A., Goodfellow, I., McMahan, H. B., Mironov, I., Talwar, K., \& Zhang, L. (2016). Deep learning with differential privacy. In Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security (pp. 308–318).
+
+        [2] De, S., Berrada, L., Hayes, J., Smith, S. L., \& Balle, B. (2022). Unlocking high-accuracy differentially private image classification through scale. arXiv preprint arXiv:2204.13650.
+    }
 
 \section*{GitHub Contributions}
 The code and related materials for this project are available at our GitHub repository: \url{https://github.com/CS8960-Privacy-Preserving-Data-Analysis/final-project}. Contributions, issues, and discussions are welcome.
