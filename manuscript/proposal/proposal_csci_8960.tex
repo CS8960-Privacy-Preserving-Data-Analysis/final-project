@@ -38,10 +38,18 @@
     \maketitle
 
     \begin{abstract}
-        This project proposes a differentially private image classification system using ResNet-20 and Differentially
-        Private Stochastic Gradient Descent (DP-SGD). We explore both non-private optimizers and DP versions,
-        justifying the choices based on prior work and their potential to outperform others.
+
+
+        This project proposes a differentially private image classification system using ResNet-20 with various
+        optimizers, starting with Differentially Private Stochastic Gradient Descent (DP-SGD) as a baseline.
+        We aim to make incremental improvements with additional optimization techniques, exploring both non-private
+        and DP versions of optimizers, and justifying our choices based on prior work and their potential
+        to outperform others.
         The project will focus on achieving competitive accuracy while satisfying privacy guarantees.
+        Additionally, we are investigating ways to enhance accuracy by modifying optimizer components,
+        such as gradient clipping (potentially using techniques like automatic clipping), and exploring
+        possible improvements in noise management.
+
     \end{abstract}
 
 
