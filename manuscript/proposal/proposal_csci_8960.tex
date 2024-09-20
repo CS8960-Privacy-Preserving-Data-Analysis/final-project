@@ -10,6 +10,7 @@
 \usepackage{nicefrac}
 \usepackage{microtype}
 \usepackage{xcolor}
+\usepackage{graphicx}
 
 \title{Differential Privacy in Image Classification using ResNet-20 and DP-SGD Optimization}
 
@@ -71,122 +72,16 @@
 
 
     \section{Methodology}\label{sec:methodology}
-
-    \subsection{Model Architecture: ResNet-20}\label{subsec:model-architecture:-resnet-20}
-
-
-    We propose utilizing the ResNet-20 model~\cite{Idelbayev_ResNet20} for CIFAR-10,
-    a standard dataset for image classification tasks.
-    We selected a 20-layer ResNet for its deep architecture and strength in image classification problems~\cite{DBLP:journals/corr/HeZRS15}.
-    20
-    layers should be enough depth to adequately model many features, while not encountering the higher training error encountered
-    with excessively \("\)deep\("\) architectures. \cite{DBLP:journals/corr/HeZRS15}
-
-    If necessary, we may modify the architecture slightly to optimize for DP compatibility.
-
-    \subsection{Non-private Optimizers to Try}\label{subsec:non-private-optimizers-to-try}
-    We propose implementing 4 non-private optimizers to establish baseline performance for ResNet-20 on CIFAR-10.
-    Three of these optimizers will be First-Order optimizers
-    that all build on one another.
-    The last optimizer that we will explore is a Second-Order optimization technique known as Cubic .
-
-    \begin{itemize}
-        \item \textbf{SGD:} Standard Stochastic Gradient Descent for baseline comparison.
-        This optimizer works by calculating the gradient at each data
-        point and updating the model parameters with the following update rule: $\theta + \eta * \Delta g$, where $\theta$ is model parameters, $\eta$ is
-        the learning rate, and $\Delta g$ is the gradient at that data point.
-        \item \textbf{RMSprop:} Root Mean Square Propagation (RMSprop) builds on SGD by including the a \("\)moving average\("\) factor.
-        This factor functions by scaling the gradient
-        each step, based on the gradient of the previous data points.
-        This is done by dividing the gradient, at each model parameter update,
-        by the moving average squared gradient: $(\Delta g_{t-1}^{2} * (1-\delta) + \Delta g{t}^{2}*\delta)^{\frac{1}{2}}$,
-        where $\Delta g_{t-1}^{2}$ is the squared gradient average from the previous step, $\Delta g_{t}^{2}$ is
-        the squared gradient of the current step, and $\delta$ is the \("\)moving average\("\) factor.  \cite{DBLP:journals/corr/abs-1807-06766,Jason_Huang_2020}
-        \item \textbf{ADAM:} Adaptive Moment Estimation (ADAM) further build on RMSprop by including another \("\)moving average\("\) factor, this time for the gradient. In the general gradient update rule formula, instead of gradient,
-        ADAM substitutes in the gradient moving average: $m_{t} = \Delta g_{t-1} * (1-\delta) + \Delta g{t}*\delta$~\cite{DBLP:journals/corr/abs-1807-06766}
-    \end{itemize}
-
-    \subsection{Differentially Private Optimizer: DP-SGD}\label{subsec:differentially-private-optimizer:-dp-sgd}
-    We propose implementing DP-SGD as our privacy-preserving algorithm.
-    The key components of DP-SGD are:
-    \begin{itemize}
-        \item \textbf{Gradient Clipping:} Limits the influence of individual examples during training.
-        \item \textbf{Noise Addition:} Adds noise to gradients to ensure privacy (via Opacus or TensorFlow Privacy libraries).
-        \item \textbf{Privacy Accounting:} We will use Rényi Differential Privacy (RDP) for privacy budget tracking.
-    \end{itemize}
-
-    \subsection{Incremental Improvements}\label{subsec:incremental-improvements}
-    After we have privatized SGD, we propose making the following enhancements:
-    \begin{itemize}
-        \item Adding an adaptive learning rate by incorporating the Moving Average of Gradients Squared (RMSprop)~\cite{DBLP:journals/corr/abs-1807-06766}
-        \item Adding a moving average for gradient (ADAM)~\cite{DBLP:journals/corr/abs-1807-06766}
-        \item Alternative noise mechanisms and their effect on utility-privacy tradeoffs. [NEED JUSTIFICATION]
-        \item Adaptive gradient clipping methods that dynamically adjust the clipping threshold. [NEED JUSTIFICATION]
-    \end{itemize}
-
-    \subsection{Rationale for Choosing DP-SGD}\label{subsec:rationale-for-choosing-dp-sgd}
-    \begin{itemize}
-        \item provides well-documented privacy guarantees~\cite{Abadi_2016_DeepLearningDifferentialPrivacy}
-        while maintaining decent utility for image classification tasks.
-        \item The addition of noise and gradient clipping help ensure $(\epsilon, \delta)$-differential privacy,
-        making it ideal for sensitive applications.
-        \item Previous work shows that DP-SGD, when optimized, can yield near state-of-the-art accuracy
-        for differentially private models~\cite{De_2022_ScaleDP_ImageClassification}.
-    \end{itemize}
-
-    \subsection{Why This Approach Will Outperform Others}\label{subsec:why-this-approach-will-outperform-others}
-    \begin{itemize}
-        \item Our approach leverages the simplicity of ResNet-20, optimized for smaller datasets like CIFAR-10,
-        combined with DP-SGD, a proven differential privacy technique.
-        \item By experimenting with different gradient clipping techniques and noise scales,
-        we aim to find an optimal trade-off between accuracy and privacy.
-        \item We will investigate modifications like adaptive clipping to enhance performance.
-    \end{itemize}
-
-    \subsection{Pseudocode for Non-Private SGD}\label{subsec:pseudo-code-for-non-private-sgd}
-    Below is a simplified pseudocode for the non-private SGD we plan to privatize:
-    \begin{verbatim}
-        for each batch (X, y):
-            pred = model(X)
-            loss = loss_fn(pred, y)
-            loss.backward()
-            optimizer.step()
-            optimizer.zero_grad()
-    \end{verbatim}
-
+    \input{methodology}
 
     \section{Experimental Setup}\label{sec:experimental-setup}
-
-    \subsection{System Description}\label{subsec:system-description}
-    We will use PyTorch~\cite{pytorch_2019} for model implementation and training.
-    The DP-SGD~\cite{Abadi_2016_DeepLearningDifferentialPrivacy} implementation will be based on the Opacus library~\cite{opacus}.
-    Training will be performed on GPUs available via our departmental server csci-cuda.cs.uga.edu.
-
-    \subsection{Dataset}\label{subsec:dataset}
-    We will use the CIFAR-10 dataset~\cite{cifar10_dataset}, consisting of 60,000 32x32 RGB images, which is commonly used for
-    image classification tasks.
-    The dataset is built-in in PyTorch~\cite{pytorch_2019}, and we will load it using standard libraries.
-
-    \subsection{Metrics}\label{subsec:metrics}
-    \begin{itemize}
-        \item \textbf{Training Loss/Accuracy:} Standard accuracy and training loss on CIFAR-10~\cite{cifar10_dataset}.
-        \item \textbf{Privacy Budget:} We will measure $(\epsilon, \delta)$ using RDP~\cite{Mironov_2017_RenyiDP} to ensure privacy compliance.
-        \item \textbf{Efficiency:} Time complexity and memory usage will be tracked.
-    \end{itemize}
-
-    \subsection{Baseline Models}\label{subsec:baseline-models}
-    We will compare the performance of our modified differentially private models with standard private optimizers,
-    including vanilla DP-SGD~\cite{Abadi_2016_DeepLearningDifferentialPrivacy}, DP-Adam,
-    and DP-RMSprop~\cite{zhou_2020_private_adaptive_algorithms}.
-    Additionally, we will benchmark against AdaClip~\cite{adaClip_2019} to evaluate the effectiveness of our automatic
-    clipping and noise mechanism modifications.
-
+    \input{experimental-setup}
 
     \section{Related Work}\label{sec:related-work}
     Several approaches to differentially private deep learning have been explored in the literature.
     \cite{Abadi_2016_DeepLearningDifferentialPrivacy} introduced DP-SGD, which has become a foundational technique for
     privacy-preserving model training.
-    Our focus is on making incremental improvements to this framework by adapting it to DP-Adam and DP-RMSprop.
+    Our focus is on making incremental improvements to this framework by adapting it to DP-RMSprop and DP-Adam.
     Additionally, we aim to incorporate automatic clipping~\cite{bu2023automaticclippingdifferentiallyprivate}
     and explore modifications to the noise mechanism to enhance performance while maintaining privacy.
 
@@ -203,7 +98,7 @@
     \section{Conclusion}\label{sec:conclusion}
     Through this proposal, we aim to develop a differentially private deep learning model that achieves strong
     privacy guarantees while enhancing the performance of existing techniques.
-    We will use DP-SGD as a baseline and investigate adaptations to DP-Adam and DP-RMSprop.
+    We will use DP-SGD as a baseline and investigate adaptations to DP-RMSprop and DP-Adam.
     Our focus will be on incremental improvements, including the integration of automatic clipping and possibly
     modifications to the noise mechanism, to achieve competitive accuracy on CIFAR-10 while ensuring
     robust privacy protection.
