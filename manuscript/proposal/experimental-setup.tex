@@ -1,0 +1,47 @@
+\subsection{System Description}\label{subsec:system-description}
+We will use PyTorch~\cite{pytorch_2019} for model implementation and training.
+The DP-SGD~\cite{Abadi_2016_DeepLearningDifferentialPrivacy} implementation will be based on the Opacus library~\cite{opacus}.
+Training will be performed on GPUs available via our departmental server csci-cuda.cs.uga.edu or on Google Colab.
+
+\subsection{Dataset}\label{subsec:dataset}
+We will use the CIFAR-10 dataset~\cite{cifar10_dataset}, consisting of 60,000 32x32 RGB images, which is commonly used for
+image classification tasks.
+The dataset is built-in in PyTorch~\cite{pytorch_2019}, and we will load it using standard libraries.
+
+\subsection{Metrics to Compare}\label{subsec:metrics}
+\begin{itemize}
+    \item \textbf{Accuracy/Training Loss:} Accuracy and training loss on CIFAR-10~\cite{cifar10_dataset}.
+    \item \textbf{Privacy Cost:} We will measure $(\epsilon, \delta)$ using RDP~\cite{Mironov_2017_RenyiDP} to ensure privacy compliance.
+    \item \textbf{Training Time:} Time complexity and memory usage will be tracked.
+\end{itemize}
+
+\subsection{Design of Experiments}\label{subsec:design-of-experiments}
+We will be performing a series of experiments to evaluate our modified differentially private optimizers against other baseline models.
+Table~\ref{tab:doe} outlines the experimental design, including the optimizer, clipping method, noise mechanism, and other metrics.
+
+\begin{table}[!ht]
+    \caption{Experimental Design}  % Title of the table
+    \centering  % Center the table
+    \resizebox{\textwidth}{!}{  % Resize the table to fit the width of the page
+        \begin{tabular}{|c|c|c|c|c|c|c|c|}
+            \hline
+            \textbf{Experiment ID} & \textbf{Optimizer} & \textbf{Clipping Method} & \textbf{Noise Mechanism}   & \textbf{Accuracy} & \textbf{Training Time} & \textbf{Privacy Cost}\\ [0.5ex]
+            \hline\hline
+            1                      & DP-SGD             & Standard                 & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
+            2                      & DP-RMSprop         & Standard                 & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
+            3                      & DP-Adam            & Standard                 & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
+            4                      & DP-SGD             & Automatic Clipping       & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
+            5                      & DP-RMSprop         & Automatic Clipping       & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
+            6                      & DP-Adam            & Automatic Clipping       & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
+           \hline
+        \end{tabular}
+    } % End of \resizebox
+    \label{tab:doe}  % Label of the table
+\end{table}
+
+\subsection{Baseline Models}\label{subsec:baseline-models}
+We will compare the performance of our modified differentially private models with standard private optimizers,
+including vanilla DP-SGD~\cite{Abadi_2016_DeepLearningDifferentialPrivacy}, DP-RMSprop,
+and DP-Adam~\cite{zhou_2020_private_adaptive_algorithms}.
+Additionally, we will benchmark against AdaClip~\cite{adaClip_2019} to evaluate the effectiveness of our automatic
+clipping and noise mechanism modifications.
