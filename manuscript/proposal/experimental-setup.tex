@@ -1,16 +1,16 @@
 \subsection{System Description}\label{subsec:system-description}
 We will use PyTorch~\cite{pytorch_2019} for model implementation and training.
 The DP-SGD~\cite{Abadi_2016_DeepLearningDifferentialPrivacy} implementation will be based on the Opacus library~\cite{opacus}.
-Training will be performed on GPUs available via our departmental server csci-cuda.cs.uga.edu.
+Training will be performed on GPUs available via our departmental server csci-cuda.cs.uga.edu or on Google Colab.
 
 \subsection{Dataset}\label{subsec:dataset}
 We will use the CIFAR-10 dataset~\cite{cifar10_dataset}, consisting of 60,000 32x32 RGB images, which is commonly used for
 image classification tasks.
 The dataset is built-in in PyTorch~\cite{pytorch_2019}, and we will load it using standard libraries.
 
-\subsection{Metrics}\label{subsec:metrics}
+\subsection{Metrics to Compare}\label{subsec:metrics}
 \begin{itemize}
-    \item \textbf{Training Loss/Accuracy:} Standard accuracy and training loss on CIFAR-10~\cite{cifar10_dataset}.
+    \item \textbf{Accuracy/Training Loss:} Accuracy and training loss on CIFAR-10~\cite{cifar10_dataset}.
     \item \textbf{Privacy Cost:} We will measure $(\epsilon, \delta)$ using RDP~\cite{Mironov_2017_RenyiDP} to ensure privacy compliance.
     \item \textbf{Training Time:} Time complexity and memory usage will be tracked.
 \end{itemize}

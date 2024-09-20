@@ -6,15 +6,12 @@ a standard dataset for image classification tasks.
 We selected a 20-layer ResNet for its deep architecture and strength in image classification problems~\cite{DBLP:journals/corr/HeZRS15}.
 20
 layers should be enough depth to adequately model many features, while not encountering the higher training error encountered
-with excessively \("\)deep\("\) architectures. \cite{DBLP:journals/corr/HeZRS15}
+with excessively ``deep'' architectures. \cite{DBLP:journals/corr/HeZRS15}
 
 If necessary, we may modify the architecture slightly to optimize for DP compatibility.
 
 \subsection{Non-private Optimizers to Try}\label{subsec:non-private-optimizers-to-try}
-We propose implementing 4 non-private optimizers to establish baseline performance for ResNet-20 on CIFAR-10.
-Three of these optimizers will be First-Order optimizers
-that all build on one another.
-The last optimizer that we will explore is a Second-Order optimization technique known as Cubic .
+We propose trying 3 non-private optimizers to establish baseline performance on CIFAR-10.
 
 \begin{itemize}
     \item \textbf{SGD:} Standard Stochastic Gradient Descent (SGD) for baseline comparison.
@@ -28,7 +25,7 @@ The last optimizer that we will explore is a Second-Order optimization technique
     where $\mathbf{x}_1$ is model parameters, $\alpha$ is
     the learning rate, and $\mathbf{g}_t$ is the gradient at that data point.
 
-    \item \textbf{RMSprop:} Root Mean Square Propagation (RMSprop) builds on SGD by including the \("\)moving average\("\) factor.
+    \item \textbf{RMSprop:} Root Mean Square Propagation (RMSprop) builds on SGD by including the moving average factor.
     This factor functions by scaling the gradient
     each step, based on the gradient of the previous data points.
     This is done by scaling the gradient, at each model parameter update,
@@ -39,10 +36,10 @@ The last optimizer that we will explore is a Second-Order optimization technique
     \]
 
     where $\mathbf{v}_{t-1}$ is the squared gradient average from the previous step, $\mathbf{g}_t^2 $ is
-    the squared gradient of the current step, $\beta_2$ is the \("\)squared gradient moving average\("\) factor
+    the squared gradient of the current step, $\beta_2$ is the squared gradient moving average factor
     and $\xi \mathbf{1}_d$ is a constant vector~\cite{DBLP:journals/corr/abs-1807-06766,Jason_Huang_2020}.
 
-    \item \textbf{ADAM:} Adaptive Moment Estimation (ADAM) further build on RMSprop by including another \("\)moving average\("\) factor, this time for the gradient.
+    \item \textbf{ADAM:} Adaptive Moment Estimation (ADAM) further build on RMSprop by including another moving average factor, this time for the gradient.
     In the general gradient update rule formula, instead of gradient,
     ADAM substitutes in the gradient moving average:
 
@@ -51,13 +48,12 @@ The last optimizer that we will explore is a Second-Order optimization technique
     \]
 
     where $\mathbf{m}_{t-1}$ is the gradient moving average from the previous step, $\mathbf{g}_t$ is
-    the gradient of the current step, and $\beta_1$ is the \("\)gradient moving average\("\) factor~\cite{DBLP:journals/corr/abs-1807-06766}.
+    the gradient of the current step, and $\beta_1$ is the gradient moving average factor~\cite{DBLP:journals/corr/abs-1807-06766}.
 
 \end{itemize}
 
-\subsection{Differentially Private Optimizer: DP-SGD}\label{subsec:differentially-private-optimizer:-dp-sgd}
-We propose implementing DP-SGD as our privacy-preserving algorithm.
-The key components of DP-SGD are:
+\subsection{Components of DP-SGD}\label{subsec:components-of-dp-sgd}
+We propose implementing DP-SGD as our baseline privacy-preserving algorithm.
 \begin{itemize}
     \item \textbf{Gradient Clipping:} Limits the influence of individual examples during training.
     \item \textbf{Noise Addition:} Adds noise to gradients to ensure privacy (via Opacus)~\cite{opacus}.
@@ -67,9 +63,9 @@ The key components of DP-SGD are:
 \subsection{Incremental Improvements}\label{subsec:incremental-improvements}
 After we have privatized SGD, we propose making the following enhancements:
 \begin{itemize}
-    \item Adding an adaptive learning rate by incorporating the moving average of gradients squared (RMSprop)~\cite{DBLP:journals/corr/abs-1807-06766}
-    \item Adding a moving average for gradient (ADAM)~\cite{DBLP:journals/corr/abs-1807-06766}
-    \item Automatic gradient clipping methods that adjusts the clipping threshold throughout training~\cite{bu2023automaticclippingdifferentiallyprivate}.
+    \item \textbf{Upgrading to RMSprop:} Adding an adaptive learning rate by incorporating the moving average of gradients squared~\cite{DBLP:journals/corr/abs-1807-06766}.
+    \item \textbf{Upgrading to ADAM:} Adding a moving average for gradient (ADAM)~\cite{DBLP:journals/corr/abs-1807-06766}.
+    \item \textbf{Modification of clipping:} Automatic gradient clipping methods that adjusts the clipping threshold throughout training~\cite{bu2023automaticclippingdifferentiallyprivate}.
 \end{itemize}
 
 \subsection{Rationale for Choosing DP-SGD}\label{subsec:rationale-for-choosing-dp-sgd}
@@ -84,7 +80,8 @@ for differentially private models~\cite{De_2022_ScaleDP_ImageClassification}.
 Our approach leverages the ResNet-20 model which is often used in conjunction with
 CIFAR-10 dataset.
 Similarly, DP-SGD is an often used optimization algorithm, that has proven powerful in balancing the privacy-utility trade-offs posed
-by differential privacy, as seen in \cite{Abadi_2016_DeepLearningDifferentialPrivacy}. With the baseline
+by differential privacy, as seen in~\cite{Abadi_2016_DeepLearningDifferentialPrivacy}.
+With the baseline
 of DP-SGD and ResNet-20, we believe our incremental improvements will yield strong gains in
 accuracy.
 Converting from DP-SGD to DP-RMSprop may improve the accuracy by adapting the learning rate as the
@@ -92,13 +89,14 @@ model trains.
 This is especially important given the limited amount of times we are able to
 query a dataset while implementing differential privacy.
 Additionally, we believe the added gradient normalization introduced by upgrading to DP-ADAM will
-similarly improve the rate of convergence of our model as seen in the non-private study \cite{DBLP:journals/corr/abs-1807-06766}. Again, this is paramount given the
+similarly improve the rate of convergence of our model as seen in the non-private study~\cite{DBLP:journals/corr/abs-1807-06766}.
+Again, this is paramount given the
 limited number of times that our model can query the dataset.
 Finally, by experimenting with automatic clipping, we aim to
 find an optimal trade-off between accuracy and privacy.
 
 \subsection{Pseudocode for Non-Private Optimizers}\label{subsec:pseudo-code-for-non-private-optimizers}
-Below are pseudocodes for the non-private SGD, non-private RMSprop, and non-private ADAM algorithms that we plan to privatize, adapted or referenced from \cite{DBLP:journals/corr/abs-1807-06766}:
+Below are pseudocodes for the non-private SGD, non-private RMSprop, and non-private ADAM algorithms that we plan to privatize, adapted or referenced from~\cite{DBLP:journals/corr/abs-1807-06766}:
 \begin{algorithm}
     \caption{SGD Algorithm}
     \label{alg:sgd}

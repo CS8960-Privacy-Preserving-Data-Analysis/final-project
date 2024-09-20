@@ -51,30 +51,30 @@
         to outperform others.
         The project will focus on achieving competitive accuracy while satisfying privacy guarantees.
         Additionally, we are investigating ways to enhance accuracy by modifying optimizer components,
-        such as gradient clipping (potentially using techniques like automatic clipping), and exploring
-        possible improvements in noise management.
+        such as gradient clipping (potentially using techniques like automatic clipping).
 
     \end{abstract}
 
 
     \section{Introduction}\label{sec:introduction}
 
-    The increase in productivity of machine learning models, especially in image classification, has raised concerns over privacy.
+    The increase in prevalence of machine learning models, especially in image classification,
+    has coincided with concerns over privacy~\cite{papernot2022hyperparametertuningrenyidifferential}.
     Differential privacy (DP) specifically addresses these concerns by ensuring that models do not inadvertently leak sensitive
     information about individual data points.
-    In this proposal, we focus on the ResNet-20 model, which is well-suited for datasets like CIFAR-10~\cite{Idelbayev_ResNet20},
-    and aim to implement and improve DP-SGD for achieving better privacy guarantees without significantly compromising accuracy.
+    In this proposal, we will use the ResNet-20 model, which is well-suited for datasets like CIFAR-10~\cite{Idelbayev_ResNet20},
+    and will implement and improve DP-SGD to achieve better privacy guarantees without significantly compromising accuracy.
 
 
     \section{Motivation and Problem Statement}\label{sec:motivation-and-problem-statement}
-    In many real-world applications, such as healthcare and finance, privacy concerns hinder the deployment of machine
+    In many real-world applications, the concerns over privacy leakage can hinder the deployment of machine
     learning models.
     Current state-of-the-art models like ResNet-20 achieve high accuracy but are vulnerable to attacks that could leak
     sensitive information.
     An example of a differentially private optimizer is Differentially Private Stochastic Gradient Descent (DP-SGD), which has been shown
     to effectively reduce privacy leaks, but has challenges in balancing model accuracy and privacy~\cite{Abadi_2016_DeepLearningDifferentialPrivacy}.
-    By incorporating differential privacy techniques through the use of DP-SGD, we aim to develop a balanced model that acheives both high accuracy
-    and strong privacy guarantees.
+    Even with the strong foundation that DP-SGD provides, we believe there is room for improvements that can
+    achieve both higher accuracy and stronger privacy guarantees.
 
 
 
@@ -87,11 +87,10 @@
 
     \section{Related Work}\label{sec:related-work}
     Several approaches to differentially private deep learning have been explored in the literature.
-    \cite{Abadi_2016_DeepLearningDifferentialPrivacy} introduced DP-SGD, which has become a foundational technique for
+    Abadi et al. \cite{Abadi_2016_DeepLearningDifferentialPrivacy} introduced DP-SGD, which has become a foundational technique for
     privacy-preserving model training.
     Our focus is on making incremental improvements to this framework by adapting it to DP-RMSprop and DP-Adam.
-    Additionally, we aim to incorporate automatic clipping~\cite{bu2023automaticclippingdifferentiallyprivate}
-    and explore modifications to the noise mechanism to enhance performance while maintaining privacy.
+    Additionally, we aim to incorporate automatic clipping~\cite{bu2023automaticclippingdifferentiallyprivate}.
 
 
     \section{Timeline and Milestones}\label{sec:timeline-and-milestones}
@@ -101,15 +100,6 @@
         \item November 8, 2024: Best Accuracy Report 2 Due.
         \item November 22, 2024: Final Report Due.
     \end{itemize}
-
-
-    \section{Conclusion}\label{sec:conclusion}
-    Through this proposal, we aim to develop a differentially private deep learning model that achieves strong
-    privacy guarantees while enhancing the performance of existing techniques.
-    We will use DP-SGD as a baseline and investigate adaptations to DP-RMSprop and DP-Adam.
-    Our focus will be on incremental improvements, including the integration of automatic clipping and possibly
-    modifications to the noise mechanism, to achieve competitive accuracy on CIFAR-10 while ensuring
-    robust privacy protection.
 
 
     \bibliographystyle{plain}
