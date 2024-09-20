@@ -39,7 +39,6 @@
 
     \begin{abstract}
 
-
         This project proposes a differentially private image classification system using ResNet-20 with various
         optimizers, starting with Differentially Private Stochastic Gradient Descent (DP-SGD) as a baseline.
         We aim to make incremental improvements with additional optimization techniques, exploring both non-private
@@ -54,6 +53,7 @@
 
 
     \section{Introduction}\label{sec:introduction}
+
     The proliferation of machine learning models, especially in image classification, has raised concerns over privacy.
     Differential privacy (DP) addresses these concerns by ensuring that the model does not inadvertently leak sensitive
     information about individual data points.
@@ -65,7 +65,7 @@
     In many real-world applications, such as healthcare and finance, privacy concerns hinder the deployment of machine
     learning models.
     Current state-of-the-art models like ResNet-20 achieve high accuracy but are vulnerable to attacks
-    that could leak sensitive information. 
+    that could leak sensitive information.
     By incorporating differential privacy through the use of DP-SGD, we aim to
     develop a model that balances both accuracy and privacy.
 
@@ -83,15 +83,15 @@
     If necessary, we may modify the architecture slightly to optimize for DP compatibility.
 
     \subsection{Non-private Optimizers to Try}\label{subsec:non-private-optimizers-to-try}
-    We propose implementing 4 non-private optimizers to establish baseline performance for ResNet-20 on CIFAR-10. Three of these optimizers will be First-Order optimizers 
+    We propose implementing 4 non-private optimizers to establish baseline performance for ResNet-20 on CIFAR-10. Three of these optimizers will be First-Order optimizers
     that all build on one another. The last optimizer that we will explore is a Second-Order optimization technique known as Cubic .
 
     \begin{itemize}
-        \item \textbf{SGD:} Standard Stochastic Gradient Descent for baseline comparison. This optimizer works by calculating the gradient at each data 
-        point and updating the model parameters with the following update rule: $\theta + \eta * \Delta g$, where $\theta$ is model parameters, $\eta$ is 
+        \item \textbf{SGD:} Standard Stochastic Gradient Descent for baseline comparison. This optimizer works by calculating the gradient at each data
+        point and updating the model parameters with the following update rule: $\theta + \eta * \Delta g$, where $\theta$ is model parameters, $\eta$ is
         the learning rate, and $\Delta g$ is the gradient at that data point.
         \item \textbf{RMSprop:} Root Mean Square Propogation (RMSprop) builds on SGD by including the a "moving average" factor. This factor functions by scaling the gradient
-        each step, based on the gradient of the previous data points. This is done by dividing the gradient, at each model parameter update, 
+        each step, based on the gradient of the previous data points. This is done by dividing the gradient, at each model parameter update,
         by the moving average squared gradient: $(\Delta g_{t-1}^{2} * (1-\delta) + \Delta g{t}^{2}*\delta)^{\frac{1}{2}}$,
         where $\Delta g_{t-1}^{2}$ is the squared gradient average from the previous step, $\Delta g_{t}^{2}$ is the squared gradient of the current step, and $\delta$ is the "moving average" factor. \cite{DBLP:journals/corr/abs-1807-06766} \cite{Jason_Huang_2020}
         \item \textbf{ADAM:} Adaptive Moment Estimation (ADAM) further build on RMSprop by including another "moving average" factor, this time for the gradient. In the general gradient update rule formula, instead of gradient,
@@ -150,30 +150,37 @@
     \section{Experimental Setup}\label{sec:experimental-setup}
 
     \subsection{System Description}\label{subsec:system-description}
-    We will use PyTorch for model implementation and training.
-    The DP-SGD implementation will be based on the Opacus library.
-    Training will be performed on GPUs available via our departmental server.
+    We will use PyTorch~\citep{pytorch_2019} for model implementation and training.
+    The DP-SGD~\citep{Abadi_2016_DeepLearningDifferentialPrivacy} implementation will be based on the Opacus library~\citep{opacus}.
+    Training will be performed on GPUs available via our departmental server csci-cuda.cs.uga.edu.
 
     \subsection{Dataset}\label{subsec:dataset}
-    We will use the CIFAR-10 dataset, consisting of 60,000 32x32 RGB images, which is commonly used for
+    We will use the CIFAR-10 dataset~\citep{cifar10_dataset}, consisting of 60,000 32x32 RGB images, which is commonly used for
     image classification tasks.
-    The dataset is built-in in PyTorch, and we will load it using standard libraries.
+    The dataset is built-in in PyTorch~\citep{pytorch_2019}, and we will load it using standard libraries.
 
     \subsection{Metrics}\label{subsec:metrics}
     \begin{itemize}
-        \item \textbf{Training Loss/Accuracy:} Standard accuracy on CIFAR-10 for both non-private and private models.
-        \item \textbf{Privacy Budget:} We will measure $(\epsilon, \delta)$ using RDP to ensure privacy compliance.
+        \item \textbf{Training Loss/Accuracy:} Standard accuracy and training loss on CIFAR-10~\citep{cifar10_dataset}.
+        \item \textbf{Privacy Budget:} We will measure $(\epsilon, \delta)$ using RDP~\citep{Mironov_2017_RenyiDP} to ensure privacy compliance.
         \item \textbf{Efficiency:} Time complexity and memory usage will be tracked.
     \end{itemize}
 
     \subsection{Baseline Models}\label{subsec:baseline-models}
-    We will compare the performance of DP-SGD with non-private models and other private optimizers like DiceSGD test.
+    We will compare the performance of our modified differentially private models with standard private optimizers,
+    including vanilla DP-SGD~\citep{Abadi_2016_DeepLearningDifferentialPrivacy}, DP-Adam,
+    and DP-RMSprop~\citep{zhou_2020_private_adaptive_algorithms}.
+    Additionally, we will benchmark against AdaClip~\citep{adaClip_2019} to evaluate the effectiveness of our automatic
+    clipping and noise mechanism modifications.
 
 
     \section{Related Work}\label{sec:related-work}
-    Several approaches to differentially private deep learning have been explored in the literature. \citet{Abadi_2016_DeepLearningDifferentialPrivacy}
-    introduced DP-SGD, which remains the most widely used technique for privacy-preserving model training.
-    Recent works like \citet{De_2022_ScaleDP_ImageClassification} have explored scaling DP training for improved accuracy, which is also one of our goals.
+    Several approaches to differentially private deep learning have been explored in the literature.
+    \citet{Abadi_2016_DeepLearningDifferentialPrivacy} introduced DP-SGD, which has become a foundational technique for
+    privacy-preserving model training.
+    Our focus is on making incremental improvements to this framework by adapting it to DP-Adam and DP-RMSprop.
+    Additionally, we aim to incorporate automatic clipping as introduced by \citet{bu2023automaticclippingdifferentiallyprivate}
+    and explore modifications to the noise mechanism to enhance performance while maintaining privacy.
 
 \section{Timeline and Milestones}
 \begin{itemize}
@@ -185,9 +192,13 @@
 
 
     \section{Conclusion}\label{sec:conclusion}
-    Through this proposal, we aim to develop a differentially private deep learning model that can achieve
-    state-of-the-art accuracy on CIFAR-10 while providing strong privacy guarantees.
-    We will explore DP-SGD as a baseline and investigate potential improvements in both privacy and efficiency.
+    Through this proposal, we aim to develop a differentially private deep learning model that achieves strong
+    privacy guarantees while enhancing the performance of existing techniques.
+    We will use DP-SGD as a baseline and investigate adaptations to DP-Adam and DP-RMSprop.
+    Our focus will be on incremental improvements, including the integration of automatic clipping and possibly
+    modifications to the noise mechanism, to achieve competitive accuracy on CIFAR-10 while ensuring
+    robust privacy protection.
+
 
     \bibliographystyle{plain}
     \bibliography{references}
