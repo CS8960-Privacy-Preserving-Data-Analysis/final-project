@@ -92,18 +92,18 @@
 
     \begin{itemize}
         \item \textbf{SGD:} Standard Stochastic Gradient Descent for baseline comparison.
-        This optimizer works by calculating the gradient at each data
-        point and updating the model parameters with the following update rule: $\theta + \eta * \Delta g$, where $\theta$ is model parameters, $\eta$ is
-        the learning rate, and $\Delta g$ is the gradient at that data point.
+        This optimizer works by calculating the gradient over a minibatch
+        and updating the model parameters with the following update rule: $\theta + \eta * \Delta g$, where $\theta$ is model parameters, $\eta$ is
+        the learning rate, and $\Delta g$ is the gradient for that minibatch~\cite{papernot2022hyperparametertuningrenyidifferential}.
         \item \textbf{RMSprop:} Root Mean Square Propagation (RMSprop) builds on SGD by including the a \("\)moving average\("\) factor.
         This factor functions by scaling the gradient
         each step, based on the gradient of the previous data points.
         This is done by dividing the gradient, at each model parameter update,
         by the moving average squared gradient: $(\Delta g_{t-1}^{2} * (1-\delta) + \Delta g{t}^{2}*\delta)^{\frac{1}{2}}$,
         where $\Delta g_{t-1}^{2}$ is the squared gradient average from the previous step, $\Delta g_{t}^{2}$ is
-        the squared gradient of the current step, and $\delta$ is the \("\)moving average\("\) factor.  \cite{DBLP:journals/corr/abs-1807-06766,Jason_Huang_2020}
+        the squared gradient of the current step, and $\delta$ is the \("\)moving average\("\) factor~\cite{DBLP:journals/corr/abs-1807-06766,Jason_Huang_2020}.
         \item \textbf{ADAM:} Adaptive Moment Estimation (ADAM) further build on RMSprop by including another \("\)moving average\("\) factor, this time for the gradient. In the general gradient update rule formula, instead of gradient,
-        ADAM substitutes in the gradient moving average: $m_{t} = \Delta g_{t-1} * (1-\delta) + \Delta g{t}*\delta$~\cite{DBLP:journals/corr/abs-1807-06766}
+        ADAM substitutes in the gradient moving average: $m_{t} = \Delta g_{t-1} * (1-\delta) + \Delta g{t}*\delta$~\cite{DBLP:journals/corr/abs-1807-06766}.
     \end{itemize}
 
     \subsection{Differentially Private Optimizer: DP-SGD}\label{subsec:differentially-private-optimizer:-dp-sgd}
