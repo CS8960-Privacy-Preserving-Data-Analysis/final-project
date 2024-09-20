@@ -65,7 +65,7 @@
     In many real-world applications, such as healthcare and finance, privacy concerns hinder the deployment of machine
     learning models.
     Current state-of-the-art models like ResNet-20 achieve high accuracy but are vulnerable to attacks
-    that could leak sensitive information.
+    that could leak sensitive information. 
     By incorporating differential privacy through the use of DP-SGD, we aim to
     develop a model that balances both accuracy and privacy.
 
@@ -74,24 +74,33 @@
 
     \subsection{Model Architecture: ResNet-20}\label{subsec:model-architecture:-resnet-20}
 
-    We will utilize the ResNet-20 model~\citet{Idelbayev_ResNet20} for CIFAR-10,
+
+    We propose utilizing the ResNet-20 model \cite{Idelbayev_ResNet20_CIFAR10} for CIFAR-10,
     a standard dataset for image classification tasks.
-    Although ResNet-18 is more common, we selected ResNet-20 for its deeper architecture,
-    which is suited for our privacy-preserving project.
+    We selected a 20-layer ResNet for its deep architecture and strength in image classification problems \cite{DBLP:journals/corr/HeZRS15}. 20
+    layers should be enough depth to adequately model many features, while not encountering the higher training error encountered
+    with excessively "deep" architectures. \cite{DBLP:journals/corr/HeZRS15}
 
     If necessary, we may modify the architecture slightly to optimize for DP compatibility.
 
     \subsection{Non-private Optimizers to Try}\label{subsec:non-private-optimizers-to-try}
-    We will first experiment with non-private optimizers to establish baseline performance for ResNet-20 on CIFAR-10.
-    The following optimizers will be explored:
+    We propose implementing 4 non-private optimizers to establish baseline performance for ResNet-20 on CIFAR-10. Three of these optimizers will be First-Order optimizers 
+    that all build on one another. The last optimizer that we will explore is a Second-Order optimization technique known as Cubic .
+
     \begin{itemize}
-        \item \textbf{SGD:} Standard Stochastic Gradient Descent for baseline comparison.
-        \item \textbf{Adam:} Adaptive Moment Estimation for better convergence in non-private settings.
-        \item \textbf{RMSprop:} To explore gradient normalization impact in non-private training.
+        \item \textbf{SGD:} Standard Stochastic Gradient Descent for baseline comparison. This optimizer works by calculating the gradient at each data 
+        point and updating the model parameters with the following update rule: $\theta + \eta * \Delta g$, where $\theta$ is model parameters, $\eta$ is 
+        the learning rate, and $\Delta g$ is the gradient at that data point.
+        \item \textbf{RMSprop:} Root Mean Square Propogation (RMSprop) builds on SGD by including the a "moving average" factor. This factor functions by scaling the gradient
+        each step, based on the gradient of the previous data points. This is done by dividing the gradient, at each model parameter update, 
+        by the moving average squared gradient: $(\Delta g_{t-1}^{2} * (1-\delta) + \Delta g{t}^{2}*\delta)^{\frac{1}{2}}$,
+        where $\Delta g_{t-1}^{2}$ is the squared gradient average from the previous step, $\Delta g_{t}^{2}$ is the squared gradient of the current step, and $\delta$ is the "moving average" factor. \cite{DBLP:journals/corr/abs-1807-06766} \cite{Jason_Huang_2020}
+        \item \textbf{ADAM:} Adaptive Moment Estimation (ADAM) further build on RMSprop by including another "moving average" factor, this time for the gradient. In the general gradient update rule formula, instead of gradient,
+        ADAM subsitutes in the gradient moving average: $m_{t} = \Delta g_{t-1} * (1-\delta) + \Delta g{t}*\delta$ \cite{DBLP:journals/corr/abs-1807-06766}
     \end{itemize}
 
     \subsection{Differentially Private Optimizer: DP-SGD}\label{subsec:differentially-private-optimizer:-dp-sgd}
-    We will implement DP-SGD as our privacy-preserving algorithm.
+    We propose implementing DP-SGD as our privacy-preserving algorithm.
     The key components of DP-SGD are:
     \begin{itemize}
         \item \textbf{Gradient Clipping:} Limits the influence of individual examples during training.
@@ -100,21 +109,22 @@
     \end{itemize}
 
     \subsection{Incremental Improvements}\label{subsec:incremental-improvements}
-    We plan to explore the following enhancements:
+    After we have privatized SGD, we propose making the following enhancements:
     \begin{itemize}
-        \item Alternative noise mechanisms and their effect on utility-privacy tradeoffs.
-        \item Adaptive gradient clipping methods that dynamically adjust the clipping threshold.
-        \item Experimenting with different optimizers (e.g., DP-Adam).
+        \item Adding an adaptive learning rate by incorporating the Moving Average of Gradients Squared (RMSprop) \cite{DBLP:journals/corr/abs-1807-06766}
+        \item Adding a moving average for gradient (ADAM) \cite{DBLP:journals/corr/abs-1807-06766}
+        \item Alternative noise mechanisms and their effect on utility-privacy tradeoffs. [NEED JUSTIFICATION]
+        \item Adaptive gradient clipping methods that dynamically adjust the clipping threshold. [NEED JUSTIFICATION]
     \end{itemize}
 
     \subsection{Rationale for Choosing DP-SGD}\label{subsec:rationale-for-choosing-dp-sgd}
     \begin{itemize}
-        \item provides well-documented privacy guarantees \citet{Abadi_2016_DeepLearningDifferentialPrivacy}
+        \item provides well-documented privacy guarantees \cite{Abadi_2016_DeepLearningDifferentialPrivacy}
         while maintaining decent utility for image classification tasks.
         \item The addition of noise and gradient clipping help ensure $(\epsilon, \delta)$-differential privacy,
         making it ideal for sensitive applications.
         \item Previous work shows that DP-SGD, when optimized, can yield near state-of-the-art accuracy
-        for differentially private models \citet{De_2022_ScaleDP_ImageClassification}.
+        for differentially private models \cite{De_2022_ScaleDP_ImageClassification}.
     \end{itemize}
 
     \subsection{Why This Approach Will Outperform Others}\label{subsec:why-this-approach-will-outperform-others}
@@ -192,11 +202,15 @@
     robust privacy protection.
 
 
-    \bibliographystyle{plainnat}
+    \bibliographystyle{plain}
     \bibliography{references}
 
 
-    \section*{GitHub link sharing?}
+    \section*{GitHub link}
+    \begin{itemize}
+        \item \href{https://github.com/CS8960-Privacy-Preserving-Data-Analysis/final-project}{Github Repository Link}
+    \end{itemize}
+    
 
 
 \end{document}
