@@ -11,8 +11,8 @@ The dataset is built-in in PyTorch~\cite{pytorch_2019}, and we will load it usin
 \subsection{Metrics}\label{subsec:metrics}
 \begin{itemize}
     \item \textbf{Training Loss/Accuracy:} Standard accuracy and training loss on CIFAR-10~\cite{cifar10_dataset}.
-    \item \textbf{Privacy Budget:} We will measure $(\epsilon, \delta)$ using RDP~\cite{Mironov_2017_RenyiDP} to ensure privacy compliance.
-    \item \textbf{Efficiency:} Time complexity and memory usage will be tracked.
+    \item \textbf{Privacy Cost:} We will measure $(\epsilon, \delta)$ using RDP~\cite{Mironov_2017_RenyiDP} to ensure privacy compliance.
+    \item \textbf{Training Time:} Time complexity and memory usage will be tracked.
 \end{itemize}
 
 \subsection{Design of Experiments}\label{subsec:design-of-experiments}
@@ -20,9 +20,10 @@ We will be performing a series of experiments to evaluate our modified different
 Table~\ref{tab:doe} outlines the experimental design, including the optimizer, clipping method, noise mechanism, and other metrics.
 
 \begin{table}[!ht]
+    \caption{Experimental Design}  % Title of the table
     \centering  % Center the table
     \resizebox{\textwidth}{!}{  % Resize the table to fit the width of the page
-        \begin{tabular}{||c|c|c|c|c|c|c|c||}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|}
             \hline
             \textbf{Experiment ID} & \textbf{Optimizer} & \textbf{Clipping Method} & \textbf{Noise Mechanism}   & \textbf{Accuracy} & \textbf{Training Time} & \textbf{Privacy Cost}\\ [0.5ex]
             \hline\hline
@@ -32,13 +33,9 @@ Table~\ref{tab:doe} outlines the experimental design, including the optimizer, c
             4                      & DP-SGD             & Automatic Clipping       & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
             5                      & DP-RMSprop         & Automatic Clipping       & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
             6                      & DP-Adam            & Automatic Clipping       & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
-            7                      & DP-SGD             & Adaptive Clipping        & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
-            8                      & DP-RMSprop         & Adaptive Clipping        & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
-            9                      & DP-Adam            & Adaptive Clipping        & Standard Gaussian        & TBD               & TBD                    & TBD                   \\
            \hline
         \end{tabular}
     } % End of \resizebox
-    \caption{Experimental Design}  % Title of the table
     \label{tab:doe}  % Label of the table
 \end{table}
 
