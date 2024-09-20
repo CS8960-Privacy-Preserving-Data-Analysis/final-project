@@ -19,18 +19,40 @@ The last optimizer that we will explore is a Second-Order optimization technique
 \begin{itemize}
     \item \textbf{SGD:} Standard Stochastic Gradient Descent (SGD) for baseline comparison.
     This optimizer works by calculating the gradient at each data
-    point and updating the model parameters with the following update rule: $\theta + \eta * \Delta g$, where $\theta$ is model parameters, $\eta$ is
-    the learning rate, and $\Delta g$ is the gradient at that data point.
+    point and updating the model parameters with the following update rule:
+
+    \[
+        \mathbf{x}_1 = \mathbf{x}_1 - \alpha \cdot \mathbf{g}_t
+    \]
+
+    where $\mathbf{x}_1$ is model parameters, $\alpha$ is
+    the learning rate, and $\mathbf{g}_t$ is the gradient at that data point.
+
     \item \textbf{RMSprop:} Root Mean Square Propagation (RMSprop) builds on SGD by including the \("\)moving average\("\) factor.
     This factor functions by scaling the gradient
     each step, based on the gradient of the previous data points.
-    This is done by dividing the gradient, at each model parameter update,
-    by the moving average squared gradient: $(\Delta g_{t-1}^{2} * (1-\delta) + \Delta g{t}^{2}*\delta)^{\frac{1}{2}}$,
-    where $\Delta g_{t-1}^{2}$ is the squared gradient average from the previous step, $\Delta g_{t}^{2}$ is
-    the squared gradient of the current step, and $\delta$ is the \("\)moving average\("\) factor.  \cite{DBLP:journals/corr/abs-1807-06766,Jason_Huang_2020}
+    This is done by scaling the gradient, at each model parameter update,
+    by the moving average squared gradient:
+
+    \[
+        \mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\mathbf{g}_t^2 + \xi \mathbf{1}_d)
+    \]
+
+    where $\mathbf{v}_{t-1}$ is the squared gradient average from the previous step, $\mathbf{g}_t^2 $ is
+    the squared gradient of the current step, $\beta_2$ is the \("\)squared gradient moving average\("\) factor
+    and $\xi \mathbf{1}_d$ is a constant vector~\cite{DBLP:journals/corr/abs-1807-06766,Jason_Huang_2020}.
+
     \item \textbf{ADAM:} Adaptive Moment Estimation (ADAM) further build on RMSprop by including another \("\)moving average\("\) factor, this time for the gradient.
     In the general gradient update rule formula, instead of gradient,
-    ADAM substitutes in the gradient moving average: $m_{t} = \Delta g_{t-1} * (1-\delta) + \Delta g{t}*\delta$~\cite{DBLP:journals/corr/abs-1807-06766}
+    ADAM substitutes in the gradient moving average:
+
+    \[
+        \mathbf{m}_t = \beta_1 \mathbf{m}_{t-1} + (1 - \beta_1) \mathbf{g}_t
+    \]
+
+    where $\mathbf{m}_{t-1}$ is the gradient moving average from the previous step, $\mathbf{g}_t$ is
+    the gradient of the current step, and $\beta_1$ is the \("\)gradient moving average\("\) factor~\cite{DBLP:journals/corr/abs-1807-06766}.
+
 \end{itemize}
 
 \subsection{Differentially Private Optimizer: DP-SGD}\label{subsec:differentially-private-optimizer:-dp-sgd}
@@ -38,8 +60,8 @@ We propose implementing DP-SGD as our privacy-preserving algorithm.
 The key components of DP-SGD are:
 \begin{itemize}
     \item \textbf{Gradient Clipping:} Limits the influence of individual examples during training.
-    \item \textbf{Noise Addition:} Adds noise to gradients to ensure privacy (via Opacus or TensorFlow Privacy libraries).
-    \item \textbf{Privacy Accounting:} We will use Rényi Differential Privacy (RDP) for privacy budget tracking.
+    \item \textbf{Noise Addition:} Adds noise to gradients to ensure privacy (via Opacus)~\cite{opacus}.
+    \item \textbf{Privacy Accounting:} We will use Rényi Differential Privacy (RDP) for privacy budget tracking~\cite{Mironov_2017_RenyiDP}.
 \end{itemize}
 
 \subsection{Incremental Improvements}\label{subsec:incremental-improvements}
@@ -47,49 +69,52 @@ After we have privatized SGD, we propose making the following enhancements:
 \begin{itemize}
     \item Adding an adaptive learning rate by incorporating the moving average of gradients squared (RMSprop)~\cite{DBLP:journals/corr/abs-1807-06766}
     \item Adding a moving average for gradient (ADAM)~\cite{DBLP:journals/corr/abs-1807-06766}
-    \item Automatic gradient clipping methods that adjusts the clipping threshold throughout training \cite{bu2023automaticclippingdifferentiallyprivate}.
+    \item Automatic gradient clipping methods that adjusts the clipping threshold throughout training~\cite{bu2023automaticclippingdifferentiallyprivate}.
 \end{itemize}
 
 \subsection{Rationale for Choosing DP-SGD}\label{subsec:rationale-for-choosing-dp-sgd}
 DP-SGD provides well-documented privacy guarantees~\cite{Abadi_2016_DeepLearningDifferentialPrivacy}
-while maintaining decent utility for image classification tasks. The addition of noise and gradient clipping help ensure $(\epsilon, \delta)$-differential privacy,
-making it ideal for sensitive applications. Previous work shows that DP-SGD, when optimized, can yield near state-of-the-art accuracy
+while maintaining decent utility for image classification tasks.
+The addition of noise and gradient clipping help ensure $(\epsilon, \delta)$-differential privacy,
+making it ideal for sensitive applications.
+Previous work shows that DP-SGD, when optimized, can yield near state-of-the-art accuracy
 for differentially private models~\cite{De_2022_ScaleDP_ImageClassification}.
-
 
 \subsection{Why This Approach Will Outperform Others}\label{subsec:why-this-approach-will-outperform-others}
 Our approach leverages the ResNet-20 model which is often used in conjunction with
-CIFAR-10 dataset. 
+CIFAR-10 dataset.
 Similarly, DP-SGD is an often used optimization algorithm, that has proven powerful in balancing the privacy-utility trade-offs posed
 by differential privacy, as seen in \cite{Abadi_2016_DeepLearningDifferentialPrivacy}. With the baseline
-of DP-SGD and ResNet-20, we believe our incremental improvements will yield strong gains in 
-accuracy. 
+of DP-SGD and ResNet-20, we believe our incremental improvements will yield strong gains in
+accuracy.
 Converting from DP-SGD to DP-RMSprop may improve the accuracy by adapting the learning rate as the
-model trains. This is especially important given the limited amount of times we are able to
+model trains.
+This is especially important given the limited amount of times we are able to
 query a dataset while implementing differential privacy.
 Additionally, we believe the added gradient normalization introduced by upgrading to DP-ADAM will
-similarly improve the rate of convergence of our model as seen in the non-private study \cite{DBLP:journals/corr/abs-1807-06766}. Again, this is paramount given the 
-limited number of times that our model can query the dataset. 
-Finally, by experimenting with automatic clipping, we aim to 
-find an optimal trade-off between accuracy and privacy. 
+similarly improve the rate of convergence of our model as seen in the non-private study \cite{DBLP:journals/corr/abs-1807-06766}. Again, this is paramount given the
+limited number of times that our model can query the dataset.
+Finally, by experimenting with automatic clipping, we aim to
+find an optimal trade-off between accuracy and privacy.
 
 \subsection{Pseudocode for Non-Private Optimizers}\label{subsec:pseudo-code-for-non-private-optimizers}
 Below are pseudocodes for the non-private SGD, non-private RMSprop, and non-private ADAM algorithms that we plan to privatize, adapted or referenced from \cite{DBLP:journals/corr/abs-1807-06766}:
-    \begin{algorithm}
-        \caption{SGD Algorithm}
-        \label{alg:sgd}
-        \begin{algorithmic}[1]
-            \State \textbf{Input:} A step size $\alpha$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and access to a (possibly noisy) oracle for gradients of $f : \mathbb{R}^d \rightarrow \mathbb{R}$.
-            \Function{SGD}{$\mathbf{x}_1, \alpha$}
-                \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
-                \For{$t = 1, 2, \dots$}
-                    \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
-                    \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{g}_t$
-                \EndFor
-            \EndFunction
+\begin{algorithm}
+    \caption{SGD Algorithm}
+    \label{alg:sgd}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} A step size $\alpha$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$,
+        and access to a (possibly noisy) oracle for gradients of $f : \mathbb{R}^d \rightarrow \mathbb{R}$.
+        \Function{SGD}{$\mathbf{x}_1, \alpha$}
+            \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
+            \For{$t = 1, 2, \dots$}
+                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{g}_t$
+            \EndFor
+        \EndFunction
     \end{algorithmic}
-    \end{algorithm}
-    \vspace{-1cm}
+\end{algorithm}
+\vspace{-1cm}
 
 \begin{algorithm}
     \caption{RMSProp}
@@ -106,8 +131,8 @@ Below are pseudocodes for the non-private SGD, non-private RMSprop, and non-priv
             \EndFor
         \EndFunction
     \end{algorithmic}
-    \end{algorithm}
-    \vspace{-1cm}
+\end{algorithm}
+\vspace{-1cm}
 
 \begin{algorithm}
     \caption{ADAM}
@@ -125,4 +150,4 @@ Below are pseudocodes for the non-private SGD, non-private RMSprop, and non-priv
             \EndFor
         \EndFunction
     \end{algorithmic}
-    \end{algorithm}
+\end{algorithm}
