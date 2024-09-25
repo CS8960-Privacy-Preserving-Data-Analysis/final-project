@@ -11,7 +11,7 @@ import torch.optim
 import torch.utils.data
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
-from src import resnet
+import resnet
 
 model_names = sorted(name for name in resnet.__dict__
     if name.islower() and not name.startswith("__")
