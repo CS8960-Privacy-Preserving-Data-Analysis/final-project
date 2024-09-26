@@ -101,5 +101,5 @@ manuscript/proposal/proposal_csci_8960.pdf
 /scripts/data
 /scripts/save_resnet20
 data/
-my_cifar10_model/
+my_cifar10_models/
 src/__pycache__/
