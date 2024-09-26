@@ -21,13 +21,13 @@ model_names = sorted(name for name in resnet.__dict__
 print(model_names)
 
 parser = argparse.ArgumentParser(description='Propert ResNets for CIFAR10 in pytorch')
-parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet32',
+parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet20',
                     choices=model_names,
                     help='model architecture: ' + ' | '.join(model_names) +
-                    ' (default: resnet32)')
-parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
+                    ' (default: resnet20)')
+parser.add_argument('-j', '--workers', default=8, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--epochs', default=200, type=int, metavar='N',
+parser.add_argument('--epochs', default=2, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
@@ -62,32 +62,40 @@ def main():
     global args, best_prec1
     args = parser.parse_args()
 
-
     # Check the save_dir exists or not
     if not os.path.exists(args.save_dir):
         os.makedirs(args.save_dir)
+        print(f"Created directory: {args.save_dir}")
+        print("path of the directory: ", os.path.abspath(args.save_dir))
+    else:
+        print(f"Using existing directory: {args.save_dir}")
+        print("WARNING: Contents of the directory will be overwritten.")
+        print("path of the directory: ", os.path.abspath(args.save_dir))
 
+    print("Initializing model...")
     model = torch.nn.DataParallel(resnet.__dict__[args.arch]())
     model.cuda()
+    print(f"Model {args.arch} initialized.")
 
     # optionally resume from a checkpoint
     if args.resume:
         if os.path.isfile(args.resume):
-            print("=> loading checkpoint '{}'".format(args.resume))
+            print(f"=> loading checkpoint '{args.resume}'")
             checkpoint = torch.load(args.resume)
             args.start_epoch = checkpoint['epoch']
             best_prec1 = checkpoint['best_prec1']
             model.load_state_dict(checkpoint['state_dict'])
-            print("=> loaded checkpoint '{}' (epoch {})"
-                  .format(args.evaluate, checkpoint['epoch']))
+            print(f"=> loaded checkpoint '{args.resume}' (epoch {checkpoint['epoch']})")
         else:
-            print("=> no checkpoint found at '{}'".format(args.resume))
+            print(f"=> no checkpoint found at '{args.resume}'")
 
     cudnn.benchmark = True
+    print("CUDNN benchmarking enabled.")
 
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
+    print("Setting up data loaders...")
     train_loader = torch.utils.data.DataLoader(
         datasets.CIFAR10(root='./data', train=True, transform=transforms.Compose([
             transforms.RandomHorizontalFlip(),
@@ -106,8 +114,11 @@ def main():
         batch_size=128, shuffle=False,
         num_workers=args.workers, pin_memory=True)
 
+    print("Data loaders set up complete.")
+
     # define loss function (criterion) and optimizer
     criterion = nn.CrossEntropyLoss().cuda()
+    print("Loss function defined.")
 
     if args.half:
         model.half()
@@ -116,6 +127,7 @@ def main():
     optimizer = torch.optim.SGD(model.parameters(), args.lr,
                                 momentum=args.momentum,
                                 weight_decay=args.weight_decay)
+    print("Optimizer initialized.")
 
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,
                                                         milestones=[100, 150], last_epoch=args.start_epoch - 1)
@@ -124,21 +136,22 @@ def main():
         # for resnet1202 original paper uses lr=0.01 for first 400 minibatches for warm-up
         # then switch back. In this setup it will correspond for first epoch.
         for param_group in optimizer.param_groups:
-            param_group['lr'] = args.lr*0.1
-
+            param_group['lr'] = args.lr * 0.1
 
     if args.evaluate:
+        print("Evaluating model...")
         validate(val_loader, model, criterion)
         return
 
+    print("Starting training...")
     for epoch in range(args.start_epoch, args.epochs):
-
-        # train for one epoch
-        print('current lr {:.5e}'.format(optimizer.param_groups[0]['lr']))
+        print(f"Epoch {epoch + 1}/{args.epochs}:")
+        print('Current learning rate: {:.5e}'.format(optimizer.param_groups[0]['lr']))
         train(train_loader, model, criterion, optimizer, epoch)
         lr_scheduler.step()
 
         # evaluate on validation set
+        print("Validating model...")
         prec1 = validate(val_loader, model, criterion)
 
         # remember best prec@1 and save checkpoint
@@ -146,6 +159,7 @@ def main():
         best_prec1 = max(prec1, best_prec1)
 
         if epoch > 0 and epoch % args.save_every == 0:
+            print(f"Saving checkpoint at epoch {epoch + 1}...")
             save_checkpoint({
                 'epoch': epoch + 1,
                 'state_dict': model.state_dict(),
@@ -156,6 +170,8 @@ def main():
             'state_dict': model.state_dict(),
             'best_prec1': best_prec1,
         }, is_best, filename=os.path.join(args.save_dir, 'model.th'))
+
+    print("Training completed.")
 
 
 def train(train_loader, model, criterion, optimizer, epoch):

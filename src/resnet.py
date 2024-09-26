@@ -34,7 +34,7 @@ import torch.nn.init as init
 
 from torch.autograd import Variable
 
-__all__ = ['ResNet', 'resnet20', 'resnet32', 'resnet44', 'resnet56', 'resnet110', 'resnet1202']
+__all__ = ['ResNet', 'resnet20']
 
 def _weights_init(m):
     classname = m.__class__.__name__
@@ -121,24 +121,24 @@ def resnet20():
     return ResNet(BasicBlock, [3, 3, 3])
 
 
-def resnet32():
-    return ResNet(BasicBlock, [5, 5, 5])
-
-
-def resnet44():
-    return ResNet(BasicBlock, [7, 7, 7])
-
-
-def resnet56():
-    return ResNet(BasicBlock, [9, 9, 9])
-
-
-def resnet110():
-    return ResNet(BasicBlock, [18, 18, 18])
-
-
-def resnet1202():
-    return ResNet(BasicBlock, [200, 200, 200])
+# def resnet32():
+#     return ResNet(BasicBlock, [5, 5, 5])
+#
+#
+# def resnet44():
+#     return ResNet(BasicBlock, [7, 7, 7])
+#
+#
+# def resnet56():
+#     return ResNet(BasicBlock, [9, 9, 9])
+#
+#
+# def resnet110():
+#     return ResNet(BasicBlock, [18, 18, 18])
+#
+#
+# def resnet1202():
+#     return ResNet(BasicBlock, [200, 200, 200])
 
 
 def test(net):
