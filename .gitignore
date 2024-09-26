@@ -96,6 +96,8 @@ manuscript/proposal/proposal_csci_8960.out
 manuscript/proposal/proposal_csci_8960.pdf
 manuscript/proposal/proposal_csci_8960.synctex.gz
 manuscript/proposal/proposal_csci_8960.pdf
+
+# Ignoring the data files and model files
 /scripts/data/cifar-10-batches-py/batches.meta
 /scripts/save_resnet20/checkpoint.th
 /scripts/data/cifar-10-python.tar.gz
