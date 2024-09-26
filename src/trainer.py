@@ -9,9 +9,9 @@ import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
-import torchvision.transforms as transforms
-import torchvision.datasets as datasets
 import resnet
+from src.data_loader import get_data_loaders
+from src.utils import accuracy, AverageMeter, save_checkpoint
 
 model_names = sorted(name for name in resnet.__dict__
     if name.islower() and not name.startswith("__")
@@ -92,29 +92,8 @@ def main():
     cudnn.benchmark = True
     print("CUDNN benchmarking enabled.")
 
-    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.229, 0.224, 0.225])
-
-    print("Setting up data loaders...")
-    train_loader = torch.utils.data.DataLoader(
-        datasets.CIFAR10(root='./data', train=True, transform=transforms.Compose([
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomCrop(32, 4),
-            transforms.ToTensor(),
-            normalize,
-        ]), download=True),
-        batch_size=args.batch_size, shuffle=True,
-        num_workers=args.workers, pin_memory=True)
-
-    val_loader = torch.utils.data.DataLoader(
-        datasets.CIFAR10(root='./data', train=False, transform=transforms.Compose([
-            transforms.ToTensor(),
-            normalize,
-        ])),
-        batch_size=128, shuffle=False,
-        num_workers=args.workers, pin_memory=True)
-
-    print("Data loaders set up complete.")
+    # Get the data loaders
+    train_loader, val_loader = get_data_loaders(args.batch_size, args.workers)
 
     # define loss function (criterion) and optimizer
     criterion = nn.CrossEntropyLoss().cuda()
@@ -277,46 +256,6 @@ def validate(val_loader, model, criterion):
           .format(top1=top1))
 
     return top1.avg
-
-def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
-    """
-    Save the training model
-    """
-    torch.save(state, filename)
-
-class AverageMeter(object):
-    """Computes and stores the average and current value"""
-    def __init__(self):
-        self.reset()
-
-    def reset(self):
-        self.val = 0
-        self.avg = 0
-        self.sum = 0
-        self.count = 0
-
-    def update(self, val, n=1):
-        self.val = val
-        self.sum += val * n
-        self.count += n
-        self.avg = self.sum / self.count
-
-
-def accuracy(output, target, topk=(1,)):
-    """Computes the precision@k for the specified values of k"""
-    maxk = max(topk)
-    batch_size = target.size(0)
-
-    _, pred = output.topk(maxk, 1, True, True)
-    pred = pred.t()
-    correct = pred.eq(target.view(1, -1).expand_as(pred))
-
-    res = []
-    for k in topk:
-        correct_k = correct[:k].view(-1).float().sum(0)
-        res.append(correct_k.mul_(100.0 / batch_size))
-    return res
-
 
 if __name__ == '__main__':
     main()
