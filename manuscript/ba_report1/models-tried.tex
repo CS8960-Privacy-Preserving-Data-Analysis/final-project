@@ -1,0 +1,26 @@
+\subsection{Motivation and Rationale}\label{subsec:motivation-and-rationale}
+
+\subsection{Description of Optimization Algorithm (Psuedocode)}\label{subsec:algorithm-description}
+\begin{algorithm}
+    \caption{ADAM}
+    \label{alg:adam}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d > 0$, parameters $\beta_1, \beta_2 \in [0, 1)$, a sequence of step sizes $\{\alpha_t\}_{t=1,2,\dots}$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and oracle access to the gradients of $f : \mathbb{R}^d \to \mathbb{R}$.
+        \Function{ADAM}{$\mathbf{x}_1, \beta_1, \beta_2, \{\alpha_t\}, \xi$}
+            \State Initialize: $\mathbf{m}_0 = \mathbf{0}$, $\mathbf{v}_0 = \mathbf{0}$
+            \For{$t = 1, 2, \dots$}
+                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+                \State $\mathbf{m}_t = \beta_1 \mathbf{m}_{t-1} + (1 - \beta_1) \mathbf{g}_t$
+                \State $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2) \mathbf{g}_t^2$
+                \State $\mathbf{V}_t = \operatorname{diag}(\mathbf{v}_t)$
+                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha_t \left( \mathbf{V}_t^{\frac{1}{2}} + \operatorname{diag}(\xi \mathbf{1}_d) \right)^{-1} \mathbf{m}_t$
+            \EndFor
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Modification and Variations}\label{subsec:modification-and-variations}
+
+\subsection{Privacy Proof}\label{subsec:incremental-improvements}
+
