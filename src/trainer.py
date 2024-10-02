@@ -117,6 +117,7 @@ def main():
     privacy_engine = PrivacyEngine()
 
     # Make the model private
+    # TODO: change noise_multiplier and max_grad_norm to be command line arguments or parameters
     model, optimizer, train_loader = privacy_engine.make_private(
         module=model,
         optimizer=optimizer,
