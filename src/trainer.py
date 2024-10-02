@@ -2,7 +2,6 @@ import argparse
 import os
 import shutil
 import time
-
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -12,6 +11,7 @@ import torch.utils.data
 import resnet
 from src.data_loader import get_data_loaders
 from src.utils import accuracy, AverageMeter, save_checkpoint
+from opacus import PrivacyEngine
 
 model_names = sorted(name for name in resnet.__dict__
     if name.islower() and not name.startswith("__")
@@ -55,6 +55,8 @@ parser.add_argument('--save-dir', dest='save_dir',
 parser.add_argument('--save-every', dest='save_every',
                     help='Saves checkpoints at every specified number of epochs',
                     type=int, default=10)
+parser.add_argument('--delta', default=1e-5, type=float, help='Target delta for differential privacy')
+
 best_prec1 = 0
 
 
@@ -108,6 +110,22 @@ def main():
                                 weight_decay=args.weight_decay)
     print("Optimizer initialized.")
 
+    # Calculate the sample rate (batch_size / total training data size)
+    sample_rate = args.batch_size / len(train_loader.dataset)
+
+    # Create a privacy engine
+    privacy_engine = PrivacyEngine()
+
+    # Make the model private
+    model, optimizer, train_loader = privacy_engine.make_private(
+        module=model,
+        optimizer=optimizer,
+        data_loader=train_loader,  # use train_loader, not data_loader or val_loader
+        noise_multiplier=1.1,
+        max_grad_norm=1.0,
+        sample_rate=sample_rate,  # include the sample rate
+    )
+
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,
                                                         milestones=[100, 150], last_epoch=args.start_epoch - 1)
 
@@ -126,7 +144,7 @@ def main():
     for epoch in range(args.start_epoch, args.epochs):
         print(f"Epoch {epoch + 1}/{args.epochs}:")
         print('Current learning rate: {:.5e}'.format(optimizer.param_groups[0]['lr']))
-        train(train_loader, model, criterion, optimizer, epoch)
+        train(train_loader, model, criterion, optimizer, epoch, privacy_engine=privacy_engine)
         lr_scheduler.step()
 
         # evaluate on validation set
@@ -153,7 +171,7 @@ def main():
     print("Training completed.")
 
 
-def train(train_loader, model, criterion, optimizer, epoch):
+def train(train_loader, model, criterion, optimizer, epoch, privacy_engine=None):
     """
         Run one train epoch
     """
@@ -205,6 +223,11 @@ def train(train_loader, model, criterion, optimizer, epoch):
                   'Prec@1 {top1.val:.3f} ({top1.avg:.3f})'.format(
                       epoch, i, len(train_loader), batch_time=batch_time,
                       data_time=data_time, loss=losses, top1=top1))
+
+    # After the epoch, if privacy is enabled, report privacy budget
+    if privacy_engine is not None:
+        epsilon = privacy_engine.get_epsilon(delta=args.delta)
+        print(f"Epoch {epoch + 1} | Privacy budget (ε): {epsilon:.2f}, δ: {args.delta}")
 
 
 def validate(val_loader, model, criterion):
