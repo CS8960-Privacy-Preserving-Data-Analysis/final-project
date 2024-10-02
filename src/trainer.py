@@ -12,6 +12,7 @@ import resnet
 from src.data_loader import get_data_loaders
 from src.utils import accuracy, AverageMeter, save_checkpoint
 from opacus import PrivacyEngine
+from opacus.validators import ModuleValidator
 
 model_names = sorted(name for name in resnet.__dict__
     if name.islower() and not name.startswith("__")
@@ -79,6 +80,17 @@ def main():
     model.cuda()
     print(f"Model {args.arch} initialized.")
 
+    # Modify the model to use GroupNorm instead of BatchNorm since BathNorm is not supported in DP-SGD
+    print("Replacing BatchNorm with GroupNorm for differential privacy...")
+    model = ModuleValidator.fix(model)
+
+    # Validate the model for DP compatibility
+    errors = ModuleValidator.validate(model, strict=True)
+    if errors:
+        print("Model still has unsupported layers:", errors)
+    else:
+        print("Model is now compatible with differential privacy.")
+
     # optionally resume from a checkpoint
     if args.resume:
         if os.path.isfile(args.resume):
@@ -126,6 +138,7 @@ def main():
         max_grad_norm=1.0,
         sample_rate=sample_rate,  # include the sample rate
     )
+    print("Model made private.")
 
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,
                                                         milestones=[100, 150], last_epoch=args.start_epoch - 1)
