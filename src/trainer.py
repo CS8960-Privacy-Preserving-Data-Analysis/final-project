@@ -172,6 +172,9 @@ def main():
         return
 
     print("Starting training...")
+
+    train_start_time = time.time()
+
     for epoch in range(args.start_epoch, args.epochs):
         print(f"Epoch {epoch + 1}/{args.epochs}:")
         print('Current learning rate: {:.5e}'.format(optimizer.param_groups[0]['lr']))
@@ -200,6 +203,14 @@ def main():
         }, is_best, filename=os.path.join(args.save_dir, 'model.th'))
 
     print("Training completed.")
+
+    train_end_time = time.time()
+
+    # Print the metrics
+    print(f"Total training time: {train_end_time - train_start_time:.2f} seconds")
+    print(f"Best accuracy: {best_prec1:.2f}")
+    print(f"Best privacy budget (ε): {privacy_engine.get_epsilon(delta=args.delta):.2f}, δ: {args.delta}")
+    print(f"Model saved at: {os.path.abspath(args.save_dir)}")
 
 
 def train(train_loader, model, criterion, optimizer, epoch, privacy_engine=None):
