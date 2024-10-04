@@ -76,8 +76,8 @@ def main():
         print("path of the directory: ", os.path.abspath(args.save_dir))
 
     print("Initializing model...")
-    model = torch.nn.DataParallel(resnet.__dict__[args.arch]())
-    model.cuda()
+    model = resnet.__dict__[args.arch]().cuda()
+
     print(f"Model {args.arch} initialized.")
 
     # Modify the model to use GroupNorm instead of BatchNorm since BathNorm is not supported in DP-SGD
@@ -133,10 +133,9 @@ def main():
     model, optimizer, train_loader = privacy_engine.make_private(
         module=model,
         optimizer=optimizer,
-        data_loader=train_loader,  # use train_loader, not data_loader or val_loader
+        data_loader=train_loader,
         noise_multiplier=1.1,
         max_grad_norm=1.0,
-        sample_rate=sample_rate,  # include the sample rate
     )
     print("Model made private.")
 
