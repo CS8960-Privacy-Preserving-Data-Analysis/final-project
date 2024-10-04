@@ -9,8 +9,8 @@ import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
 import resnet
-from src.data_loader import get_data_loaders
-from src.utils import accuracy, AverageMeter, save_checkpoint
+from data_loader import get_data_loaders
+from utils import accuracy, AverageMeter, save_checkpoint
 from opacus import PrivacyEngine
 from opacus.validators import ModuleValidator
 
