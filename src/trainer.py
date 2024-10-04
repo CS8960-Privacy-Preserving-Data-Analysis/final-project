@@ -21,14 +21,14 @@ model_names = sorted(name for name in resnet.__dict__
 
 print(model_names)
 
-parser = argparse.ArgumentParser(description='Propert ResNets for CIFAR10 in pytorch')
+parser = argparse.ArgumentParser(description='Proper ResNets for CIFAR10 in pytorch')
 parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet20',
                     choices=model_names,
                     help='model architecture: ' + ' | '.join(model_names) +
                     ' (default: resnet20)')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--epochs', default=100, type=int, metavar='N',
+parser.add_argument('--epochs', default=200, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
@@ -56,7 +56,14 @@ parser.add_argument('--save-dir', dest='save_dir',
 parser.add_argument('--save-every', dest='save_every',
                     help='Saves checkpoints at every specified number of epochs',
                     type=int, default=10)
-parser.add_argument('--delta', default=1e-5, type=float, help='Target delta for differential privacy')
+parser.add_argument('--target-epsilon', default=None, type=float,
+                    help='Target epsilon for differential privacy')
+parser.add_argument('--delta', default=1e-5, type=float,
+                    help='Target delta for differential privacy')
+parser.add_argument('--noise-multiplier', default=1.1, type=float,
+                    help='Noise multiplier for differential privacy (default: 1.1)')
+parser.add_argument('--max-grad-norm', default=1.0, type=float,
+                    help='Max grad norm for differential privacy (default: 1.0)')
 
 best_prec1 = 0
 
@@ -128,16 +135,27 @@ def main():
     # Create a privacy engine
     privacy_engine = PrivacyEngine()
 
-    # Make the model private
-    # TODO: change noise_multiplier and max_grad_norm to be command line arguments or parameters
-    model, optimizer, train_loader = privacy_engine.make_private(
-        module=model,
-        optimizer=optimizer,
-        data_loader=train_loader,
-        noise_multiplier=1.1,
-        max_grad_norm=1.0,
-    )
-    print("Model made private.")
+    # Make the model private with epsilon if target_epsilon is provided, otherwise use epochs
+    if args.target_epsilon:
+        model, optimizer, train_loader = privacy_engine.make_private_with_epsilon(
+            module=model,
+            optimizer=optimizer,
+            data_loader=train_loader,
+            target_epsilon=args.target_epsilon,
+            target_delta=args.delta,
+            epochs=args.epochs,
+            max_grad_norm=args.max_grad_norm,
+        )
+        print(f"Model made private with target epsilon: {args.target_epsilon}")
+    else:
+        model, optimizer, train_loader = privacy_engine.make_private(
+            module=model,
+            optimizer=optimizer,
+            data_loader=train_loader,
+            noise_multiplier=args.noise_multiplier,
+            max_grad_norm=args.max_grad_norm,
+        )
+        print(f"Model made private for {args.epochs} epochs.")
 
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,
                                                         milestones=[100, 150], last_epoch=args.start_epoch - 1)
