@@ -2,7 +2,7 @@
 
 \begin{table}[!ht]
     \caption{Experimental Results\\
-    All experiments were conducted with a privacy budget $\delta = 10^{-5}$. The rest goes here.}
+    All experiments were conducted with a privacy budget $\delta = 10^{-5}$. Momentum, Weight Decay, and Max Gradient Norm are all constant in these tests.}
     \centering  % Center the table
     \resizebox{\textwidth}{!}{  % Resize the table to fit the width of the page
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
@@ -32,10 +32,18 @@
     \label{tab:exp_results}  % Label of the table
 \end{table}
 
-\subsection{Best Observed Accuracy and Component that Attributed}\label{subsec:best-accuracy}
-
-\subsection{Hyperparamters used}\label{subsec:hyperparameters}
+\subsection{Best Observed Accuracy and Components/Hyperparameters}\label{subsec:best-accuracy}
+In the Experimental testing above, we varied various hyperparameters to maximize accuracy of classification on the CIFAR10 dataset. We employed the
+(Epsilon, Delta)-Differentially Private - Stochastic Gradient Descent (DP-SGD) as our optimizer. For our loss function, we used the built-in PyTorch CrossEntropy function.
+The bolded lines indicate the maximum accuracies achieved for each of the hyperparameters that we explored.
+\begin{itemize}
+    \item \textbf{Learning Rate:} We varied learning rate from 0.1 to 0.5. The smallest learning rate (0.1) yielded the highest accuracy of 41\%.
+    \item \textbf{Batch Size:} We varied batch size from 64 to 1024. A batch size of 256 yielded the highest accuracy of 44\% among its peers.
+    \item \textbf{Epsilon/Privacy Bugdet:} Higher epsilons mean lower privacy, but also can mean higher utility. When the epsilon was adjusted to 50, accuracy peaked at 50\%.
+    \item \textbf{Noise Multiplier:} Along with Epsilon changes, our highest accuracy (50\%) run also coincided with a decrease in noise multiplier (0.1).
+\end{itemize}
 
 \subsection{Failed Approaches}\label{subsec:failed-approaches}
 
 \subsection{Training Methods}\label{subsec:training-methods}
+
