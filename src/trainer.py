@@ -208,7 +208,7 @@ def main():
 
     # Print the metrics
     print(f"Total training time: {train_end_time - train_start_time:.2f} seconds")
-    print(f"Best accuracy: {best_prec1:.2f}")
+    print(f"Best accuracy: {best_prec1:.2f}%")
     print(f"Best privacy budget (ε): {privacy_engine.get_epsilon(delta=args.delta):.2f}, δ: {args.delta}")
     print(f"Model saved at: {os.path.abspath(args.save_dir)}")
 
