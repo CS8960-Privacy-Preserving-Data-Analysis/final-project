@@ -35,7 +35,7 @@
 In the Experimental testing above, we varied hyperparameters to maximize accuracy of classification on the CIFAR10 dataset. We employed the
 ($\epsilon$, $\delta$)-Differentially Private - Stochastic Gradient Descent (DP-SGD) as our optimizer. For our loss function, we used the built-in PyTorch CrossEntropy function.
 The bolded lines, in the table above, indicate the maximum accuracies achieved by varying each of the hyperparameters. As a baseline, we also implemented
-a non-private SGD to give an upper bound on potential accuracy for the CIFAR10 dataset. We were able to achieve 94\% accuracy with SGD over 200 epochs.
+a non-private SGD to give an upper bound on potential accuracy for the CIFAR10 dataset. We were able to achieve 94\% accuracy with non-private SGD over 200 epochs.
 \begin{itemize}
     \item \textbf{Learning Rate:} We varied learning rate from 0.1 to 0.5. The smallest learning rate (0.1) yielded the highest accuracy of 41\%.
     \item \textbf{Batch Size:} We varied batch size from 64 to 1024. A batch size of 256 yielded the highest accuracy of 44\% among its peers.
