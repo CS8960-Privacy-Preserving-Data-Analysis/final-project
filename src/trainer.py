@@ -2,7 +2,6 @@ import argparse
 import os
 import shutil
 import time
-
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -10,8 +9,10 @@ import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
 import resnet
-from src.data_loader import get_data_loaders
-from src.utils import accuracy, AverageMeter, save_checkpoint
+from data_loader import get_data_loaders
+from utils import accuracy, AverageMeter, save_checkpoint
+from opacus import PrivacyEngine
+from opacus.validators import ModuleValidator
 
 model_names = sorted(name for name in resnet.__dict__
     if name.islower() and not name.startswith("__")
@@ -20,14 +21,14 @@ model_names = sorted(name for name in resnet.__dict__
 
 print(model_names)
 
-parser = argparse.ArgumentParser(description='Propert ResNets for CIFAR10 in pytorch')
+parser = argparse.ArgumentParser(description='Proper ResNets for CIFAR10 in pytorch')
 parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet20',
                     choices=model_names,
                     help='model architecture: ' + ' | '.join(model_names) +
                     ' (default: resnet20)')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--epochs', default=100, type=int, metavar='N',
+parser.add_argument('--epochs', default=200, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
@@ -55,6 +56,15 @@ parser.add_argument('--save-dir', dest='save_dir',
 parser.add_argument('--save-every', dest='save_every',
                     help='Saves checkpoints at every specified number of epochs',
                     type=int, default=10)
+parser.add_argument('--target-epsilon', default=None, type=float,
+                    help='Target epsilon for differential privacy')
+parser.add_argument('--delta', default=1e-5, type=float,
+                    help='Target delta for differential privacy')
+parser.add_argument('--noise-multiplier', default=1.1, type=float,
+                    help='Noise multiplier for differential privacy (default: 1.1)')
+parser.add_argument('--max-grad-norm', default=1.0, type=float,
+                    help='Max grad norm for differential privacy (default: 1.0)')
+
 best_prec1 = 0
 
 
@@ -73,9 +83,20 @@ def main():
         print("path of the directory: ", os.path.abspath(args.save_dir))
 
     print("Initializing model...")
-    model = torch.nn.DataParallel(resnet.__dict__[args.arch]())
-    model.cuda()
+    model = resnet.__dict__[args.arch]().cuda()
+
     print(f"Model {args.arch} initialized.")
+
+    # Modify the model to use GroupNorm instead of BatchNorm since BathNorm is not supported in DP-SGD
+    print("Replacing BatchNorm with GroupNorm for differential privacy...")
+    model = ModuleValidator.fix(model)
+
+    # Validate the model for DP compatibility
+    errors = ModuleValidator.validate(model, strict=True)
+    if errors:
+        print("Model still has unsupported layers:", errors)
+    else:
+        print("Model is now compatible with differential privacy.")
 
     # optionally resume from a checkpoint
     if args.resume:
@@ -108,6 +129,34 @@ def main():
                                 weight_decay=args.weight_decay)
     print("Optimizer initialized.")
 
+    # Calculate the sample rate (batch_size / total training data size)
+    sample_rate = args.batch_size / len(train_loader.dataset)
+
+    # Create a privacy engine
+    privacy_engine = PrivacyEngine()
+
+    # Make the model private with epsilon if target_epsilon is provided, otherwise use epochs
+    if args.target_epsilon:
+        model, optimizer, train_loader = privacy_engine.make_private_with_epsilon(
+            module=model,
+            optimizer=optimizer,
+            data_loader=train_loader,
+            target_epsilon=args.target_epsilon,
+            target_delta=args.delta,
+            epochs=args.epochs,
+            max_grad_norm=args.max_grad_norm,
+        )
+        print(f"Model made private with target epsilon: {args.target_epsilon}")
+    else:
+        model, optimizer, train_loader = privacy_engine.make_private(
+            module=model,
+            optimizer=optimizer,
+            data_loader=train_loader,
+            noise_multiplier=args.noise_multiplier,
+            max_grad_norm=args.max_grad_norm,
+        )
+        print(f"Model made private for {args.epochs} epochs.")
+
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,
                                                         milestones=[100, 150], last_epoch=args.start_epoch - 1)
 
@@ -123,10 +172,13 @@ def main():
         return
 
     print("Starting training...")
+
+    train_start_time = time.time()
+
     for epoch in range(args.start_epoch, args.epochs):
         print(f"Epoch {epoch + 1}/{args.epochs}:")
         print('Current learning rate: {:.5e}'.format(optimizer.param_groups[0]['lr']))
-        train(train_loader, model, criterion, optimizer, epoch)
+        train(train_loader, model, criterion, optimizer, epoch, privacy_engine=privacy_engine)
         lr_scheduler.step()
 
         # evaluate on validation set
@@ -152,8 +204,16 @@ def main():
 
     print("Training completed.")
 
+    train_end_time = time.time()
 
-def train(train_loader, model, criterion, optimizer, epoch):
+    # Print the metrics
+    print(f"Total training time: {train_end_time - train_start_time:.2f} seconds")
+    print(f"Best accuracy: {best_prec1:.2f}%")
+    print(f"Best privacy budget (ε): {privacy_engine.get_epsilon(delta=args.delta):.2f}, δ: {args.delta}")
+    print(f"Model saved at: {os.path.abspath(args.save_dir)}")
+
+
+def train(train_loader, model, criterion, optimizer, epoch, privacy_engine=None):
     """
         Run one train epoch
     """
@@ -205,6 +265,11 @@ def train(train_loader, model, criterion, optimizer, epoch):
                   'Prec@1 {top1.val:.3f} ({top1.avg:.3f})'.format(
                       epoch, i, len(train_loader), batch_time=batch_time,
                       data_time=data_time, loss=losses, top1=top1))
+
+    # After the epoch, if privacy is enabled, report privacy budget
+    if privacy_engine is not None:
+        epsilon = privacy_engine.get_epsilon(delta=args.delta)
+        print(f"Epoch {epoch + 1} | Privacy budget (ε): {epsilon:.2f}, δ: {args.delta}")
 
 
 def validate(val_loader, model, criterion):

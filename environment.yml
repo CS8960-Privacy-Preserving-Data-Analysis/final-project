@@ -1,0 +1,13 @@
+name: resnet-env  # Name of your environment
+channels:
+  - defaults
+  - conda-forge  # Add conda-forge for additional packages
+dependencies:
+  - python=3.8.17  # Specify your Python version
+  - matplotlib
+  - pip
+  - pip:
+      - torch==2.1.0 --extra-index-url https://download.pytorch.org/whl/cu124  # PyTorch for CUDA 12.4
+      - torchvision==0.16.0 --extra-index-url https://download.pytorch.org/whl/cu124  # torchvision for CUDA 12.4
+      - torchaudio==2.1.0 --extra-index-url https://download.pytorch.org/whl/cu124  # torchaudio for CUDA 12.4
+      - opacus  # Opacus package for differential privacy

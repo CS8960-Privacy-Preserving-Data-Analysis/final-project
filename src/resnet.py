@@ -42,14 +42,17 @@ def _weights_init(m):
     if isinstance(m, nn.Linear) or isinstance(m, nn.Conv2d):
         init.kaiming_normal_(m.weight)
 
-class LambdaLayer(nn.Module):
-    def __init__(self, lambd):
-        super(LambdaLayer, self).__init__()
-        self.lambd = lambd
+class ShortcutLayer(nn.Module):
+    """A layer to replace the lambda function in the original LambdaLayer."""
+    def __init__(self, stride, in_planes, planes):
+        super(ShortcutLayer, self).__init__()
+        self.stride = stride
+        self.in_planes = in_planes
+        self.planes = planes
 
     def forward(self, x):
-        return self.lambd(x)
-
+        """This handles the padding and downsampling when stride != 1."""
+        return F.pad(x[:, :, ::self.stride, ::self.stride], (0, 0, 0, 0, self.planes//4, self.planes//4), "constant", 0)
 
 class BasicBlock(nn.Module):
     expansion = 1
@@ -67,8 +70,7 @@ class BasicBlock(nn.Module):
                 """
                 For CIFAR10 ResNet paper uses option A.
                 """
-                self.shortcut = LambdaLayer(lambda x:
-                                            F.pad(x[:, :, ::2, ::2], (0, 0, 0, 0, planes//4, planes//4), "constant", 0))
+                self.shortcut = ShortcutLayer(stride, in_planes, planes)
             elif option == 'B':
                 self.shortcut = nn.Sequential(
                      nn.Conv2d(in_planes, self.expansion * planes, kernel_size=1, stride=stride, bias=False),
