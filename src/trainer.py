@@ -28,7 +28,7 @@ parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet20',
                     ' (default: resnet20)')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--epochs', default=200, type=int, metavar='N',
+parser.add_argument('--epochs', default=30, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
@@ -64,7 +64,12 @@ parser.add_argument('--noise-multiplier', default=1.1, type=float,
                     help='Noise multiplier for differential privacy (default: 1.1)')
 parser.add_argument('--max-grad-norm', default=1.0, type=float,
                     help='Max grad norm for differential privacy (default: 1.0)')
-
+parser.add_argument('--alpha', default=0.99, type=float, 
+                    help='RMSprop smoothing constnt (default: 0.99)')
+parser.add_argument('--eps', default=1e-8, type=float, 
+                    help='RMSprop epsilon (default: 1e-8)')
+#parser.add_argument('--centered', action='store_true', 
+#                    help='RMSprop centered (default: False)')
 best_prec1 = 0
 
 
@@ -124,10 +129,15 @@ def main():
         model.half()
         criterion.half()
 
-    optimizer = torch.optim.SGD(model.parameters(), args.lr,
-                                momentum=args.momentum,
-                                weight_decay=args.weight_decay)
-    print("Optimizer initialized.")
+    # Use RMSprop optimizer
+    optimizer = torch.optim.RMSprop(model.parameters(), 
+                                    lr=args.lr,
+                                    alpha=args.alpha, 
+                                    eps=args.eps,
+                                    weight_decay=args.weight_decay, 
+                                    momentum=args.momentum, 
+                                    centered=args.centered)
+    print("RMSprop Optimizer initialized.")
 
     # Calculate the sample rate (batch_size / total training data size)
     sample_rate = args.batch_size / len(train_loader.dataset)
@@ -157,12 +167,10 @@ def main():
         )
         print(f"Model made private for {args.epochs} epochs.")
 
-    lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,
-                                                        milestones=[100, 150], last_epoch=args.start_epoch - 1)
+    # Optional: Keep the current learning rate scheduler (or modify as needed)
+    lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[100, 150], last_epoch=args.start_epoch - 1)
 
     if args.arch in ['resnet1202', 'resnet110']:
-        # for resnet1202 original paper uses lr=0.01 for first 400 minibatches for warm-up
-        # then switch back. In this setup it will correspond for first epoch.
         for param_group in optimizer.param_groups:
             param_group['lr'] = args.lr * 0.1
 
@@ -211,6 +219,7 @@ def main():
     print(f"Best accuracy: {best_prec1:.2f}%")
     print(f"Best privacy budget (ε): {privacy_engine.get_epsilon(delta=args.delta):.2f}, δ: {args.delta}")
     print(f"Model saved at: {os.path.abspath(args.save_dir)}")
+
 
 
 def train(train_loader, model, criterion, optimizer, epoch, privacy_engine=None):
