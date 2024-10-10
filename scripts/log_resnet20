@@ -1,0 +1,999 @@
+Traceback (most recent call last):
+  File "../src/trainer.py", line 5, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+['resnet20']
+Using existing directory: save_resnet20
+WARNING: Contents of the directory will be overwritten.
+path of the directory:  /home/myid/dca09692/CSCI8960/final-project/scripts/save_resnet20
+Initializing model...
+Model resnet20 initialized.
+Replacing BatchNorm with GroupNorm for differential privacy...
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/utils/module_utils.py:102: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  module_copy = torch.load(bytesio)
+Model is now compatible with differential privacy.
+CUDNN benchmarking enabled.
+Setting up data loaders...
+Files already downloaded and verified
+Data loaders set up complete.
+Loss function defined.
+RMSprop Optimizer initialized.
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/privacy_engine.py:95: UserWarning: Secure RNG turned off. This is perfectly fine for experimentation as it allows for much faster training performance, but remember to turn it on and retrain one last time before production with ``secure_mode`` turned on.
+  warnings.warn(
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/accountants/analysis/rdp.py:332: UserWarning: Optimal order is the largest alpha. Please consider expanding the range of alphas to get a tighter privacy bound.
+  warnings.warn(
+Model made private with target epsilon: 3.0
+Starting training...
+Epoch 1/200:
+Current learning rate: 1.00000e-01
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/torch/nn/modules/module.py:1640: FutureWarning: Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
+  self._maybe_warn_non_full_backward_hook(args, result, grad_fn)
+Epoch: [0][0/390]	Time 0.899 (0.899)	Data 0.197 (0.197)	Loss 5.9771 (5.9771)	Prec@1 8.088 (8.088)
+Epoch: [0][50/390]	Time 0.036 (0.120)	Data 0.001 (0.005)	Loss 8.5684 (156.4298)	Prec@1 8.411 (10.276)
+Epoch: [0][100/390]	Time 0.181 (0.095)	Data 0.001 (0.003)	Loss 3.2830 (80.5920)	Prec@1 8.571 (10.054)
+Epoch: [0][150/390]	Time 0.037 (0.080)	Data 0.001 (0.002)	Loss 3.0182 (54.3461)	Prec@1 8.621 (10.032)
+Epoch: [0][200/390]	Time 0.036 (0.074)	Data 0.001 (0.002)	Loss 3.3363 (41.7632)	Prec@1 15.200 (10.078)
+Epoch: [0][250/390]	Time 0.036 (0.067)	Data 0.001 (0.002)	Loss 2.7205 (34.0775)	Prec@1 15.447 (9.999)
+Epoch: [0][300/390]	Time 0.037 (0.062)	Data 0.001 (0.001)	Loss 2.9982 (28.9365)	Prec@1 7.519 (9.980)
+['resnet20']
+Using existing directory: save_resnet20
+WARNING: Contents of the directory will be overwritten.
+path of the directory:  /home/myid/dca09692/CSCI8960/final-project/scripts/save_resnet20
+Initializing model...
+Model resnet20 initialized.
+Replacing BatchNorm with GroupNorm for differential privacy...
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/utils/module_utils.py:102: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  module_copy = torch.load(bytesio)
+Model is now compatible with differential privacy.
+CUDNN benchmarking enabled.
+Setting up data loaders...
+Files already downloaded and verified
+Data loaders set up complete.
+Loss function defined.
+RMSprop Optimizer initialized.
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/privacy_engine.py:95: UserWarning: Secure RNG turned off. This is perfectly fine for experimentation as it allows for much faster training performance, but remember to turn it on and retrain one last time before production with ``secure_mode`` turned on.
+  warnings.warn(
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/accountants/analysis/rdp.py:332: UserWarning: Optimal order is the largest alpha. Please consider expanding the range of alphas to get a tighter privacy bound.
+  warnings.warn(
+Model made private with target epsilon: 3.0
+Starting training...
+Epoch 1/30:
+Current learning rate: 1.00000e-01
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/torch/nn/modules/module.py:1640: FutureWarning: Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
+  self._maybe_warn_non_full_backward_hook(args, result, grad_fn)
+Epoch: [0][0/390]	Time 0.816 (0.816)	Data 0.160 (0.160)	Loss 2.8531 (2.8531)	Prec@1 15.094 (15.094)
+Epoch: [0][50/390]	Time 0.037 (0.115)	Data 0.001 (0.004)	Loss 5.0474 (100.3087)	Prec@1 10.526 (9.862)
+Epoch: [0][100/390]	Time 0.035 (0.090)	Data 0.001 (0.002)	Loss 4.6087 (52.6314)	Prec@1 8.397 (9.928)
+Epoch: [0][150/390]	Time 0.036 (0.080)	Data 0.001 (0.002)	Loss 2.7539 (35.9377)	Prec@1 7.857 (10.085)
+Epoch: [0][200/390]	Time 0.036 (0.072)	Data 0.001 (0.002)	Loss 2.6652 (27.6362)	Prec@1 10.526 (10.214)
+Epoch: [0][250/390]	Time 0.155 (0.066)	Data 0.001 (0.001)	Loss 3.0335 (22.7253)	Prec@1 11.009 (10.223)
+Epoch: [0][300/390]	Time 0.036 (0.062)	Data 0.001 (0.001)	Loss 2.5002 (19.4235)	Prec@1 8.889 (10.224)
+Epoch: [0][350/390]	Time 0.036 (0.059)	Data 0.001 (0.001)	Loss 2.4605 (16.9542)	Prec@1 15.556 (10.262)
+Epoch 1 | Privacy budget (ε): 0.94, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.126 (0.126)	Loss 3.1161 (3.1161)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.021 (0.011)	Loss 3.0880 (3.1305)	Prec@1 10.938 (9.926)
+ * Prec@1 9.700
+Epoch 2/30:
+Current learning rate: 1.00000e-01
+Epoch: [1][0/390]	Time 0.175 (0.175)	Data 0.122 (0.122)	Loss 3.0538 (3.0538)	Prec@1 13.208 (13.208)
+Epoch: [1][50/390]	Time 0.036 (0.039)	Data 0.001 (0.003)	Loss 2.7306 (2.7890)	Prec@1 13.084 (9.360)
+Epoch: [1][100/390]	Time 0.035 (0.041)	Data 0.001 (0.002)	Loss 2.7549 (2.6906)	Prec@1 9.023 (9.744)
+Epoch: [1][150/390]	Time 0.034 (0.039)	Data 0.001 (0.002)	Loss 2.5375 (2.7422)	Prec@1 11.268 (9.922)
+Epoch: [1][200/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 2.5010 (3.0196)	Prec@1 12.844 (10.017)
+Epoch: [1][250/390]	Time 0.035 (0.039)	Data 0.001 (0.001)	Loss 2.5766 (2.9573)	Prec@1 13.492 (10.025)
+Epoch: [1][300/390]	Time 0.035 (0.039)	Data 0.001 (0.001)	Loss 2.3649 (2.9248)	Prec@1 8.333 (10.044)
+Epoch: [1][350/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 2.6591 (2.8772)	Prec@1 9.091 (10.037)
+Epoch 2 | Privacy budget (ε): 1.13, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.134 (0.134)	Loss 2.9030 (2.9030)	Prec@1 14.844 (14.844)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.9630 (2.8958)	Prec@1 11.719 (11.305)
+ * Prec@1 11.300
+Epoch 3/30:
+Current learning rate: 1.00000e-01
+Epoch: [2][0/390]	Time 0.178 (0.178)	Data 0.127 (0.127)	Loss 2.9655 (2.9655)	Prec@1 13.600 (13.600)
+Epoch: [2][50/390]	Time 0.037 (0.039)	Data 0.001 (0.003)	Loss 2.5038 (2.7520)	Prec@1 7.874 (9.901)
+Epoch: [2][100/390]	Time 0.037 (0.039)	Data 0.001 (0.002)	Loss 2.7944 (2.7263)	Prec@1 8.065 (10.411)
+Epoch: [2][150/390]	Time 0.037 (0.038)	Data 0.001 (0.002)	Loss 2.8896 (2.7074)	Prec@1 7.383 (10.232)
+Epoch: [2][200/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 2.8940 (2.8386)	Prec@1 8.759 (10.225)
+Epoch: [2][250/390]	Time 0.038 (0.038)	Data 0.001 (0.001)	Loss 2.9355 (2.8434)	Prec@1 9.524 (10.175)
+Epoch: [2][300/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 2.6654 (2.8106)	Prec@1 9.167 (10.308)
+Epoch: [2][350/390]	Time 0.038 (0.038)	Data 0.001 (0.001)	Loss 2.9441 (2.8135)	Prec@1 5.217 (10.345)
+Epoch 3 | Privacy budget (ε): 1.26, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.128 (0.128)	Loss 2.7850 (2.7850)	Prec@1 7.812 (7.812)
+Test: [50/79]	Time 0.020 (0.012)	Loss 2.6129 (2.7316)	Prec@1 11.719 (10.631)
+ * Prec@1 10.590
+Epoch 4/30:
+Current learning rate: 1.00000e-01
+Epoch: [3][0/390]	Time 0.193 (0.193)	Data 0.144 (0.144)	Loss 2.6981 (2.6981)	Prec@1 5.714 (5.714)
+Epoch: [3][50/390]	Time 0.036 (0.040)	Data 0.001 (0.004)	Loss 2.4743 (2.7781)	Prec@1 10.000 (10.089)
+Epoch: [3][100/390]	Time 0.038 (0.039)	Data 0.001 (0.002)	Loss 2.5390 (2.6983)	Prec@1 11.111 (9.727)
+Epoch: [3][150/390]	Time 0.039 (0.038)	Data 0.001 (0.002)	Loss 2.6024 (2.7349)	Prec@1 12.121 (9.835)
+Epoch: [3][200/390]	Time 0.042 (0.038)	Data 0.001 (0.001)	Loss 2.8972 (2.7478)	Prec@1 11.194 (9.806)
+Epoch: [3][250/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.6001 (2.8046)	Prec@1 11.290 (9.870)
+Epoch: [3][300/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.9712 (2.7909)	Prec@1 10.619 (9.902)
+Epoch: [3][350/390]	Time 0.036 (0.039)	Data 0.001 (0.001)	Loss 2.9152 (2.8102)	Prec@1 8.594 (9.946)
+Epoch 4 | Privacy budget (ε): 1.37, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.133 (0.133)	Loss 2.4407 (2.4407)	Prec@1 14.844 (14.844)
+Test: [50/79]	Time 0.019 (0.011)	Loss 2.6001 (2.6384)	Prec@1 7.031 (10.493)
+ * Prec@1 10.790
+Epoch 5/30:
+Current learning rate: 1.00000e-01
+Epoch: [4][0/390]	Time 0.189 (0.189)	Data 0.140 (0.140)	Loss 2.4810 (2.4810)	Prec@1 9.848 (9.848)
+Epoch: [4][50/390]	Time 0.037 (0.040)	Data 0.001 (0.003)	Loss 2.6395 (2.7720)	Prec@1 9.600 (10.224)
+Epoch: [4][100/390]	Time 0.035 (0.038)	Data 0.001 (0.002)	Loss 2.5741 (2.7632)	Prec@1 7.692 (9.943)
+Epoch: [4][150/390]	Time 0.038 (0.039)	Data 0.001 (0.002)	Loss 6.2576 (2.8654)	Prec@1 10.484 (9.800)
+Epoch: [4][200/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 3.5669 (2.8394)	Prec@1 9.836 (9.771)
+Epoch: [4][250/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.6251 (2.8098)	Prec@1 9.449 (9.848)
+Epoch: [4][300/390]	Time 0.040 (0.038)	Data 0.001 (0.001)	Loss 2.5075 (2.7951)	Prec@1 10.938 (10.115)
+Epoch: [4][350/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 3.0535 (2.7722)	Prec@1 6.400 (10.117)
+Epoch 5 | Privacy budget (ε): 1.46, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.134 (0.134)	Loss 2.5549 (2.5549)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.6019 (2.6002)	Prec@1 7.031 (9.957)
+ * Prec@1 10.070
+Epoch 6/30:
+Current learning rate: 1.00000e-01
+Epoch: [5][0/390]	Time 0.201 (0.201)	Data 0.136 (0.136)	Loss 2.6891 (2.6891)	Prec@1 5.385 (5.385)
+Epoch: [5][50/390]	Time 0.035 (0.039)	Data 0.001 (0.003)	Loss 2.6594 (2.7781)	Prec@1 6.557 (9.785)
+Epoch: [5][100/390]	Time 0.038 (0.038)	Data 0.001 (0.002)	Loss 2.4164 (2.7648)	Prec@1 11.504 (9.954)
+Epoch: [5][150/390]	Time 0.035 (0.038)	Data 0.001 (0.002)	Loss 2.5098 (2.7562)	Prec@1 12.308 (9.874)
+Epoch: [5][200/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 3.8254 (2.8097)	Prec@1 8.800 (10.088)
+Epoch: [5][250/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.7273 (2.7832)	Prec@1 8.730 (10.191)
+Epoch: [5][300/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 2.8938 (2.7781)	Prec@1 6.723 (10.125)
+Epoch: [5][350/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.7436 (2.7647)	Prec@1 7.080 (10.093)
+Epoch 6 | Privacy budget (ε): 1.55, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.127 (0.127)	Loss 2.8754 (2.8754)	Prec@1 12.500 (12.500)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.9859 (2.9015)	Prec@1 6.250 (9.957)
+ * Prec@1 9.760
+Epoch 7/30:
+Current learning rate: 1.00000e-01
+Epoch: [6][0/390]	Time 0.193 (0.193)	Data 0.141 (0.141)	Loss 2.7928 (2.7928)	Prec@1 7.500 (7.500)
+Epoch: [6][50/390]	Time 0.037 (0.040)	Data 0.001 (0.004)	Loss 2.7691 (2.9102)	Prec@1 11.348 (10.520)
+Epoch: [6][100/390]	Time 0.037 (0.038)	Data 0.001 (0.002)	Loss 2.5317 (2.8399)	Prec@1 14.286 (10.695)
+Epoch: [6][150/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.6586 (2.8109)	Prec@1 9.774 (10.543)
+Epoch: [6][200/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.6915 (2.8174)	Prec@1 7.463 (10.650)
+Epoch: [6][250/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.4656 (2.8164)	Prec@1 12.097 (10.686)
+Epoch: [6][300/390]	Time 0.039 (0.037)	Data 0.001 (0.001)	Loss 2.5445 (2.7956)	Prec@1 7.194 (10.588)
+Epoch: [6][350/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.7870 (2.7979)	Prec@1 12.000 (10.536)
+Epoch 7 | Privacy budget (ε): 1.64, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.134 (0.134)	Loss 2.9064 (2.9064)	Prec@1 9.375 (9.375)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.8588 (2.8624)	Prec@1 7.031 (11.198)
+ * Prec@1 11.470
+Epoch 8/30:
+Current learning rate: 1.00000e-01
+Epoch: [7][0/390]	Time 0.202 (0.202)	Data 0.151 (0.151)	Loss 2.6913 (2.6913)	Prec@1 10.714 (10.714)
+Epoch: [7][50/390]	Time 0.037 (0.040)	Data 0.001 (0.004)	Loss 2.4878 (2.8096)	Prec@1 6.977 (10.495)
+Epoch: [7][100/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.7546 (2.8853)	Prec@1 16.418 (10.304)
+Epoch: [7][150/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.7907 (2.8556)	Prec@1 8.871 (10.201)
+Epoch: [7][200/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.5234 (2.8195)	Prec@1 9.735 (10.043)
+Epoch: [7][250/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.4575 (2.8558)	Prec@1 9.836 (10.078)
+Epoch: [7][300/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.6263 (2.8136)	Prec@1 12.174 (10.133)
+Epoch: [7][350/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 3.1134 (2.8564)	Prec@1 12.397 (10.203)
+Epoch 8 | Privacy budget (ε): 1.72, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.132 (0.132)	Loss 2.4219 (2.4219)	Prec@1 14.062 (14.062)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.4502 (2.5209)	Prec@1 14.062 (9.743)
+ * Prec@1 9.880
+Epoch 9/30:
+Current learning rate: 1.00000e-01
+Epoch: [8][0/390]	Time 0.206 (0.206)	Data 0.157 (0.157)	Loss 2.4541 (2.4541)	Prec@1 8.966 (8.966)
+Epoch: [8][50/390]	Time 0.036 (0.040)	Data 0.001 (0.004)	Loss 2.6567 (2.6709)	Prec@1 11.811 (9.458)
+Epoch: [8][100/390]	Time 0.035 (0.038)	Data 0.001 (0.002)	Loss 2.6287 (2.7765)	Prec@1 10.256 (9.746)
+Epoch: [8][150/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 3.1034 (2.7646)	Prec@1 7.914 (9.899)
+Epoch: [8][200/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.6125 (2.7404)	Prec@1 7.634 (9.965)
+Epoch: [8][250/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.4007 (2.7324)	Prec@1 12.977 (9.930)
+Epoch: [8][300/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 2.6586 (2.7358)	Prec@1 10.274 (9.989)
+Epoch: [8][350/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 3.3588 (2.7466)	Prec@1 15.254 (10.023)
+Epoch 9 | Privacy budget (ε): 1.79, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.138 (0.138)	Loss 2.9950 (2.9950)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.011 (0.011)	Loss 2.9830 (2.8743)	Prec@1 10.156 (8.977)
+ * Prec@1 8.830
+Epoch 10/30:
+Current learning rate: 1.00000e-01
+Epoch: [9][0/390]	Time 0.189 (0.189)	Data 0.139 (0.139)	Loss 2.7920 (2.7920)	Prec@1 7.965 (7.965)
+Epoch: [9][50/390]	Time 0.036 (0.040)	Data 0.001 (0.003)	Loss 2.8314 (4.9384)	Prec@1 10.000 (10.680)
+Epoch: [9][100/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 3.1359 (3.8135)	Prec@1 7.438 (10.451)
+Epoch: [9][150/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.9318 (3.4709)	Prec@1 12.214 (10.382)
+Epoch: [9][200/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.5194 (3.2953)	Prec@1 13.492 (10.278)
+Epoch: [9][250/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.6308 (3.1735)	Prec@1 10.000 (10.173)
+Epoch: [9][300/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.3792 (3.1099)	Prec@1 10.870 (10.173)
+Epoch: [9][350/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 2.5140 (3.0407)	Prec@1 7.759 (10.164)
+Epoch 10 | Privacy budget (ε): 1.86, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.136 (0.136)	Loss 2.6474 (2.6474)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.005 (0.012)	Loss 2.5904 (2.7182)	Prec@1 10.938 (10.371)
+ * Prec@1 10.140
+Epoch 11/30:
+Current learning rate: 1.00000e-01
+Epoch: [10][0/390]	Time 0.194 (0.194)	Data 0.146 (0.146)	Loss 2.7478 (2.7478)	Prec@1 7.874 (7.874)
+Epoch: [10][50/390]	Time 0.042 (0.040)	Data 0.001 (0.004)	Loss 2.8382 (2.6437)	Prec@1 9.910 (10.258)
+Epoch: [10][100/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.5249 (2.6900)	Prec@1 4.930 (10.273)
+Epoch: [10][150/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.6340 (2.7188)	Prec@1 12.605 (10.206)
+Epoch: [10][200/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.3600 (2.7255)	Prec@1 17.925 (10.328)
+Epoch: [10][250/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.8418 (2.7161)	Prec@1 9.091 (10.263)
+Epoch: [10][300/390]	Time 0.035 (0.037)	Data 0.001 (0.001)	Loss 4.8399 (2.7406)	Prec@1 8.955 (10.169)
+Epoch: [10][350/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.8308 (2.7726)	Prec@1 10.294 (10.139)
+Epoch 11 | Privacy budget (ε): 1.93, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.132 (0.132)	Loss 2.6478 (2.6478)	Prec@1 7.812 (7.812)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.6652 (2.6799)	Prec@1 11.719 (10.539)
+ * Prec@1 10.550
+Saving checkpoint at epoch 11...
+Epoch 12/30:
+Current learning rate: 1.00000e-01
+Epoch: [11][0/390]	Time 0.195 (0.195)	Data 0.148 (0.148)	Loss 2.7695 (2.7695)	Prec@1 8.511 (8.511)
+Epoch: [11][50/390]	Time 0.035 (0.040)	Data 0.001 (0.004)	Loss 2.6416 (2.6658)	Prec@1 11.811 (9.974)
+Epoch: [11][100/390]	Time 0.037 (0.038)	Data 0.001 (0.002)	Loss 2.6749 (2.6857)	Prec@1 7.080 (10.461)
+Epoch: [11][150/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.3428 (2.6872)	Prec@1 16.102 (10.490)
+Epoch: [11][200/390]	Time 0.038 (0.038)	Data 0.001 (0.001)	Loss 2.6493 (2.7319)	Prec@1 13.208 (10.635)
+Epoch: [11][250/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 2.6232 (2.7193)	Prec@1 9.565 (10.677)
+Epoch: [11][300/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 3.2260 (2.7133)	Prec@1 7.087 (10.630)
+Epoch: [11][350/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.7302 (2.7192)	Prec@1 10.656 (10.625)
+Epoch 12 | Privacy budget (ε): 2.00, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.131 (0.131)	Loss 2.5051 (2.5051)	Prec@1 14.844 (14.844)
+Test: [50/79]	Time 0.022 (0.011)	Loss 2.4454 (2.5760)	Prec@1 14.844 (10.478)
+ * Prec@1 10.030
+Epoch 13/30:
+Current learning rate: 1.00000e-01
+Epoch: [12][0/390]	Time 0.196 (0.196)	Data 0.143 (0.143)	Loss 2.5312 (2.5312)	Prec@1 12.397 (12.397)
+Epoch: [12][50/390]	Time 0.037 (0.040)	Data 0.001 (0.004)	Loss 2.5825 (2.7867)	Prec@1 13.534 (9.748)
+Epoch: [12][100/390]	Time 0.036 (0.040)	Data 0.001 (0.002)	Loss 2.4675 (2.7318)	Prec@1 8.800 (10.023)
+Epoch: [12][150/390]	Time 0.037 (0.039)	Data 0.001 (0.002)	Loss 2.7246 (2.6960)	Prec@1 9.524 (10.299)
+Epoch: [12][200/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.7842 (2.8191)	Prec@1 10.078 (10.180)
+Epoch: [12][250/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 2.7014 (2.8013)	Prec@1 7.826 (10.155)
+Epoch: [12][300/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 2.5771 (2.8520)	Prec@1 8.943 (10.138)
+Epoch: [12][350/390]	Time 0.049 (0.038)	Data 0.001 (0.001)	Loss 3.0954 (2.8397)	Prec@1 9.286 (10.272)
+Epoch 13 | Privacy budget (ε): 2.07, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.136 (0.136)	Loss 2.7625 (2.7625)	Prec@1 11.719 (11.719)
+Test: [50/79]	Time 0.004 (0.012)	Loss 2.6557 (2.8052)	Prec@1 15.625 (11.320)
+ * Prec@1 11.430
+Epoch 14/30:
+Current learning rate: 1.00000e-01
+Epoch: [13][0/390]	Time 0.207 (0.207)	Data 0.155 (0.155)	Loss 2.7120 (2.7120)	Prec@1 11.972 (11.972)
+Epoch: [13][50/390]	Time 0.036 (0.040)	Data 0.001 (0.004)	Loss 2.6522 (2.8519)	Prec@1 10.938 (10.805)
+Epoch: [13][100/390]	Time 0.037 (0.038)	Data 0.001 (0.002)	Loss 2.8472 (2.7865)	Prec@1 13.433 (10.474)
+Epoch: [13][150/390]	Time 0.034 (0.038)	Data 0.001 (0.002)	Loss 2.5093 (2.7357)	Prec@1 9.848 (10.535)
+Epoch: [13][200/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.5031 (2.7230)	Prec@1 13.139 (10.519)
+Epoch: [13][250/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 2.4626 (2.7180)	Prec@1 9.735 (10.551)
+Epoch: [13][300/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.8298 (2.7429)	Prec@1 5.839 (10.519)
+Epoch: [13][350/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.6346 (2.7336)	Prec@1 10.000 (10.511)
+Epoch 14 | Privacy budget (ε): 2.13, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.142 (0.142)	Loss 5.9583 (5.9583)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.005 (0.011)	Loss 6.2629 (6.2335)	Prec@1 10.156 (10.187)
+ * Prec@1 10.000
+Epoch 15/30:
+Current learning rate: 1.00000e-01
+Epoch: [14][0/390]	Time 0.186 (0.186)	Data 0.135 (0.135)	Loss 6.4605 (6.4605)	Prec@1 8.871 (8.871)
+Epoch: [14][50/390]	Time 0.036 (0.039)	Data 0.001 (0.003)	Loss 2.6298 (2.8679)	Prec@1 7.080 (10.006)
+Epoch: [14][100/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.9466 (2.7699)	Prec@1 10.204 (9.900)
+Epoch: [14][150/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 2.6243 (2.7989)	Prec@1 9.091 (9.864)
+Epoch: [14][200/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.5358 (2.7646)	Prec@1 13.445 (9.901)
+Epoch: [14][250/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.6988 (2.7649)	Prec@1 2.479 (9.900)
+Epoch: [14][300/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.6423 (2.7488)	Prec@1 11.570 (9.890)
+Epoch: [14][350/390]	Time 0.036 (0.036)	Data 0.001 (0.001)	Loss 2.6358 (2.7411)	Prec@1 8.966 (9.933)
+Epoch 15 | Privacy budget (ε): 2.19, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.127 (0.127)	Loss 2.8080 (2.8080)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.012 (0.012)	Loss 2.9144 (2.9056)	Prec@1 10.938 (10.218)
+ * Prec@1 10.040
+Epoch 16/30:
+Current learning rate: 1.00000e-01
+Epoch: [15][0/390]	Time 0.188 (0.188)	Data 0.139 (0.139)	Loss 2.5806 (2.5806)	Prec@1 17.557 (17.557)
+Epoch: [15][50/390]	Time 0.034 (0.039)	Data 0.001 (0.003)	Loss 2.8894 (2.7062)	Prec@1 12.319 (10.359)
+Epoch: [15][100/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 4.6969 (2.8183)	Prec@1 15.596 (10.051)
+Epoch: [15][150/390]	Time 0.037 (0.036)	Data 0.001 (0.002)	Loss 2.5073 (2.8012)	Prec@1 10.484 (10.195)
+Epoch: [15][200/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.8651 (2.7834)	Prec@1 11.719 (10.207)
+Epoch: [15][250/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 3.0335 (2.8200)	Prec@1 12.069 (10.206)
+Epoch: [15][300/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.8809 (2.7993)	Prec@1 9.701 (10.075)
+Epoch: [15][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.5378 (2.7857)	Prec@1 11.607 (10.011)
+Epoch 16 | Privacy budget (ε): 2.25, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.136 (0.136)	Loss 2.8447 (2.8447)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.005 (0.011)	Loss 2.4716 (2.6866)	Prec@1 10.938 (9.620)
+ * Prec@1 9.350
+Epoch 17/30:
+Current learning rate: 1.00000e-01
+Epoch: [16][0/390]	Time 0.190 (0.190)	Data 0.142 (0.142)	Loss 2.6424 (2.6424)	Prec@1 9.821 (9.821)
+Epoch: [16][50/390]	Time 0.036 (0.038)	Data 0.001 (0.003)	Loss 2.7074 (2.8036)	Prec@1 13.423 (10.440)
+Epoch: [16][100/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.4515 (2.9217)	Prec@1 10.274 (10.171)
+Epoch: [16][150/390]	Time 0.033 (0.036)	Data 0.001 (0.002)	Loss 2.8945 (2.8345)	Prec@1 10.169 (10.163)
+Epoch: [16][200/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.7219 (2.8140)	Prec@1 8.108 (10.096)
+Epoch: [16][250/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.5223 (2.7872)	Prec@1 8.547 (10.165)
+Epoch: [16][300/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 3.0267 (2.7843)	Prec@1 9.917 (10.175)
+Epoch: [16][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.6940 (2.7823)	Prec@1 12.667 (10.269)
+Epoch 17 | Privacy budget (ε): 2.31, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.139 (0.139)	Loss 2.7850 (2.7850)	Prec@1 7.031 (7.031)
+Test: [50/79]	Time 0.018 (0.011)	Loss 2.5698 (2.5721)	Prec@1 14.844 (10.509)
+ * Prec@1 10.760
+Epoch 18/30:
+Current learning rate: 1.00000e-01
+Epoch: [17][0/390]	Time 0.185 (0.185)	Data 0.141 (0.141)	Loss 2.5330 (2.5330)	Prec@1 10.687 (10.687)
+Epoch: [17][50/390]	Time 0.037 (0.038)	Data 0.001 (0.003)	Loss 2.7736 (2.7531)	Prec@1 13.869 (10.306)
+Epoch: [17][100/390]	Time 0.036 (0.036)	Data 0.001 (0.002)	Loss 2.5237 (3.3858)	Prec@1 8.276 (10.278)
+Epoch: [17][150/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.6268 (3.1627)	Prec@1 10.484 (10.277)
+Epoch: [17][200/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.6177 (3.0902)	Prec@1 11.765 (10.424)
+Epoch: [17][250/390]	Time 0.036 (0.036)	Data 0.001 (0.001)	Loss 2.4380 (3.0162)	Prec@1 14.394 (10.464)
+Epoch: [17][300/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.6983 (2.9679)	Prec@1 11.382 (10.512)
+Epoch: [17][350/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.6881 (2.9522)	Prec@1 10.526 (10.402)
+Epoch 18 | Privacy budget (ε): 2.37, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.128 (0.128)	Loss 2.9726 (2.9726)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.004 (0.011)	Loss 3.0487 (2.9992)	Prec@1 8.594 (10.018)
+ * Prec@1 10.090
+Epoch 19/30:
+Current learning rate: 1.00000e-01
+Epoch: [18][0/390]	Time 0.198 (0.198)	Data 0.137 (0.137)	Loss 2.9585 (2.9585)	Prec@1 10.769 (10.769)
+Epoch: [18][50/390]	Time 0.037 (0.040)	Data 0.001 (0.003)	Loss 2.8740 (3.0018)	Prec@1 9.524 (10.760)
+Epoch: [18][100/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 2.8626 (2.8478)	Prec@1 6.015 (10.600)
+Epoch: [18][150/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.9421 (2.8700)	Prec@1 9.701 (10.569)
+Epoch: [18][200/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.4834 (2.8279)	Prec@1 8.088 (10.572)
+Epoch: [18][250/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.7004 (2.8115)	Prec@1 10.769 (10.585)
+Epoch: [18][300/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.6316 (2.8073)	Prec@1 13.139 (10.526)
+Epoch: [18][350/390]	Time 0.037 (0.036)	Data 0.001 (0.001)	Loss 2.6538 (2.7968)	Prec@1 14.394 (10.579)
+Epoch 19 | Privacy budget (ε): 2.43, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.128 (0.128)	Loss 2.5720 (2.5720)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.5306 (2.5962)	Prec@1 17.188 (10.049)
+ * Prec@1 9.930
+Epoch 20/30:
+Current learning rate: 1.00000e-01
+Epoch: [19][0/390]	Time 0.184 (0.184)	Data 0.135 (0.135)	Loss 2.6138 (2.6138)	Prec@1 11.538 (11.538)
+Epoch: [19][50/390]	Time 0.034 (0.039)	Data 0.001 (0.003)	Loss 2.8495 (2.8013)	Prec@1 10.317 (10.545)
+Epoch: [19][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 5.5785 (2.8022)	Prec@1 9.589 (10.431)
+Epoch: [19][150/390]	Time 0.033 (0.036)	Data 0.001 (0.002)	Loss 2.5194 (2.7768)	Prec@1 9.630 (10.184)
+Epoch: [19][200/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.7692 (2.8567)	Prec@1 12.030 (10.124)
+Epoch: [19][250/390]	Time 0.041 (0.035)	Data 0.001 (0.001)	Loss 2.5753 (2.8390)	Prec@1 14.388 (10.285)
+Epoch: [19][300/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.9396 (2.8193)	Prec@1 4.651 (10.223)
+Epoch: [19][350/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.5025 (2.8260)	Prec@1 12.977 (10.227)
+Epoch 20 | Privacy budget (ε): 2.48, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.135 (0.135)	Loss 2.7067 (2.7067)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.005 (0.012)	Loss 2.6075 (2.6698)	Prec@1 9.375 (11.091)
+ * Prec@1 11.170
+Epoch 21/30:
+Current learning rate: 1.00000e-01
+Epoch: [20][0/390]	Time 0.203 (0.203)	Data 0.152 (0.152)	Loss 2.8268 (2.8268)	Prec@1 10.563 (10.563)
+Epoch: [20][50/390]	Time 0.040 (0.040)	Data 0.001 (0.004)	Loss 2.5340 (2.6603)	Prec@1 10.791 (10.536)
+Epoch: [20][100/390]	Time 0.034 (0.038)	Data 0.001 (0.002)	Loss 2.5992 (2.7328)	Prec@1 7.194 (10.126)
+Epoch: [20][150/390]	Time 0.036 (0.037)	Data 0.001 (0.002)	Loss 2.9680 (2.9501)	Prec@1 10.294 (9.836)
+Epoch: [20][200/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 3.0943 (2.8966)	Prec@1 11.818 (9.741)
+Epoch: [20][250/390]	Time 0.039 (0.036)	Data 0.001 (0.001)	Loss 2.6440 (2.8564)	Prec@1 11.905 (9.883)
+Epoch: [20][300/390]	Time 0.047 (0.036)	Data 0.001 (0.001)	Loss 2.4696 (2.8163)	Prec@1 10.370 (9.908)
+Epoch: [20][350/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.7342 (2.8436)	Prec@1 12.000 (9.857)
+Epoch 21 | Privacy budget (ε): 2.54, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.133 (0.133)	Loss 2.4234 (2.4234)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.004 (0.012)	Loss 2.6904 (2.6193)	Prec@1 10.156 (11.612)
+ * Prec@1 11.590
+Saving checkpoint at epoch 21...
+Epoch 22/30:
+Current learning rate: 1.00000e-01
+Epoch: [21][0/390]	Time 0.195 (0.195)	Data 0.145 (0.145)	Loss 2.5812 (2.5812)	Prec@1 8.219 (8.219)
+Epoch: [21][50/390]	Time 0.036 (0.039)	Data 0.001 (0.004)	Loss 2.8776 (2.6618)	Prec@1 9.524 (10.369)
+Epoch: [21][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.6319 (2.6553)	Prec@1 11.189 (10.171)
+Epoch: [21][150/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.7755 (2.6875)	Prec@1 9.449 (10.108)
+Epoch: [21][200/390]	Time 0.033 (0.036)	Data 0.001 (0.001)	Loss 3.3878 (2.7563)	Prec@1 8.333 (10.264)
+Epoch: [21][250/390]	Time 0.042 (0.036)	Data 0.001 (0.001)	Loss 2.4290 (2.7420)	Prec@1 12.389 (10.313)
+Epoch: [21][300/390]	Time 0.038 (0.036)	Data 0.001 (0.001)	Loss 2.5405 (2.7411)	Prec@1 15.200 (10.338)
+Epoch: [21][350/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.8685 (2.7467)	Prec@1 11.200 (10.344)
+Epoch 22 | Privacy budget (ε): 2.59, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.135 (0.135)	Loss 3.4512 (3.4512)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.005 (0.011)	Loss 3.3550 (3.3673)	Prec@1 7.812 (9.789)
+ * Prec@1 10.110
+Epoch 23/30:
+Current learning rate: 1.00000e-01
+Epoch: [22][0/390]	Time 0.182 (0.182)	Data 0.135 (0.135)	Loss 3.1325 (3.1325)	Prec@1 11.765 (11.765)
+Epoch: [22][50/390]	Time 0.036 (0.038)	Data 0.001 (0.003)	Loss 2.3801 (2.6675)	Prec@1 19.355 (10.352)
+Epoch: [22][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 3.0784 (2.6645)	Prec@1 11.972 (10.426)
+Epoch: [22][150/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.8623 (2.7088)	Prec@1 5.797 (10.126)
+Epoch: [22][200/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.8596 (2.6978)	Prec@1 5.600 (9.986)
+Epoch: [22][250/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.4923 (2.7165)	Prec@1 9.375 (10.080)
+Epoch: [22][300/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.5988 (2.7121)	Prec@1 8.527 (10.085)
+Epoch: [22][350/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.6570 (2.7113)	Prec@1 9.483 (10.166)
+Epoch 23 | Privacy budget (ε): 2.65, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.139 (0.139)	Loss 3.1323 (3.1323)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.022 (0.011)	Loss 2.9379 (2.9608)	Prec@1 10.156 (10.922)
+ * Prec@1 10.570
+Epoch 24/30:
+Current learning rate: 1.00000e-01
+Epoch: [23][0/390]	Time 0.198 (0.198)	Data 0.150 (0.150)	Loss 2.9517 (2.9517)	Prec@1 7.143 (7.143)
+Epoch: [23][50/390]	Time 0.034 (0.038)	Data 0.001 (0.004)	Loss 2.7385 (2.7270)	Prec@1 10.791 (10.125)
+Epoch: [23][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.7489 (2.9497)	Prec@1 3.937 (10.269)
+Epoch: [23][150/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.7568 (2.9022)	Prec@1 14.516 (10.394)
+Epoch: [23][200/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 3.0869 (3.0412)	Prec@1 10.606 (10.358)
+Epoch: [23][250/390]	Time 0.033 (0.036)	Data 0.001 (0.001)	Loss 2.7723 (2.9657)	Prec@1 7.812 (10.403)
+Epoch: [23][300/390]	Time 0.033 (0.036)	Data 0.001 (0.001)	Loss 2.6595 (2.9203)	Prec@1 6.299 (10.532)
+Epoch: [23][350/390]	Time 0.043 (0.036)	Data 0.001 (0.001)	Loss 2.6416 (2.8860)	Prec@1 8.333 (10.549)
+Epoch 24 | Privacy budget (ε): 2.70, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.140 (0.140)	Loss 2.8085 (2.8085)	Prec@1 7.812 (7.812)
+Test: [50/79]	Time 0.004 (0.012)	Loss 2.7636 (2.7255)	Prec@1 10.156 (10.325)
+ * Prec@1 10.780
+Epoch 25/30:
+Current learning rate: 1.00000e-01
+Epoch: [24][0/390]	Time 0.183 (0.183)	Data 0.137 (0.137)	Loss 2.5195 (2.5195)	Prec@1 10.280 (10.280)
+Epoch: [24][50/390]	Time 0.035 (0.038)	Data 0.001 (0.003)	Loss 2.8159 (2.7518)	Prec@1 10.345 (10.915)
+Epoch: [24][100/390]	Time 0.036 (0.037)	Data 0.001 (0.002)	Loss 2.8108 (2.7033)	Prec@1 12.000 (10.762)
+Epoch: [24][150/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.6867 (2.7775)	Prec@1 9.756 (10.598)
+Epoch: [24][200/390]	Time 0.033 (0.036)	Data 0.001 (0.001)	Loss 2.5185 (2.7878)	Prec@1 12.397 (10.459)
+Epoch: [24][250/390]	Time 0.039 (0.036)	Data 0.001 (0.001)	Loss 3.3029 (2.7499)	Prec@1 7.438 (10.339)
+Epoch: [24][300/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 13.1155 (2.7910)	Prec@1 9.167 (10.309)
+Epoch: [24][350/390]	Time 0.036 (0.036)	Data 0.001 (0.001)	Loss 2.5611 (2.9751)	Prec@1 11.927 (10.307)
+Epoch 25 | Privacy budget (ε): 2.75, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.138 (0.138)	Loss 3.0637 (3.0637)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.004 (0.011)	Loss 3.0685 (2.9997)	Prec@1 8.594 (10.003)
+ * Prec@1 10.150
+Epoch 26/30:
+Current learning rate: 1.00000e-01
+Epoch: [25][0/390]	Time 0.189 (0.189)	Data 0.139 (0.139)	Loss 3.0163 (3.0163)	Prec@1 5.556 (5.556)
+Epoch: [25][50/390]	Time 0.035 (0.038)	Data 0.001 (0.003)	Loss 2.5136 (2.5925)	Prec@1 10.084 (9.696)
+Epoch: [25][100/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 3.3742 (2.6774)	Prec@1 8.871 (9.780)
+Epoch: [25][150/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.6219 (2.6905)	Prec@1 10.294 (9.805)
+Epoch: [25][200/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.7834 (2.7114)	Prec@1 12.319 (9.914)
+Epoch: [25][250/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.9289 (2.7350)	Prec@1 9.917 (10.134)
+Epoch: [25][300/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.4942 (2.7262)	Prec@1 13.514 (10.064)
+Epoch: [25][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.9904 (2.7530)	Prec@1 8.844 (10.102)
+Epoch 26 | Privacy budget (ε): 2.80, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.141 (0.141)	Loss 2.5253 (2.5253)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.004 (0.013)	Loss 2.5197 (2.4941)	Prec@1 4.688 (10.340)
+ * Prec@1 10.390
+Epoch 27/30:
+Current learning rate: 1.00000e-01
+Epoch: [26][0/390]	Time 0.183 (0.183)	Data 0.136 (0.136)	Loss 2.4371 (2.4371)	Prec@1 11.570 (11.570)
+Epoch: [26][50/390]	Time 0.036 (0.037)	Data 0.001 (0.003)	Loss 2.7257 (2.7509)	Prec@1 14.179 (10.390)
+Epoch: [26][100/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.4472 (2.7640)	Prec@1 15.672 (10.102)
+Epoch: [26][150/390]	Time 0.033 (0.035)	Data 0.001 (0.002)	Loss 3.1899 (2.7639)	Prec@1 6.957 (10.155)
+Epoch: [26][200/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.8082 (2.7290)	Prec@1 9.023 (10.382)
+Epoch: [26][250/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.8846 (2.7353)	Prec@1 7.377 (10.287)
+Epoch: [26][300/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.7981 (2.7536)	Prec@1 12.143 (10.360)
+Epoch: [26][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.3995 (2.7749)	Prec@1 13.178 (10.263)
+Epoch 27 | Privacy budget (ε): 2.85, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.136 (0.136)	Loss 2.9366 (2.9366)	Prec@1 7.812 (7.812)
+Test: [50/79]	Time 0.005 (0.011)	Loss 2.8489 (2.9375)	Prec@1 10.938 (10.371)
+ * Prec@1 9.980
+Epoch 28/30:
+Current learning rate: 1.00000e-01
+Epoch: [27][0/390]	Time 0.200 (0.200)	Data 0.135 (0.135)	Loss 3.0101 (3.0101)	Prec@1 5.556 (5.556)
+Epoch: [27][50/390]	Time 0.034 (0.038)	Data 0.001 (0.003)	Loss 2.5820 (2.8233)	Prec@1 7.563 (10.623)
+Epoch: [27][100/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.6256 (2.8663)	Prec@1 16.102 (10.408)
+Epoch: [27][150/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.7491 (2.8256)	Prec@1 10.448 (10.446)
+Epoch: [27][200/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.8091 (2.7949)	Prec@1 9.756 (10.394)
+Epoch: [27][250/390]	Time 0.037 (0.035)	Data 0.001 (0.001)	Loss 2.9603 (2.8242)	Prec@1 6.923 (10.376)
+Epoch: [27][300/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.6251 (2.8424)	Prec@1 6.400 (10.459)
+Epoch: [27][350/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.7482 (2.8369)	Prec@1 8.772 (10.358)
+Epoch 28 | Privacy budget (ε): 2.90, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.136 (0.136)	Loss 2.7386 (2.7386)	Prec@1 11.719 (11.719)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.6291 (2.6998)	Prec@1 14.062 (10.202)
+ * Prec@1 10.120
+Epoch 29/30:
+Current learning rate: 1.00000e-01
+Epoch: [28][0/390]	Time 0.209 (0.209)	Data 0.156 (0.156)	Loss 2.5988 (2.5988)	Prec@1 10.959 (10.959)
+Epoch: [28][50/390]	Time 0.035 (0.039)	Data 0.001 (0.004)	Loss 7.8039 (2.9550)	Prec@1 12.069 (10.299)
+Epoch: [28][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.6806 (2.9309)	Prec@1 9.449 (10.890)
+Epoch: [28][150/390]	Time 0.033 (0.036)	Data 0.001 (0.002)	Loss 2.5215 (2.8742)	Prec@1 12.903 (10.697)
+Epoch: [28][200/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.5220 (2.8661)	Prec@1 10.345 (10.426)
+Epoch: [28][250/390]	Time 0.033 (0.036)	Data 0.001 (0.001)	Loss 3.1040 (2.8223)	Prec@1 11.811 (10.538)
+Epoch: [28][300/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.6639 (2.8053)	Prec@1 10.078 (10.408)
+Epoch: [28][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.8796 (2.8068)	Prec@1 10.400 (10.412)
+Epoch 29 | Privacy budget (ε): 2.95, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.139 (0.139)	Loss 3.3026 (3.3026)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.005 (0.011)	Loss 3.4427 (3.4353)	Prec@1 10.156 (10.555)
+ * Prec@1 10.380
+Epoch 30/30:
+Current learning rate: 1.00000e-01
+Epoch: [29][0/390]	Time 0.198 (0.198)	Data 0.152 (0.152)	Loss 3.2851 (3.2851)	Prec@1 10.000 (10.000)
+Epoch: [29][50/390]	Time 0.034 (0.038)	Data 0.001 (0.004)	Loss 2.4528 (2.7337)	Prec@1 10.606 (9.806)
+Epoch: [29][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.5835 (2.7513)	Prec@1 10.000 (10.235)
+Epoch: [29][150/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.6211 (2.7364)	Prec@1 8.738 (10.041)
+Epoch: [29][200/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.5987 (2.7224)	Prec@1 9.701 (10.091)
+Epoch: [29][250/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.6789 (2.7436)	Prec@1 7.483 (10.195)
+Epoch: [29][300/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.6119 (2.7516)	Prec@1 6.767 (10.079)
+Epoch: [29][350/390]	Time 0.036 (0.035)	Data 0.001 (0.001)	Loss 3.0575 (2.7705)	Prec@1 13.115 (10.069)
+Epoch 30 | Privacy budget (ε): 3.00, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.146 (0.146)	Loss 2.6194 (2.6194)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.020 (0.011)	Loss 2.6711 (2.5564)	Prec@1 6.250 (10.463)
+ * Prec@1 10.370
+Training completed.
+Total training time: 469.87 seconds
+Best accuracy: 11.59%
+Best privacy budget (ε): 3.00, δ: 1e-05
+Model saved at: /home/myid/dca09692/CSCI8960/final-project/scripts/save_resnet20
+['resnet20']
+Using existing directory: save_resnet20
+WARNING: Contents of the directory will be overwritten.
+path of the directory:  /home/myid/dca09692/CSCI8960/final-project/scripts/save_resnet20
+Initializing model...
+Model resnet20 initialized.
+Replacing BatchNorm with GroupNorm for differential privacy...
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/utils/module_utils.py:102: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  module_copy = torch.load(bytesio)
+Model is now compatible with differential privacy.
+CUDNN benchmarking enabled.
+Setting up data loaders...
+Files already downloaded and verified
+Data loaders set up complete.
+Loss function defined.
+RMSprop Optimizer initialized.
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/privacy_engine.py:95: UserWarning: Secure RNG turned off. This is perfectly fine for experimentation as it allows for much faster training performance, but remember to turn it on and retrain one last time before production with ``secure_mode`` turned on.
+  warnings.warn(
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/opacus/accountants/analysis/rdp.py:332: UserWarning: Optimal order is the largest alpha. Please consider expanding the range of alphas to get a tighter privacy bound.
+  warnings.warn(
+Model made private with target epsilon: 3.0
+Starting training...
+Epoch 1/30:
+Current learning rate: 1.00000e-01
+/home/myid/dca09692/.conda/envs/myenv/lib/python3.12/site-packages/torch/nn/modules/module.py:1640: FutureWarning: Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
+  self._maybe_warn_non_full_backward_hook(args, result, grad_fn)
+Epoch: [0][0/390]	Time 0.896 (0.896)	Data 0.201 (0.201)	Loss 3.5710 (3.5710)	Prec@1 6.061 (6.061)
+Epoch: [0][50/390]	Time 0.165 (0.126)	Data 0.001 (0.005)	Loss 4.1310 (36.0728)	Prec@1 12.500 (9.536)
+Epoch: [0][100/390]	Time 0.150 (0.100)	Data 0.001 (0.003)	Loss 2.6496 (19.8944)	Prec@1 8.571 (10.078)
+Epoch: [0][150/390]	Time 0.038 (0.082)	Data 0.001 (0.002)	Loss 2.6618 (14.1565)	Prec@1 8.871 (10.207)
+Epoch: [0][200/390]	Time 0.039 (0.073)	Data 0.001 (0.002)	Loss 3.2593 (11.3352)	Prec@1 9.402 (10.079)
+Epoch: [0][250/390]	Time 0.037 (0.066)	Data 0.001 (0.002)	Loss 2.4552 (9.6665)	Prec@1 9.559 (10.011)
+Epoch: [0][300/390]	Time 0.038 (0.062)	Data 0.001 (0.001)	Loss 2.6077 (8.5247)	Prec@1 11.852 (9.995)
+Epoch: [0][350/390]	Time 0.036 (0.060)	Data 0.001 (0.001)	Loss 2.8868 (7.6985)	Prec@1 10.417 (10.149)
+Epoch 1 | Privacy budget (ε): 0.94, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.150 (0.150)	Loss 2.4918 (2.4918)	Prec@1 17.188 (17.188)
+Test: [50/79]	Time 0.022 (0.012)	Loss 2.7068 (2.5422)	Prec@1 3.906 (10.585)
+ * Prec@1 10.580
+Epoch 2/30:
+Current learning rate: 1.00000e-01
+Epoch: [1][0/390]	Time 0.217 (0.217)	Data 0.164 (0.164)	Loss 2.4669 (2.4669)	Prec@1 10.317 (10.317)
+Epoch: [1][50/390]	Time 0.035 (0.039)	Data 0.001 (0.004)	Loss 2.7834 (2.6849)	Prec@1 10.370 (9.621)
+Epoch: [1][100/390]	Time 0.041 (0.038)	Data 0.001 (0.002)	Loss 2.6864 (2.7120)	Prec@1 8.547 (10.077)
+Epoch: [1][150/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 3.1870 (2.7145)	Prec@1 6.569 (10.118)
+Epoch: [1][200/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.9327 (2.7113)	Prec@1 8.333 (10.170)
+Epoch: [1][250/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.5267 (2.7734)	Prec@1 12.214 (10.197)
+Epoch: [1][300/390]	Time 0.036 (0.039)	Data 0.001 (0.001)	Loss 2.4909 (2.7612)	Prec@1 12.403 (10.229)
+Epoch: [1][350/390]	Time 0.044 (0.039)	Data 0.001 (0.001)	Loss 2.3692 (2.7414)	Prec@1 14.912 (10.234)
+Epoch 2 | Privacy budget (ε): 1.13, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.142 (0.142)	Loss 2.6181 (2.6181)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.005 (0.012)	Loss 2.8818 (2.6158)	Prec@1 6.250 (11.244)
+ * Prec@1 11.240
+Epoch 3/30:
+Current learning rate: 1.00000e-01
+Epoch: [2][0/390]	Time 0.201 (0.201)	Data 0.144 (0.144)	Loss 2.5319 (2.5319)	Prec@1 14.035 (14.035)
+Epoch: [2][50/390]	Time 0.035 (0.038)	Data 0.001 (0.004)	Loss 3.3066 (2.6486)	Prec@1 6.154 (10.424)
+Epoch: [2][100/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.7523 (2.6868)	Prec@1 10.769 (10.301)
+Epoch: [2][150/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.7604 (2.7194)	Prec@1 5.224 (10.220)
+Epoch: [2][200/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.6158 (2.7155)	Prec@1 4.688 (10.139)
+Epoch: [2][250/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.4394 (2.7135)	Prec@1 15.748 (10.097)
+Epoch: [2][300/390]	Time 0.035 (0.037)	Data 0.001 (0.001)	Loss 2.7692 (2.7471)	Prec@1 8.889 (10.173)
+Epoch: [2][350/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.6089 (2.7348)	Prec@1 10.714 (10.264)
+Epoch 3 | Privacy budget (ε): 1.26, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.148 (0.148)	Loss 2.6505 (2.6505)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.6814 (2.6624)	Prec@1 14.844 (11.903)
+ * Prec@1 11.760
+Epoch 4/30:
+Current learning rate: 1.00000e-01
+Epoch: [3][0/390]	Time 0.208 (0.208)	Data 0.151 (0.151)	Loss 2.5110 (2.5110)	Prec@1 10.156 (10.156)
+Epoch: [3][50/390]	Time 0.040 (0.044)	Data 0.001 (0.004)	Loss 2.6015 (2.6589)	Prec@1 7.692 (10.418)
+Epoch: [3][100/390]	Time 0.038 (0.041)	Data 0.001 (0.002)	Loss 2.5532 (2.6364)	Prec@1 8.889 (10.301)
+Epoch: [3][150/390]	Time 0.036 (0.040)	Data 0.001 (0.002)	Loss 2.7561 (2.6655)	Prec@1 10.569 (10.524)
+Epoch: [3][200/390]	Time 0.037 (0.039)	Data 0.001 (0.002)	Loss 2.4432 (2.6654)	Prec@1 12.162 (10.518)
+Epoch: [3][250/390]	Time 0.036 (0.039)	Data 0.001 (0.001)	Loss 2.6116 (2.6926)	Prec@1 8.547 (10.413)
+Epoch: [3][300/390]	Time 0.039 (0.038)	Data 0.001 (0.001)	Loss 2.5937 (2.7022)	Prec@1 8.871 (10.426)
+Epoch: [3][350/390]	Time 0.048 (0.039)	Data 0.001 (0.001)	Loss 2.6520 (2.7248)	Prec@1 12.057 (10.476)
+Epoch 4 | Privacy budget (ε): 1.37, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.136 (0.136)	Loss 2.7783 (2.7783)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.7928 (2.8204)	Prec@1 12.500 (10.754)
+ * Prec@1 10.340
+Epoch 5/30:
+Current learning rate: 1.00000e-01
+Epoch: [4][0/390]	Time 0.199 (0.199)	Data 0.149 (0.149)	Loss 2.7539 (2.7539)	Prec@1 11.029 (11.029)
+Epoch: [4][50/390]	Time 0.036 (0.043)	Data 0.001 (0.004)	Loss 2.6353 (2.7422)	Prec@1 8.824 (10.160)
+Epoch: [4][100/390]	Time 0.038 (0.040)	Data 0.001 (0.002)	Loss 2.5510 (2.7383)	Prec@1 6.306 (9.858)
+Epoch: [4][150/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.8277 (2.7163)	Prec@1 7.874 (9.975)
+Epoch: [4][200/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 2.3615 (2.7251)	Prec@1 14.530 (10.124)
+Epoch: [4][250/390]	Time 0.036 (0.039)	Data 0.001 (0.001)	Loss 2.5265 (2.7186)	Prec@1 7.200 (10.223)
+Epoch: [4][300/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.6555 (2.7879)	Prec@1 12.879 (10.190)
+Epoch: [4][350/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.4849 (2.8189)	Prec@1 8.871 (10.252)
+Epoch 5 | Privacy budget (ε): 1.46, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.149 (0.149)	Loss 2.6340 (2.6340)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.005 (0.011)	Loss 2.6030 (2.5876)	Prec@1 10.156 (10.355)
+ * Prec@1 10.570
+Epoch 6/30:
+Current learning rate: 1.00000e-01
+Epoch: [5][0/390]	Time 0.208 (0.208)	Data 0.154 (0.154)	Loss 2.7185 (2.7185)	Prec@1 8.462 (8.462)
+Epoch: [5][50/390]	Time 0.037 (0.041)	Data 0.001 (0.004)	Loss 2.4916 (3.1318)	Prec@1 11.200 (9.986)
+Epoch: [5][100/390]	Time 0.037 (0.039)	Data 0.001 (0.002)	Loss 2.5934 (3.0405)	Prec@1 10.078 (10.048)
+Epoch: [5][150/390]	Time 0.040 (0.038)	Data 0.001 (0.002)	Loss 2.6331 (2.9188)	Prec@1 7.534 (9.820)
+Epoch: [5][200/390]	Time 0.036 (0.039)	Data 0.001 (0.002)	Loss 2.5264 (2.8891)	Prec@1 6.429 (9.936)
+Epoch: [5][250/390]	Time 0.038 (0.038)	Data 0.001 (0.001)	Loss 2.8571 (2.8448)	Prec@1 10.924 (9.958)
+Epoch: [5][300/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 2.7252 (2.8209)	Prec@1 16.102 (10.062)
+Epoch: [5][350/390]	Time 0.038 (0.039)	Data 0.001 (0.001)	Loss 2.7452 (2.8081)	Prec@1 13.445 (10.098)
+Epoch 6 | Privacy budget (ε): 1.55, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.142 (0.142)	Loss 2.5346 (2.5346)	Prec@1 13.281 (13.281)
+Test: [50/79]	Time 0.004 (0.012)	Loss 2.5099 (2.5897)	Prec@1 14.062 (11.780)
+ * Prec@1 11.580
+Epoch 7/30:
+Current learning rate: 1.00000e-01
+Epoch: [6][0/390]	Time 0.195 (0.195)	Data 0.146 (0.146)	Loss 2.4771 (2.4771)	Prec@1 8.088 (8.088)
+Epoch: [6][50/390]	Time 0.035 (0.040)	Data 0.001 (0.004)	Loss 2.5859 (2.7054)	Prec@1 5.172 (10.281)
+Epoch: [6][100/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.6821 (2.6851)	Prec@1 14.634 (10.450)
+Epoch: [6][150/390]	Time 0.036 (0.037)	Data 0.001 (0.002)	Loss 3.3111 (2.6858)	Prec@1 7.031 (10.500)
+Epoch: [6][200/390]	Time 0.036 (0.037)	Data 0.001 (0.001)	Loss 2.8253 (2.7149)	Prec@1 12.963 (10.349)
+Epoch: [6][250/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.5488 (2.7631)	Prec@1 10.569 (10.289)
+Epoch: [6][300/390]	Time 0.036 (0.036)	Data 0.001 (0.001)	Loss 2.5994 (2.7513)	Prec@1 10.656 (10.256)
+Epoch: [6][350/390]	Time 0.039 (0.037)	Data 0.001 (0.001)	Loss 2.4352 (2.7260)	Prec@1 12.097 (10.274)
+Epoch 7 | Privacy budget (ε): 1.64, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.149 (0.149)	Loss 2.9543 (2.9543)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.005 (0.014)	Loss 2.7451 (2.8443)	Prec@1 8.594 (9.421)
+ * Prec@1 9.960
+Epoch 8/30:
+Current learning rate: 1.00000e-01
+Epoch: [7][0/390]	Time 0.201 (0.201)	Data 0.153 (0.153)	Loss 2.6263 (2.6263)	Prec@1 15.068 (15.068)
+Epoch: [7][50/390]	Time 0.036 (0.040)	Data 0.001 (0.004)	Loss 2.4007 (2.7489)	Prec@1 8.955 (10.443)
+Epoch: [7][100/390]	Time 0.037 (0.039)	Data 0.001 (0.002)	Loss 3.4286 (2.7960)	Prec@1 8.696 (10.222)
+Epoch: [7][150/390]	Time 0.037 (0.038)	Data 0.001 (0.002)	Loss 3.3834 (2.8142)	Prec@1 5.714 (10.341)
+Epoch: [7][200/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.4221 (2.7630)	Prec@1 11.667 (10.454)
+Epoch: [7][250/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.7305 (2.7349)	Prec@1 9.028 (10.467)
+Epoch: [7][300/390]	Time 0.037 (0.038)	Data 0.001 (0.001)	Loss 2.4445 (2.7300)	Prec@1 10.833 (10.524)
+Epoch: [7][350/390]	Time 0.036 (0.038)	Data 0.001 (0.001)	Loss 2.6841 (2.7451)	Prec@1 10.400 (10.439)
+Epoch 8 | Privacy budget (ε): 1.72, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.137 (0.137)	Loss 2.7585 (2.7585)	Prec@1 6.250 (6.250)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.6367 (2.7276)	Prec@1 11.719 (10.585)
+ * Prec@1 10.760
+Epoch 9/30:
+Current learning rate: 1.00000e-01
+Epoch: [8][0/390]	Time 0.222 (0.222)	Data 0.154 (0.154)	Loss 2.6593 (2.6593)	Prec@1 6.202 (6.202)
+Epoch: [8][50/390]	Time 0.039 (0.043)	Data 0.002 (0.004)	Loss 2.4599 (2.7872)	Prec@1 7.857 (10.325)
+Epoch: [8][100/390]	Time 0.038 (0.040)	Data 0.001 (0.002)	Loss 2.4504 (2.7157)	Prec@1 10.853 (10.334)
+Epoch: [8][150/390]	Time 0.038 (0.039)	Data 0.001 (0.002)	Loss 2.4818 (2.7525)	Prec@1 10.744 (10.380)
+Epoch: [8][200/390]	Time 0.036 (0.038)	Data 0.001 (0.002)	Loss 2.8507 (2.7379)	Prec@1 13.333 (10.181)
+Epoch: [8][250/390]	Time 0.037 (0.039)	Data 0.001 (0.001)	Loss 2.9091 (2.7468)	Prec@1 4.895 (10.122)
+Epoch: [8][300/390]	Time 0.036 (0.039)	Data 0.001 (0.001)	Loss 3.0031 (2.7482)	Prec@1 12.950 (10.231)
+Epoch: [8][350/390]	Time 0.036 (0.039)	Data 0.001 (0.001)	Loss 2.7126 (2.7397)	Prec@1 8.621 (10.243)
+Epoch 9 | Privacy budget (ε): 1.79, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.146 (0.146)	Loss 2.7012 (2.7012)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.005 (0.012)	Loss 2.8556 (2.8288)	Prec@1 14.062 (9.651)
+ * Prec@1 9.750
+Epoch 10/30:
+Current learning rate: 1.00000e-01
+Epoch: [9][0/390]	Time 0.219 (0.219)	Data 0.171 (0.171)	Loss 2.8387 (2.8387)	Prec@1 10.219 (10.219)
+Epoch: [9][50/390]	Time 0.035 (0.040)	Data 0.001 (0.004)	Loss 2.5334 (2.9342)	Prec@1 10.169 (10.198)
+Epoch: [9][100/390]	Time 0.035 (0.038)	Data 0.001 (0.002)	Loss 3.0580 (3.2954)	Prec@1 9.701 (10.074)
+Epoch: [9][150/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 2.7176 (3.0808)	Prec@1 13.103 (10.115)
+Epoch: [9][200/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 3.0848 (2.9896)	Prec@1 12.403 (10.183)
+Epoch: [9][250/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.6720 (2.9149)	Prec@1 5.932 (10.132)
+Epoch: [9][300/390]	Time 0.036 (0.036)	Data 0.001 (0.001)	Loss 2.5299 (2.8871)	Prec@1 11.811 (10.212)
+Epoch: [9][350/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.6946 (2.9608)	Prec@1 9.735 (10.150)
+Epoch 10 | Privacy budget (ε): 1.86, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.157 (0.157)	Loss 2.6709 (2.6709)	Prec@1 15.625 (15.625)
+Test: [50/79]	Time 0.015 (0.013)	Loss 2.6836 (2.8156)	Prec@1 14.844 (9.421)
+ * Prec@1 10.120
+Epoch 11/30:
+Current learning rate: 1.00000e-01
+Epoch: [10][0/390]	Time 0.215 (0.215)	Data 0.167 (0.167)	Loss 2.7910 (2.7910)	Prec@1 7.576 (7.576)
+Epoch: [10][50/390]	Time 0.034 (0.039)	Data 0.001 (0.004)	Loss 5.2764 (2.9307)	Prec@1 10.687 (10.472)
+Epoch: [10][100/390]	Time 0.034 (0.039)	Data 0.001 (0.002)	Loss 2.4870 (2.8327)	Prec@1 10.526 (10.609)
+Epoch: [10][150/390]	Time 0.033 (0.037)	Data 0.001 (0.002)	Loss 2.9553 (2.7746)	Prec@1 6.061 (10.629)
+Epoch: [10][200/390]	Time 0.036 (0.036)	Data 0.001 (0.002)	Loss 2.7098 (2.7692)	Prec@1 8.182 (10.549)
+Epoch: [10][250/390]	Time 0.033 (0.036)	Data 0.001 (0.001)	Loss 2.7388 (2.7444)	Prec@1 11.111 (10.489)
+Epoch: [10][300/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.6471 (2.7794)	Prec@1 10.833 (10.325)
+Epoch: [10][350/390]	Time 0.033 (0.036)	Data 0.001 (0.001)	Loss 2.6751 (2.7935)	Prec@1 8.333 (10.300)
+Epoch 11 | Privacy budget (ε): 1.93, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.155 (0.155)	Loss 2.7830 (2.7830)	Prec@1 5.469 (5.469)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.7572 (2.8575)	Prec@1 9.375 (9.329)
+ * Prec@1 9.180
+Saving checkpoint at epoch 11...
+Epoch 12/30:
+Current learning rate: 1.00000e-01
+Epoch: [11][0/390]	Time 0.219 (0.219)	Data 0.170 (0.170)	Loss 2.9680 (2.9680)	Prec@1 8.696 (8.696)
+Epoch: [11][50/390]	Time 0.035 (0.040)	Data 0.001 (0.004)	Loss 2.6264 (2.6298)	Prec@1 7.563 (10.253)
+Epoch: [11][100/390]	Time 0.035 (0.039)	Data 0.001 (0.002)	Loss 2.7046 (2.6981)	Prec@1 9.028 (10.305)
+Epoch: [11][150/390]	Time 0.033 (0.038)	Data 0.001 (0.002)	Loss 2.7378 (2.6738)	Prec@1 11.905 (10.195)
+Epoch: [11][200/390]	Time 0.033 (0.037)	Data 0.001 (0.002)	Loss 2.4489 (2.7451)	Prec@1 14.530 (10.174)
+Epoch: [11][250/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 3.2197 (2.7313)	Prec@1 13.223 (10.264)
+Epoch: [11][300/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.4674 (2.7334)	Prec@1 10.204 (10.295)
+Epoch: [11][350/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.6910 (2.7465)	Prec@1 9.677 (10.381)
+Epoch 12 | Privacy budget (ε): 2.00, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.154 (0.154)	Loss 2.5952 (2.5952)	Prec@1 5.469 (5.469)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.5719 (2.6110)	Prec@1 12.500 (9.406)
+ * Prec@1 9.520
+Epoch 13/30:
+Current learning rate: 1.00000e-01
+Epoch: [12][0/390]	Time 0.213 (0.213)	Data 0.163 (0.163)	Loss 2.8139 (2.8139)	Prec@1 7.937 (7.937)
+Epoch: [12][50/390]	Time 0.035 (0.042)	Data 0.001 (0.004)	Loss 2.5930 (2.9075)	Prec@1 12.500 (10.015)
+Epoch: [12][100/390]	Time 0.034 (0.039)	Data 0.001 (0.002)	Loss 3.3837 (2.8596)	Prec@1 8.654 (10.127)
+Epoch: [12][150/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.7768 (2.7857)	Prec@1 7.407 (10.084)
+Epoch: [12][200/390]	Time 0.033 (0.037)	Data 0.001 (0.002)	Loss 2.7218 (2.7669)	Prec@1 4.274 (9.951)
+Epoch: [12][250/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 3.1991 (2.7946)	Prec@1 11.765 (10.031)
+Epoch: [12][300/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.6705 (2.7768)	Prec@1 11.667 (10.142)
+Epoch: [12][350/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.4392 (2.7702)	Prec@1 11.966 (10.108)
+Epoch 13 | Privacy budget (ε): 2.07, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.152 (0.152)	Loss 2.9083 (2.9083)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.7603 (2.8274)	Prec@1 8.594 (10.539)
+ * Prec@1 10.390
+Epoch 14/30:
+Current learning rate: 1.00000e-01
+Epoch: [13][0/390]	Time 0.219 (0.219)	Data 0.169 (0.169)	Loss 2.7487 (2.7487)	Prec@1 4.167 (4.167)
+Epoch: [13][50/390]	Time 0.034 (0.039)	Data 0.001 (0.004)	Loss 2.5782 (2.7242)	Prec@1 8.850 (10.470)
+Epoch: [13][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.7830 (2.7216)	Prec@1 7.333 (10.275)
+Epoch: [13][150/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.4605 (2.7019)	Prec@1 11.712 (10.334)
+Epoch: [13][200/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.6016 (2.7283)	Prec@1 9.917 (10.343)
+Epoch: [13][250/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 3.0103 (2.7673)	Prec@1 9.244 (10.299)
+Epoch: [13][300/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.7140 (2.7794)	Prec@1 11.712 (10.182)
+Epoch: [13][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 3.0272 (2.7819)	Prec@1 9.483 (10.121)
+Epoch 14 | Privacy budget (ε): 2.13, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.157 (0.157)	Loss 3.1472 (3.1472)	Prec@1 11.719 (11.719)
+Test: [50/79]	Time 0.004 (0.012)	Loss 2.8666 (3.0700)	Prec@1 13.281 (11.765)
+ * Prec@1 11.470
+Epoch 15/30:
+Current learning rate: 1.00000e-01
+Epoch: [14][0/390]	Time 0.211 (0.211)	Data 0.163 (0.163)	Loss 2.8087 (2.8087)	Prec@1 8.594 (8.594)
+Epoch: [14][50/390]	Time 0.035 (0.040)	Data 0.001 (0.004)	Loss 2.8805 (2.7414)	Prec@1 6.557 (10.166)
+Epoch: [14][100/390]	Time 0.035 (0.038)	Data 0.001 (0.002)	Loss 3.4714 (2.7238)	Prec@1 10.072 (10.130)
+Epoch: [14][150/390]	Time 0.034 (0.038)	Data 0.001 (0.002)	Loss 2.5035 (2.7431)	Prec@1 12.782 (10.143)
+Epoch: [14][200/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 2.6453 (2.7322)	Prec@1 8.000 (10.137)
+Epoch: [14][250/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.9081 (2.7408)	Prec@1 6.767 (10.228)
+Epoch: [14][300/390]	Time 0.034 (0.037)	Data 0.001 (0.001)	Loss 2.5062 (2.7459)	Prec@1 13.710 (10.060)
+Epoch: [14][350/390]	Time 0.035 (0.037)	Data 0.001 (0.001)	Loss 2.4575 (2.7483)	Prec@1 14.173 (10.090)
+Epoch 15 | Privacy budget (ε): 2.19, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.163 (0.163)	Loss 2.8743 (2.8743)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.004 (0.012)	Loss 2.9370 (2.9368)	Prec@1 12.500 (9.574)
+ * Prec@1 9.730
+Epoch 16/30:
+Current learning rate: 1.00000e-01
+Epoch: [15][0/390]	Time 0.224 (0.224)	Data 0.162 (0.162)	Loss 2.5713 (2.5713)	Prec@1 16.923 (16.923)
+Epoch: [15][50/390]	Time 0.034 (0.039)	Data 0.001 (0.004)	Loss 2.8503 (2.7795)	Prec@1 9.722 (10.591)
+Epoch: [15][100/390]	Time 0.033 (0.038)	Data 0.001 (0.002)	Loss 2.8950 (2.9031)	Prec@1 7.576 (10.466)
+Epoch: [15][150/390]	Time 0.033 (0.036)	Data 0.001 (0.002)	Loss 2.4814 (2.8303)	Prec@1 16.529 (10.671)
+Epoch: [15][200/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 3.0788 (2.7866)	Prec@1 8.163 (10.462)
+Epoch: [15][250/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.5295 (2.8028)	Prec@1 13.386 (10.392)
+Epoch: [15][300/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.5499 (2.7798)	Prec@1 12.000 (10.500)
+Epoch: [15][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.6454 (2.7777)	Prec@1 8.148 (10.402)
+Epoch 16 | Privacy budget (ε): 2.25, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.154 (0.154)	Loss 2.9679 (2.9679)	Prec@1 13.281 (13.281)
+Test: [50/79]	Time 0.005 (0.011)	Loss 3.0764 (3.0314)	Prec@1 14.844 (10.677)
+ * Prec@1 10.590
+Epoch 17/30:
+Current learning rate: 1.00000e-01
+Epoch: [16][0/390]	Time 0.218 (0.218)	Data 0.169 (0.169)	Loss 2.9580 (2.9580)	Prec@1 13.869 (13.869)
+Epoch: [16][50/390]	Time 0.035 (0.040)	Data 0.001 (0.004)	Loss 2.5135 (2.7594)	Prec@1 14.286 (10.133)
+Epoch: [16][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 3.1549 (2.7931)	Prec@1 9.091 (10.148)
+Epoch: [16][150/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 2.6243 (2.9648)	Prec@1 11.719 (10.091)
+Epoch: [16][200/390]	Time 0.037 (0.036)	Data 0.001 (0.002)	Loss 2.7276 (2.9462)	Prec@1 12.143 (10.223)
+Epoch: [16][250/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.4142 (2.8803)	Prec@1 14.961 (10.200)
+Epoch: [16][300/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.7044 (2.8580)	Prec@1 18.254 (10.307)
+Epoch: [16][350/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.6864 (2.8347)	Prec@1 6.250 (10.321)
+Epoch 17 | Privacy budget (ε): 2.31, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.160 (0.160)	Loss 2.5767 (2.5767)	Prec@1 12.500 (12.500)
+Test: [50/79]	Time 0.024 (0.011)	Loss 2.8469 (2.7867)	Prec@1 7.031 (10.263)
+ * Prec@1 10.410
+Epoch 18/30:
+Current learning rate: 1.00000e-01
+Epoch: [17][0/390]	Time 0.214 (0.214)	Data 0.168 (0.168)	Loss 2.7088 (2.7088)	Prec@1 11.429 (11.429)
+Epoch: [17][50/390]	Time 0.035 (0.038)	Data 0.001 (0.004)	Loss 2.6035 (2.7082)	Prec@1 8.182 (10.184)
+Epoch: [17][100/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.5768 (2.7932)	Prec@1 6.299 (9.990)
+Epoch: [17][150/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.8041 (2.8057)	Prec@1 11.650 (10.194)
+Epoch: [17][200/390]	Time 0.035 (0.035)	Data 0.001 (0.002)	Loss 2.7730 (2.8023)	Prec@1 9.091 (10.103)
+Epoch: [17][250/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.4698 (2.7700)	Prec@1 8.397 (10.173)
+Epoch: [17][300/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.6115 (2.7784)	Prec@1 12.903 (10.151)
+Epoch: [17][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.5985 (2.7711)	Prec@1 9.167 (10.108)
+Epoch 18 | Privacy budget (ε): 2.37, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.155 (0.155)	Loss 2.5603 (2.5603)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.004 (0.013)	Loss 2.6328 (2.6740)	Prec@1 11.719 (10.922)
+ * Prec@1 11.140
+Epoch 19/30:
+Current learning rate: 1.00000e-01
+Epoch: [18][0/390]	Time 0.220 (0.220)	Data 0.172 (0.172)	Loss 2.4447 (2.4447)	Prec@1 11.806 (11.806)
+Epoch: [18][50/390]	Time 0.035 (0.040)	Data 0.001 (0.004)	Loss 2.6724 (3.2040)	Prec@1 10.294 (10.605)
+Epoch: [18][100/390]	Time 0.033 (0.037)	Data 0.001 (0.002)	Loss 2.8623 (2.9489)	Prec@1 5.882 (10.338)
+Epoch: [18][150/390]	Time 0.036 (0.036)	Data 0.001 (0.002)	Loss 2.4859 (2.9372)	Prec@1 7.194 (10.348)
+Epoch: [18][200/390]	Time 0.033 (0.036)	Data 0.001 (0.002)	Loss 3.0353 (2.8697)	Prec@1 11.724 (10.363)
+Epoch: [18][250/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.5771 (2.8544)	Prec@1 11.811 (10.361)
+Epoch: [18][300/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.7100 (2.8326)	Prec@1 8.784 (10.340)
+Epoch: [18][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.6775 (2.8274)	Prec@1 5.469 (10.387)
+Epoch 19 | Privacy budget (ε): 2.43, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.157 (0.157)	Loss 2.9041 (2.9041)	Prec@1 12.500 (12.500)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.9392 (2.9176)	Prec@1 6.250 (10.662)
+ * Prec@1 10.620
+Epoch 20/30:
+Current learning rate: 1.00000e-01
+Epoch: [19][0/390]	Time 0.210 (0.210)	Data 0.161 (0.161)	Loss 2.5914 (2.5914)	Prec@1 10.938 (10.938)
+Epoch: [19][50/390]	Time 0.035 (0.038)	Data 0.001 (0.004)	Loss 2.5791 (2.6964)	Prec@1 13.235 (10.188)
+Epoch: [19][100/390]	Time 0.033 (0.037)	Data 0.001 (0.002)	Loss 2.4902 (2.6747)	Prec@1 11.719 (10.270)
+Epoch: [19][150/390]	Time 0.037 (0.037)	Data 0.001 (0.002)	Loss 2.9061 (2.6522)	Prec@1 8.397 (10.292)
+Epoch: [19][200/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 2.7108 (2.7344)	Prec@1 11.278 (10.534)
+Epoch: [19][250/390]	Time 0.037 (0.037)	Data 0.001 (0.001)	Loss 4.5803 (2.8053)	Prec@1 10.853 (10.405)
+Epoch: [19][300/390]	Time 0.033 (0.037)	Data 0.001 (0.001)	Loss 2.6604 (2.8164)	Prec@1 10.448 (10.365)
+Epoch: [19][350/390]	Time 0.035 (0.037)	Data 0.001 (0.001)	Loss 2.8689 (2.8183)	Prec@1 10.000 (10.268)
+Epoch 20 | Privacy budget (ε): 2.48, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.164 (0.164)	Loss 2.6595 (2.6595)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.013 (0.012)	Loss 2.9189 (2.9579)	Prec@1 10.938 (10.463)
+ * Prec@1 10.350
+Epoch 21/30:
+Current learning rate: 1.00000e-01
+Epoch: [20][0/390]	Time 0.222 (0.222)	Data 0.168 (0.168)	Loss 2.6811 (2.6811)	Prec@1 12.057 (12.057)
+Epoch: [20][50/390]	Time 0.038 (0.042)	Data 0.001 (0.004)	Loss 2.6085 (2.5975)	Prec@1 11.382 (10.154)
+Epoch: [20][100/390]	Time 0.039 (0.040)	Data 0.001 (0.002)	Loss 2.8509 (2.6657)	Prec@1 10.345 (10.084)
+Epoch: [20][150/390]	Time 0.037 (0.039)	Data 0.001 (0.002)	Loss 2.8245 (2.7513)	Prec@1 8.475 (10.347)
+Epoch: [20][200/390]	Time 0.038 (0.039)	Data 0.001 (0.002)	Loss 2.5467 (2.7478)	Prec@1 7.759 (10.368)
+Epoch: [20][250/390]	Time 0.037 (0.039)	Data 0.001 (0.001)	Loss 2.5455 (2.7453)	Prec@1 4.000 (10.196)
+Epoch: [20][300/390]	Time 0.034 (0.038)	Data 0.001 (0.001)	Loss 2.7559 (2.7850)	Prec@1 11.017 (10.253)
+Epoch: [20][350/390]	Time 0.034 (0.038)	Data 0.001 (0.001)	Loss 2.5035 (2.7676)	Prec@1 12.766 (10.278)
+Epoch 21 | Privacy budget (ε): 2.54, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.157 (0.157)	Loss 2.5382 (2.5382)	Prec@1 11.719 (11.719)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.5897 (2.6106)	Prec@1 10.938 (10.141)
+ * Prec@1 9.970
+Saving checkpoint at epoch 21...
+Epoch 22/30:
+Current learning rate: 1.00000e-01
+Epoch: [21][0/390]	Time 0.199 (0.199)	Data 0.152 (0.152)	Loss 2.6268 (2.6268)	Prec@1 11.811 (11.811)
+Epoch: [21][50/390]	Time 0.035 (0.039)	Data 0.001 (0.004)	Loss 2.7164 (2.8696)	Prec@1 5.000 (10.232)
+Epoch: [21][100/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.6841 (2.8629)	Prec@1 13.433 (10.185)
+Epoch: [21][150/390]	Time 0.036 (0.036)	Data 0.001 (0.002)	Loss 2.5624 (2.8017)	Prec@1 7.194 (10.196)
+Epoch: [21][200/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 3.3526 (3.0086)	Prec@1 12.782 (10.100)
+Epoch: [21][250/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.5757 (2.9460)	Prec@1 6.897 (10.240)
+Epoch: [21][300/390]	Time 0.040 (0.036)	Data 0.001 (0.001)	Loss 2.4955 (2.8896)	Prec@1 9.836 (10.173)
+Epoch: [21][350/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.5425 (2.8469)	Prec@1 10.156 (10.087)
+Epoch 22 | Privacy budget (ε): 2.59, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.158 (0.158)	Loss 2.8192 (2.8192)	Prec@1 10.156 (10.156)
+Test: [50/79]	Time 0.005 (0.012)	Loss 2.7769 (2.8133)	Prec@1 11.719 (10.064)
+ * Prec@1 10.190
+Epoch 23/30:
+Current learning rate: 1.00000e-01
+Epoch: [22][0/390]	Time 0.217 (0.217)	Data 0.167 (0.167)	Loss 2.7213 (2.7213)	Prec@1 13.043 (13.043)
+Epoch: [22][50/390]	Time 0.035 (0.040)	Data 0.001 (0.004)	Loss 2.6736 (2.6595)	Prec@1 6.542 (10.957)
+Epoch: [22][100/390]	Time 0.035 (0.038)	Data 0.001 (0.002)	Loss 3.4136 (2.7641)	Prec@1 9.735 (10.924)
+Epoch: [22][150/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 2.5753 (2.7809)	Prec@1 9.910 (10.597)
+Epoch: [22][200/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 2.4410 (2.7574)	Prec@1 10.370 (10.625)
+Epoch: [22][250/390]	Time 0.036 (0.036)	Data 0.001 (0.001)	Loss 3.4015 (2.7542)	Prec@1 5.594 (10.648)
+Epoch: [22][300/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.5623 (2.7549)	Prec@1 13.514 (10.646)
+Epoch: [22][350/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.7982 (2.7528)	Prec@1 6.522 (10.580)
+Epoch 23 | Privacy budget (ε): 2.65, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.156 (0.156)	Loss 2.4183 (2.4183)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.005 (0.012)	Loss 2.6973 (2.5407)	Prec@1 10.938 (10.294)
+ * Prec@1 10.340
+Epoch 24/30:
+Current learning rate: 1.00000e-01
+Epoch: [23][0/390]	Time 0.217 (0.217)	Data 0.169 (0.169)	Loss 2.4700 (2.4700)	Prec@1 12.879 (12.879)
+Epoch: [23][50/390]	Time 0.033 (0.039)	Data 0.001 (0.004)	Loss 2.6006 (2.6422)	Prec@1 7.746 (11.350)
+Epoch: [23][100/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 2.9031 (2.6379)	Prec@1 8.955 (11.100)
+Epoch: [23][150/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.5901 (2.6711)	Prec@1 12.605 (10.889)
+Epoch: [23][200/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.5065 (2.6713)	Prec@1 10.072 (10.611)
+Epoch: [23][250/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.4207 (2.6870)	Prec@1 14.894 (10.731)
+Epoch: [23][300/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 4.0480 (2.6886)	Prec@1 10.156 (10.820)
+Epoch: [23][350/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 5.7013 (2.7322)	Prec@1 16.556 (10.764)
+Epoch 24 | Privacy budget (ε): 2.70, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.158 (0.158)	Loss 2.6584 (2.6584)	Prec@1 10.938 (10.938)
+Test: [50/79]	Time 0.018 (0.012)	Loss 2.6565 (2.6698)	Prec@1 9.375 (9.988)
+ * Prec@1 10.150
+Epoch 25/30:
+Current learning rate: 1.00000e-01
+Epoch: [24][0/390]	Time 0.223 (0.223)	Data 0.174 (0.174)	Loss 2.5931 (2.5931)	Prec@1 10.714 (10.714)
+Epoch: [24][50/390]	Time 0.047 (0.043)	Data 0.001 (0.004)	Loss 2.5680 (2.6555)	Prec@1 11.029 (10.329)
+Epoch: [24][100/390]	Time 0.035 (0.040)	Data 0.001 (0.002)	Loss 2.7404 (2.6641)	Prec@1 6.087 (10.389)
+Epoch: [24][150/390]	Time 0.034 (0.038)	Data 0.001 (0.002)	Loss 2.6481 (2.6651)	Prec@1 8.000 (10.366)
+Epoch: [24][200/390]	Time 0.033 (0.037)	Data 0.001 (0.002)	Loss 2.7034 (2.6843)	Prec@1 9.701 (10.349)
+Epoch: [24][250/390]	Time 0.034 (0.037)	Data 0.001 (0.001)	Loss 3.6493 (2.6982)	Prec@1 8.759 (10.369)
+Epoch: [24][300/390]	Time 0.034 (0.037)	Data 0.001 (0.001)	Loss 2.4672 (2.6902)	Prec@1 10.769 (10.441)
+Epoch: [24][350/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 3.0743 (2.8063)	Prec@1 9.489 (10.369)
+Epoch 25 | Privacy budget (ε): 2.75, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.160 (0.160)	Loss 2.5198 (2.5198)	Prec@1 14.844 (14.844)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.7017 (2.5129)	Prec@1 5.469 (11.535)
+ * Prec@1 11.090
+Epoch 26/30:
+Current learning rate: 1.00000e-01
+Epoch: [25][0/390]	Time 0.204 (0.204)	Data 0.158 (0.158)	Loss 2.4796 (2.4796)	Prec@1 15.254 (15.254)
+Epoch: [25][50/390]	Time 0.035 (0.038)	Data 0.001 (0.004)	Loss 4.8750 (2.8074)	Prec@1 13.043 (10.402)
+Epoch: [25][100/390]	Time 0.036 (0.037)	Data 0.001 (0.002)	Loss 2.5732 (2.7530)	Prec@1 12.903 (10.296)
+Epoch: [25][150/390]	Time 0.034 (0.036)	Data 0.001 (0.002)	Loss 2.9016 (2.7322)	Prec@1 14.286 (10.590)
+Epoch: [25][200/390]	Time 0.035 (0.036)	Data 0.001 (0.002)	Loss 2.6240 (2.7593)	Prec@1 10.345 (10.407)
+Epoch: [25][250/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.6604 (2.7341)	Prec@1 9.091 (10.447)
+Epoch: [25][300/390]	Time 0.035 (0.035)	Data 0.001 (0.001)	Loss 2.5450 (2.7200)	Prec@1 13.675 (10.591)
+Epoch: [25][350/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 2.4753 (2.7430)	Prec@1 11.024 (10.626)
+Epoch 26 | Privacy budget (ε): 2.80, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.158 (0.158)	Loss 2.6412 (2.6412)	Prec@1 9.375 (9.375)
+Test: [50/79]	Time 0.004 (0.012)	Loss 2.6924 (2.7556)	Prec@1 14.062 (9.942)
+ * Prec@1 9.820
+Epoch 27/30:
+Current learning rate: 1.00000e-01
+Epoch: [26][0/390]	Time 0.215 (0.215)	Data 0.170 (0.170)	Loss 2.7098 (2.7098)	Prec@1 10.000 (10.000)
+Epoch: [26][50/390]	Time 0.037 (0.039)	Data 0.001 (0.004)	Loss 2.6684 (2.6595)	Prec@1 10.435 (9.511)
+Epoch: [26][100/390]	Time 0.035 (0.037)	Data 0.001 (0.002)	Loss 2.7248 (2.7583)	Prec@1 7.143 (9.829)
+Epoch: [26][150/390]	Time 0.034 (0.038)	Data 0.001 (0.002)	Loss 4.4587 (2.8149)	Prec@1 8.527 (10.031)
+Epoch: [26][200/390]	Time 0.034 (0.037)	Data 0.001 (0.002)	Loss 3.4854 (2.8099)	Prec@1 15.000 (10.149)
+Epoch: [26][250/390]	Time 0.041 (0.036)	Data 0.001 (0.001)	Loss 2.5270 (2.7881)	Prec@1 17.460 (10.217)
+Epoch: [26][300/390]	Time 0.035 (0.036)	Data 0.001 (0.001)	Loss 2.8056 (2.7901)	Prec@1 10.236 (10.337)
+Epoch: [26][350/390]	Time 0.034 (0.036)	Data 0.001 (0.001)	Loss 2.8089 (2.7867)	Prec@1 8.088 (10.325)
+Epoch 27 | Privacy budget (ε): 2.85, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.161 (0.161)	Loss 2.9962 (2.9962)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.005 (0.012)	Loss 2.9536 (2.9698)	Prec@1 15.625 (10.064)
+ * Prec@1 9.960
+Epoch 28/30:
+Current learning rate: 1.00000e-01
+Epoch: [27][0/390]	Time 0.216 (0.216)	Data 0.170 (0.170)	Loss 2.9596 (2.9596)	Prec@1 7.200 (7.200)
+Epoch: [27][50/390]	Time 0.034 (0.040)	Data 0.001 (0.004)	Loss 3.2319 (2.9600)	Prec@1 8.824 (10.629)
+Epoch: [27][100/390]	Time 0.033 (0.037)	Data 0.001 (0.002)	Loss 2.5724 (2.8556)	Prec@1 14.754 (10.393)
+Epoch: [27][150/390]	Time 0.033 (0.036)	Data 0.001 (0.002)	Loss 2.6478 (2.8339)	Prec@1 12.963 (10.245)
+Epoch: [27][200/390]	Time 0.034 (0.035)	Data 0.001 (0.002)	Loss 2.8460 (2.7842)	Prec@1 13.492 (10.444)
+Epoch: [27][250/390]	Time 0.034 (0.035)	Data 0.001 (0.001)	Loss 3.1990 (2.7986)	Prec@1 7.801 (10.423)
+Epoch: [27][300/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.5767 (2.8027)	Prec@1 10.656 (10.348)
+Epoch: [27][350/390]	Time 0.033 (0.035)	Data 0.001 (0.001)	Loss 2.6735 (2.7769)	Prec@1 12.295 (10.461)
+Epoch 28 | Privacy budget (ε): 2.90, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.164 (0.164)	Loss 2.7545 (2.7545)	Prec@1 7.812 (7.812)
+Test: [50/79]	Time 0.021 (0.012)	Loss 2.7701 (2.7754)	Prec@1 8.594 (10.355)
+ * Prec@1 9.990
+Epoch 29/30:
+Current learning rate: 1.00000e-01
+Epoch: [28][0/390]	Time 0.233 (0.233)	Data 0.174 (0.174)	Loss 2.7325 (2.7325)	Prec@1 8.333 (8.333)
+Epoch: [28][50/390]	Time 0.044 (0.045)	Data 0.001 (0.004)	Loss 2.5397 (2.6595)	Prec@1 8.475 (10.060)
+Epoch: [28][100/390]	Time 0.034 (0.040)	Data 0.001 (0.002)	Loss 2.5905 (2.7354)	Prec@1 11.905 (10.262)
+Epoch: [28][150/390]	Time 0.037 (0.039)	Data 0.001 (0.002)	Loss 2.4964 (2.7276)	Prec@1 9.836 (10.390)
+Epoch: [28][200/390]	Time 0.034 (0.038)	Data 0.001 (0.002)	Loss 2.6899 (2.7151)	Prec@1 8.264 (10.370)
+Epoch: [28][250/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 3.4074 (2.7476)	Prec@1 9.565 (10.366)
+Epoch: [28][300/390]	Time 0.038 (0.038)	Data 0.001 (0.001)	Loss 2.9134 (2.7360)	Prec@1 12.500 (10.285)
+Epoch: [28][350/390]	Time 0.038 (0.038)	Data 0.001 (0.001)	Loss 3.0657 (2.7393)	Prec@1 11.565 (10.249)
+Epoch 29 | Privacy budget (ε): 2.95, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.161 (0.161)	Loss 2.8760 (2.8760)	Prec@1 8.594 (8.594)
+Test: [50/79]	Time 0.024 (0.012)	Loss 2.7324 (2.8565)	Prec@1 8.594 (9.467)
+ * Prec@1 9.890
+Epoch 30/30:
+Current learning rate: 1.00000e-01
+Epoch: [29][0/390]	Time 0.213 (0.213)	Data 0.168 (0.168)	Loss 2.7593 (2.7593)	Prec@1 9.524 (9.524)
+Epoch: [29][50/390]	Time 0.035 (0.039)	Data 0.001 (0.004)	Loss 2.5920 (2.7159)	Prec@1 10.526 (10.345)
+Epoch: [29][100/390]	Time 0.036 (0.037)	Data 0.001 (0.002)	Loss 2.4782 (2.7277)	Prec@1 8.696 (10.002)
+Epoch: [29][150/390]	Time 0.039 (0.037)	Data 0.001 (0.002)	Loss 2.6508 (2.7770)	Prec@1 7.087 (10.150)
+Epoch: [29][200/390]	Time 0.040 (0.038)	Data 0.001 (0.002)	Loss 3.0301 (2.7700)	Prec@1 7.874 (10.238)
+Epoch: [29][250/390]	Time 0.039 (0.038)	Data 0.001 (0.001)	Loss 2.6651 (2.7578)	Prec@1 5.426 (10.201)
+Epoch: [29][300/390]	Time 0.038 (0.038)	Data 0.001 (0.001)	Loss 2.5162 (2.7455)	Prec@1 10.959 (10.194)
+Epoch: [29][350/390]	Time 0.035 (0.038)	Data 0.001 (0.001)	Loss 2.5700 (2.7405)	Prec@1 9.917 (10.221)
+Epoch 30 | Privacy budget (ε): 3.00, δ: 1e-05
+Validating model...
+Test: [0/79]	Time 0.165 (0.165)	Loss 2.6344 (2.6344)	Prec@1 9.375 (9.375)
+Test: [50/79]	Time 0.004 (0.011)	Loss 2.7054 (2.5815)	Prec@1 9.375 (11.305)
+ * Prec@1 11.080
+Training completed.
+Total training time: 471.46 seconds
+Best accuracy: 11.76%
+Best privacy budget (ε): 3.00, δ: 1e-05
+Model saved at: /home/myid/dca09692/CSCI8960/final-project/scripts/save_resnet20
