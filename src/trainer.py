@@ -65,6 +65,12 @@ parser.add_argument('--noise-multiplier', default=1.1, type=float,
 parser.add_argument('--max-grad-norm', default=1.0, type=float,
                     help='Max grad norm for differential privacy (default: 1.0)')
 
+# For Adam optimizer
+parser.add_argument('--beta1', default=0.9, type=float,
+                    help='Beta1 for Adam optimizer')
+parser.add_argument('--beta2', default=0.999, type=float,
+                    help='Beta2 for Adam optimizer')
+
 best_prec1 = 0
 
 
@@ -124,13 +130,13 @@ def main():
         model.half()
         criterion.half()
 
-    optimizer = torch.optim.SGD(model.parameters(), args.lr,
-                                momentum=args.momentum,
-                                weight_decay=args.weight_decay)
+    optimizer = torch.optim.Adam(
+        model.parameters(),
+        lr=args.lr,
+        betas=(args.beta1, args.beta2),
+        weight_decay=args.weight_decay
+    )
     print("Optimizer initialized.")
-
-    # Calculate the sample rate (batch_size / total training data size)
-    sample_rate = args.batch_size / len(train_loader.dataset)
 
     # Create a privacy engine
     privacy_engine = PrivacyEngine()
