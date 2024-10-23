@@ -1,18 +1,20 @@
 import argparse
 import os
-import shutil
 import time
+
 import torch
+import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.nn.parallel
-import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
-import resnet
-from data_loader import get_data_loaders
-from utils import accuracy, AverageMeter, save_checkpoint
 from opacus import PrivacyEngine
 from opacus.validators import ModuleValidator
+
+import resnet
+from data_loader import get_data_loaders
+from src.visualizer import plot_train_test_loss_accuracy_vs_epochs
+from utils import accuracy, AverageMeter, save_checkpoint, log_metrics
 
 model_names = sorted(name for name in resnet.__dict__
     if name.islower() and not name.startswith("__")
@@ -75,8 +77,14 @@ best_prec1 = 0
 
 
 def main():
-    global args, best_prec1
+    global args, best_prec1, train_losses, train_accuracies, val_losses, val_accuracies
     args = parser.parse_args()
+
+    # Clear global lists before starting a new experiment
+    train_losses = []
+    train_accuracies = []
+    val_losses = []
+    val_accuracies = []
 
     # Check the save_dir exists or not
     if not os.path.exists(args.save_dir):
@@ -210,13 +218,32 @@ def main():
 
     print("Training completed.")
 
+    # TODO: Fix the optimizer name later
+    experiment_id = f"experiment_DPADAM_{args.batch_size}_{args.lr}_{int(time.time())}"
+    save_dir = os.path.join('experiments', experiment_id)
+
+    # Ensure the folder exists
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    epochs = list(range(args.start_epoch, args.epochs))
+
+    # Assuming you want to plot the loss and accuracy after the training ends
+    plot_train_test_loss_accuracy_vs_epochs(epochs, train_losses, val_losses, train_accuracies, val_accuracies,
+                                  args.target_epsilon, save_dir)
+
     train_end_time = time.time()
+    final_epsilon = privacy_engine.get_epsilon(delta=args.delta)
 
     # Print the metrics
     print(f"Total training time: {train_end_time - train_start_time:.2f} seconds")
     print(f"Best accuracy: {best_prec1:.2f}%")
     print(f"Best privacy budget (ε): {privacy_engine.get_epsilon(delta=args.delta):.2f}, δ: {args.delta}")
     print(f"Model saved at: {os.path.abspath(args.save_dir)}")
+
+    # Save the metrics to a log file
+    log_metrics(args, best_prec1, train_end_time - train_start_time, save_dir, experiment_id, train_losses, val_losses,
+                train_accuracies, val_accuracies, final_epsilon)
 
 
 def train(train_loader, model, criterion, optimizer, epoch, privacy_engine=None):
@@ -272,6 +299,10 @@ def train(train_loader, model, criterion, optimizer, epoch, privacy_engine=None)
                       epoch, i, len(train_loader), batch_time=batch_time,
                       data_time=data_time, loss=losses, top1=top1))
 
+    # Store the average loss and accuracy for this epoch
+    train_losses.append(losses.avg)
+    train_accuracies.append(top1.avg)
+
     # After the epoch, if privacy is enabled, report privacy budget
     if privacy_engine is not None:
         epsilon = privacy_engine.get_epsilon(delta=args.delta)
@@ -325,6 +356,10 @@ def validate(val_loader, model, criterion):
 
     print(' * Prec@1 {top1.avg:.3f}'
           .format(top1=top1))
+
+    # Store the average loss and accuracy for this epoch
+    val_losses.append(losses.avg)
+    val_accuracies.append(top1.avg)
 
     return top1.avg
 
