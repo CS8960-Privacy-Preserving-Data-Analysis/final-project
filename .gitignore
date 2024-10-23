@@ -103,3 +103,4 @@ manuscript/proposal/proposal_csci_8960.pdf
 data/
 my_cifar10_models/
 src/__pycache__/
+experiments/
