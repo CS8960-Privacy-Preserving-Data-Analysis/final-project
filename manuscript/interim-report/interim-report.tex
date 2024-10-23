@@ -16,7 +16,7 @@
 \usepackage{amsmath}
 
 
-\title{Differential Privacy in Image Classification using ResNet-20 and DP-SGD Optimization}
+\title{Differential Privacy in Image Classification using ResNet-20 and DP-SGD, DP-Adam, and DP-RMSProp Optimization techniques}
 
 \author{
     Praveen Rangavajhula\\
@@ -41,28 +41,39 @@
 \begin{document}
 
     \maketitle
-
     \begin{abstract}
+    test
 
-\\
     \end{abstract}
 
 
     \section{Introduction}\label{sec:introduction}
+    
+    Stochastic Gradient Descent (SGD) and its differentially private (DP) relative DP-SGD are frequently used optimizers for image classification tasks. DP-SGD
+    introduces noise and gradient clipping to the standard SGD algorithm, to ensure that the underlying data remains private upon release of model parameters/hyperparameters. While DP-SGD
+    is perhaps the most popular optimizer for tasks concerned with differential privacy, we also explore 2 additional optimization techniques. In this interim report, 
+    we looked to explore the impact of changing the optimizer on the test accuracy achieveable on the CIFAR-10 dataset.
+  
+    The first additional optimizers tested in this paper are Differentially Private Root Mean Square Propogation (DP-RMSProp) and Adaptive Moment Estimation (DP-Adam). The motivation to try these optimizers is to properly bound
+    the benefit of employing different optimization techniques from DP-SGD. RMSProp improves on SGD in that it includes a moving average of squared gradients. This additional term attempts to lessen the possibility of the
+    vanishing/exploding gradient phenomenon. Adam, similarly, includes an estimation of first and second moment of gradients. Adam attempts to build on and improve on both RMSProp and AdaGrad \cite{kingma2017adammethodstochasticoptimization}.
+
+    While implementing these additional optimizers is not novel unto itself, we believe it provides a solid groundwork for additional novelty and testing going forward. This interim report will
+    highlight the current results of our testing and the anticipated path forward, given our now full implementation of DP-SGD, DP-RMSProp, and DP-Adam.
 
     \section{Formal Description of Models Tried}\label{sec:models}
-    \input{models.tex}
+    % \input{models-tried}
 
     \section{Related Work}\label{sec:related-work}
 
     \break
     \section{Preliminary Results}\label{sec:prelim-results}
-    \input{prelim-results.tex}
+    % \input{prelim-results}
 
  
     \break
     \section{Discussion of Results}\label{sec:results-discussion}
-    \input{results-discussion.tex}
+    % \input{results-discussion}
 
     \break
     \section{Learned and Plans}\label{sec:learned-and-plans}
