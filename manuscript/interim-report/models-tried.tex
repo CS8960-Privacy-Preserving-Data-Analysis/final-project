@@ -1,8 +1,56 @@
 \subsection{Motivation and Rationale}\label{subsec:motivation-and-rationale}
 
+As mentioned earlier in the report, the motivation for trying these optimizers was to appropriately bound the strength of the 3 optimization techniques for CIFAR-10. 
+This lays a strong groundwork for future additions to the algorithms and allows us to have a wide range of options in making these adjustments. 
+
+DP-SGD is likely the most common optimization algorithm used in differentially private image classification. The motivation for using DP-SGD is simply to have a strong 
+baseline for comparison. Most literature regarding differential privacy begins by using DP-SGD, so it would make sense as the first algorithm implemented and tested.
+
+RMSProp and Adam can be viewed as successors to DP-SGD. Both introduce approaches that allow for adaptivity of the step size taken at each iteration of the algorithm. These algorithms
+were first proposed to deal with the vanishing/exlpoding gradient phenomenon and have now been used frequently in the differentially private image classification literature. We felt that
+implementing these algorithms would provide us with a strong bound on the performance benefits associated with changing optimizer, essentially treating optimizers as another hyperparameter
+that we could tune.
+
 \subsection{Description of Optimization Algorithm (Psuedocode)}\label{subsec:algorithm-description}
+
+Below are pseudocodes for the DP-SGD, DP-RMSprop, and DP-Adam algorithms that we plan to privatize, adapted or referenced from~\cite{DBLP:journals/corr/abs-1807-06766}:
 \begin{algorithm}
-    \caption{ADAM}
+    \caption{SGD Algorithm}
+    \label{alg:sgd}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} A step size $\alpha$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$,
+        and access to a (possibly noisy) oracle for gradients of $f : \mathbb{R}^d \rightarrow \mathbb{R}$.
+        \Function{SGD}{$\mathbf{x}_1, \alpha$}
+            \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
+            \For{$t = 1, 2, \dots$}
+                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{g}_t$
+            \EndFor
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\vspace{-1cm}
+
+\begin{algorithm}
+    \caption{RMSProp}
+    \label{alg:rmsprop}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d \geq 0$, parameter $\beta_2 \in [0, 1)$, step size $\alpha$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and access to a (possibly noisy) oracle for gradients of $f : \mathbb{R}^d \rightarrow \mathbb{R}$.
+        \Function{RMSProp}{$\mathbf{x}_1, \beta_2, \alpha, \xi$}
+            \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
+            \For{$t = 1, 2, \dots$}
+                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+                \State $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\mathbf{g}_t^2 + \xi \mathbf{1}_d)$
+                \State $\mathbf{V}_t = \text{diag}(\mathbf{v}_t)$
+                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{V}_t^{-\frac{1}{2}} \mathbf{g}_t$
+            \EndFor
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\vspace{-1cm}
+
+\begin{algorithm}
+    \caption{Adam}
     \label{alg:adam}
     \begin{algorithmic}[1]
         \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d > 0$, parameters $\beta_1, \beta_2 \in [0, 1)$, a sequence of step sizes $\{\alpha_t\}_{t=1,2,\dots}$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and oracle access to the gradients of $f : \mathbb{R}^d \to \mathbb{R}$.
@@ -21,6 +69,7 @@
 
 
 \subsection{Modification and Variations}\label{subsec:modification-and-variations}
+
 
 \subsection{Privacy Proof}\label{subsec:incremental-improvements}
 
