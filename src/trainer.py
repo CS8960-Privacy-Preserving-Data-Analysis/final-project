@@ -221,7 +221,7 @@ def main():
     # TODO: Fix the optimizer name later
     experiment_id = f"experiment_DPADAM_{args.batch_size}_{args.lr}_{int(time.time())}"
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    save_dir = os.path.join('experiments', experiment_id)
+    save_dir = os.path.join(project_root, 'experiments', experiment_id)
 
     # Ensure the folder exists
     if not os.path.exists(save_dir):
