@@ -15,7 +15,7 @@ that we could tune.
 
 Below are pseudocodes for the DP-SGD, DP-RMSprop, and DP-Adam algorithms that we plan to privatize, adapted or referenced from~\cite{DBLP:journals/corr/abs-1807-06766}:
 \begin{algorithm}
-    \caption{SGD Algorithm}
+    \caption{DP-SGD}
     \label{alg:sgd}
     \begin{algorithmic}[1]
         \State \textbf{Input:} A step size $\alpha$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$,
@@ -23,8 +23,14 @@ Below are pseudocodes for the DP-SGD, DP-RMSprop, and DP-Adam algorithms that we
         \Function{SGD}{$\mathbf{x}_1, \alpha$}
             \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
             \For{$t = 1, 2, \dots$}
+                \State \textbf{Compute gradient}
                 \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
-                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{g}_t$
+                \State \textbf{Clip gradient}
+                \State $\mathbf{g}_t = \mathbf{g}_t/max(1, \frac{\lVert \mathbf{g}_t \rVert_{2} }{C})$
+                \State \textbf{Add Noise}
+                \State $\hat{\mathbf{g}_t} = \mathbf{g}_t + \mathcal{N}(0,\sigma^{2}C^{2}I)$
+                \State \textbf{Descent}
+                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \hat{\mathbf{g}_t}$
             \EndFor
         \EndFunction
     \end{algorithmic}
@@ -32,17 +38,24 @@ Below are pseudocodes for the DP-SGD, DP-RMSprop, and DP-Adam algorithms that we
 \vspace{-1cm}
 
 \begin{algorithm}
-    \caption{RMSProp}
+    \caption{DP-RMSProp}
     \label{alg:rmsprop}
     \begin{algorithmic}[1]
         \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d \geq 0$, parameter $\beta_2 \in [0, 1)$, step size $\alpha$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and access to a (possibly noisy) oracle for gradients of $f : \mathbb{R}^d \rightarrow \mathbb{R}$.
         \Function{RMSProp}{$\mathbf{x}_1, \beta_2, \alpha, \xi$}
             \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
             \For{$t = 1, 2, \dots$}
+                \State \textbf{Compute gradient}
                 \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
-                \State $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\mathbf{g}_t^2 + \xi \mathbf{1}_d)$
+                \State \textbf{Clip gradient}
+                \State $\mathbf{g}_t = \mathbf{g}_t/max(1, \frac{\lVert \mathbf{g}_t \rVert_{2} }{C})$
+                \State \textbf{Add Noise}
+                \State $\hat{\mathbf{g}_t} = \mathbf{g}_t + \mathcal{N}(0,\sigma^{2}C^{2}I)$
+                \State \textbf{Calculate Moving Average of Squared Gradient}
+                \State $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\hat{\mathbf{g}_t}^2 + \xi \mathbf{1}_d)$
                 \State $\mathbf{V}_t = \text{diag}(\mathbf{v}_t)$
-                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{V}_t^{-\frac{1}{2}} \mathbf{g}_t$
+                \State \textbf{Descent}
+                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{V}_t^{-\frac{1}{2}} \hat{\mathbf{g}_t}$
             \EndFor
         \EndFunction
     \end{algorithmic}
@@ -50,23 +63,31 @@ Below are pseudocodes for the DP-SGD, DP-RMSprop, and DP-Adam algorithms that we
 \vspace{-1cm}
 
 \begin{algorithm}
-    \caption{Adam}
+    \caption{DP-Adam}
     \label{alg:adam}
     \begin{algorithmic}[1]
         \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d > 0$, parameters $\beta_1, \beta_2 \in [0, 1)$, a sequence of step sizes $\{\alpha_t\}_{t=1,2,\dots}$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and oracle access to the gradients of $f : \mathbb{R}^d \to \mathbb{R}$.
         \Function{ADAM}{$\mathbf{x}_1, \beta_1, \beta_2, \{\alpha_t\}, \xi$}
             \State Initialize: $\mathbf{m}_0 = \mathbf{0}$, $\mathbf{v}_0 = \mathbf{0}$
             \For{$t = 1, 2, \dots$}
+            \State \textbf{Compute gradient}
                 \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
-                \State $\mathbf{m}_t = \beta_1 \mathbf{m}_{t-1} + (1 - \beta_1) \mathbf{g}_t$
-                \State $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2) \mathbf{g}_t^2$
-                \State $\mathbf{V}_t = \operatorname{diag}(\mathbf{v}_t)$
+                \State \textbf{Clip gradient}
+                \State $\mathbf{g}_t = \mathbf{g}_t/max(1, \frac{\lVert \mathbf{g}_t \rVert_{2} }{C})$
+                \State \textbf{Add Noise}
+                \State $\hat{\mathbf{g}_t} = \mathbf{g}_t + \mathcal{N}(0,\sigma^{2}C^{2}I)$
+                \State \textbf{Calculate Moving Average of Squared Gradient}
+                \State $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\hat{\mathbf{g}_t}^2 + \xi \mathbf{1}_d)$
+                \State $\mathbf{V}_t = \text{diag}(\mathbf{v}_t)$
+                \State \textbf{Calculate Moving Average of Gradient}
+                \State $\mathbf{m}_t = \beta_1 \mathbf{m}_{t-1} + (1 - \beta_1) \hat{\mathbf{g}_t}$
+                \State \textbf{Descent}
                 \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha_t \left( \mathbf{V}_t^{\frac{1}{2}} + \operatorname{diag}(\xi \mathbf{1}_d) \right)^{-1} \mathbf{m}_t$
+
             \EndFor
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
-
 
 \subsection{Modification and Variations}\label{subsec:modification-and-variations}
 
