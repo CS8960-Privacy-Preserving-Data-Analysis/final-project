@@ -14,80 +14,56 @@ that we could tune.
 \subsection{Description of Optimization Algorithm (Psuedocode)}\label{subsec:algorithm-description}
 
 Below are pseudocodes for the DP-SGD, DP-RMSprop, and DP-Adam algorithms that we plan to privatize, adapted or referenced from~\cite{DBLP:journals/corr/abs-1807-06766}:
-\begin{algorithm}
+
+\begin{algorithm}[H]
     \caption{DP-SGD}
     \label{alg:sgd}
     \begin{algorithmic}[1]
         \State \textbf{Input:} A step size $\alpha$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$,
         and access to a (possibly noisy) oracle for gradients of $f : \mathbb{R}^d \rightarrow \mathbb{R}$.
-        \Function{SGD}{$\mathbf{x}_1, \alpha$}
-            \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
-            \For{$t = 1, 2, \dots$}
-                \State \textbf{Compute gradient}
-                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
-                \State \textbf{Clip gradient}
-                \State $\mathbf{g}_t = \mathbf{g}_t/max(1, \frac{\lVert \mathbf{g}_t \rVert_{2} }{C})$
-                \State \textbf{Add Noise}
-                \State $\hat{\mathbf{g}_t} = \mathbf{g}_t + \mathcal{N}(0,\sigma^{2}C^{2}I)$
-                \State \textbf{Descent}
-                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \hat{\mathbf{g}_t}$
-            \EndFor
-        \EndFunction
+        \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
+        \For{$t = 1, 2, \dots$}
+            \State Compute gradient $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+            \State Clip gradient $\mathbf{g}_t = \mathbf{g}_t / \max(1, \frac{\lVert \mathbf{g}_t \rVert_2}{C})$
+            \State Add noise: $\hat{\mathbf{g}}_t = \mathbf{g}_t + \mathcal{N}(0, \sigma^2 C^2 I)$
+            \State Descent: $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \hat{\mathbf{g}}_t$
+        \EndFor
     \end{algorithmic}
 \end{algorithm}
-\vspace{-1cm}
 
-\begin{algorithm}
+\begin{algorithm}[H]
     \caption{DP-RMSProp}
     \label{alg:rmsprop}
     \begin{algorithmic}[1]
         \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d \geq 0$, parameter $\beta_2 \in [0, 1)$, step size $\alpha$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and access to a (possibly noisy) oracle for gradients of $f : \mathbb{R}^d \rightarrow \mathbb{R}$.
-        \Function{RMSProp}{$\mathbf{x}_1, \beta_2, \alpha, \xi$}
-            \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
-            \For{$t = 1, 2, \dots$}
-                \State \textbf{Compute gradient}
-                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
-                \State \textbf{Clip gradient}
-                \State $\mathbf{g}_t = \mathbf{g}_t/max(1, \frac{\lVert \mathbf{g}_t \rVert_{2} }{C})$
-                \State \textbf{Add Noise}
-                \State $\hat{\mathbf{g}_t} = \mathbf{g}_t + \mathcal{N}(0,\sigma^{2}C^{2}I)$
-                \State \textbf{Calculate Moving Average of Squared Gradient}
-                \State $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\hat{\mathbf{g}_t}^2 + \xi \mathbf{1}_d)$
-                \State $\mathbf{V}_t = \text{diag}(\mathbf{v}_t)$
-                \State \textbf{Descent}
-                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{V}_t^{-\frac{1}{2}} \hat{\mathbf{g}_t}$
-            \EndFor
-        \EndFunction
+        \State Initialize: $\mathbf{v}_0 = \mathbf{0}$
+        \For{$t = 1, 2, \dots$}
+            \State Compute gradient $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+            \State Clip gradient $\mathbf{g}_t = \mathbf{g}_t / \max(1, \frac{\lVert \mathbf{g}_t \rVert_2}{C})$
+            \State Add noise: $\hat{\mathbf{g}}_t = \mathbf{g}_t + \mathcal{N}(0, \sigma^2 C^2 I)$
+            \State Calculate moving average of squared gradient $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\hat{\mathbf{g}}_t^2 + \xi \mathbf{1}_d)$
+            \State Descent: $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha \mathbf{V}_t^{-1/2} \hat{\mathbf{g}}_t$
+        \EndFor
     \end{algorithmic}
 \end{algorithm}
-\vspace{-1cm}
 
-\begin{algorithm}
+\begin{algorithm}[H]
     \caption{DP-Adam}
     \label{alg:adam}
     \begin{algorithmic}[1]
-        \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d > 0$, parameters $\beta_1, \beta_2 \in [0, 1)$, a sequence of step sizes $\{\alpha_t\}_{t=1,2,\dots}$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and oracle access to the gradients of $f : \mathbb{R}^d \to \mathbb{R}$.
-        \Function{ADAM}{$\mathbf{x}_1, \beta_1, \beta_2, \{\alpha_t\}, \xi$}
-            \State Initialize: $\mathbf{m}_0 = \mathbf{0}$, $\mathbf{v}_0 = \mathbf{0}$
-            \For{$t = 1, 2, \dots$}
-            \State \textbf{Compute gradient}
-                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
-                \State \textbf{Clip gradient}
-                \State $\mathbf{g}_t = \mathbf{g}_t/max(1, \frac{\lVert \mathbf{g}_t \rVert_{2} }{C})$
-                \State \textbf{Add Noise}
-                \State $\hat{\mathbf{g}_t} = \mathbf{g}_t + \mathcal{N}(0,\sigma^{2}C^{2}I)$
-                \State \textbf{Calculate Moving Average of Squared Gradient}
-                \State $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\hat{\mathbf{g}_t}^2 + \xi \mathbf{1}_d)$
-                \State $\mathbf{V}_t = \text{diag}(\mathbf{v}_t)$
-                \State \textbf{Calculate Moving Average of Gradient}
-                \State $\mathbf{m}_t = \beta_1 \mathbf{m}_{t-1} + (1 - \beta_1) \hat{\mathbf{g}_t}$
-                \State \textbf{Descent}
-                \State $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha_t \left( \mathbf{V}_t^{\frac{1}{2}} + \operatorname{diag}(\xi \mathbf{1}_d) \right)^{-1} \mathbf{m}_t$
-
-            \EndFor
-        \EndFunction
+        \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d > 0$, parameters $\beta_1, \beta_2 \in [0, 1)$, a sequence of step sizes $\{\alpha_t\}_{t=1,2,\dots}$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and oracle access to gradients of $f : \mathbb{R}^d \rightarrow \mathbb{R}$.
+        \State Initialize: $\mathbf{m}_0 = \mathbf{0}$, $\mathbf{v}_0 = \mathbf{0}$
+        \For{$t = 1, 2, \dots$}
+            \State Compute gradient $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+            \State Clip gradient: $\mathbf{g}_t = \mathbf{g}_t / \max(1, \frac{\lVert \mathbf{g}_t \rVert_2}{C})$
+            \State Add noise: $\hat{\mathbf{g}}_t = \mathbf{g}_t + \mathcal{N}(0, \sigma^2 C^2 I)$
+            \State Calculate moving average of squared gradient: $\mathbf{v}_t = \beta_2 \mathbf{v}_{t-1} + (1 - \beta_2)(\hat{\mathbf{g}}_t^2 + \xi \mathbf{1}_d)$
+            \State Calculate moving average of gradient: $\mathbf{m}_t = \beta_1 \mathbf{m}_{t-1} + (1 - \beta_1) \hat{\mathbf{g}}_t$
+            \State Descent: $\mathbf{x}_{t+1} = \mathbf{x}_t - \alpha_t \frac{\mathbf{m}_t}{\sqrt{\mathbf{v}_t} + \epsilon}$
+        \EndFor
     \end{algorithmic}
 \end{algorithm}
+
 
 \subsection{Proposed Modifications and Variations}\label{subsec:modification-and-variations}
 Most of our current work has focused on implementing and testing the existing DP-SGD, DP-RMSProp, and DP-Adam optimization techniques. The main axes
@@ -102,33 +78,25 @@ will be an interesting approach to examine.
 
 To privatize Lion, we will need to add gaussian noise that is relative to the number of iterations, epsilon, and sensitivity. This will take a very similar form to the privatization
 done for DP-SGD, DP-RMSProp, and DP-Adam. Next, we also plan to implement a clipping constant C, so as to properly bound the sensitivity associated with neighboring datasets. The following psuedocode
-introduces our proposed adjustments to the Lion Optimizer from \cite{chen2023symbolicdiscoveryoptimizationalgorithms}.
+introduces our proposed adjustments to the Lion Optimizer from~\cite{chen2023symbolicdiscoveryoptimizationalgorithms}.
+
 
 \begin{algorithm}
     \caption{DP-Lion}
     \label{alg:lion}
     \begin{algorithmic}[1]
-        \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d > 0$, parameters $\beta_1, \beta_2 \in [0, 1)$, a sequence of step sizes $\{\alpha_t\}_{t=1,2,\dots}$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and oracle access to the gradients of $f : \mathbb{R}^d \to \mathbb{R}$.
-        \Function{Lion}{$\mathbf{x}_1, \beta_1, \beta_2, \{\alpha_t\}, \xi$}
-            \State Initialize: $\mathbf{m}_0 = \mathbf{0}$, $\mathbf{v}_0 = \mathbf{0}$
-            \For{$t = 1, 2, \dots$}
-            \State \textbf{Compute gradient}
-                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
-                \State \textbf{Clip gradient}
-                \State $\mathbf{g}_t = \mathbf{g}_t/max(1, \frac{\lVert \mathbf{g}_t \rVert_{2} }{C})$
-                \State \textbf{Add Noise}
-                \State $\hat{\mathbf{g}_t} = \mathbf{g}_t + \mathcal{N}(0,\sigma^{2}C^{2}I)$
-
-                \State \textbf{Descent}
-                \State $c_{t} = \beta_1 m_{t-1} + (1 - \beta_1) \hat{\mathbf{g}_t}$
-                \State $\mathbf{x}_{t} = \mathbf{x}_{t-1} - \alpha_{t} (sign(c_{t}) + \lambda \mathbf{x}_{t-1})$
-
-                \State \textbf{Calculate Moving Average of Gradient}
-                \State $\mathbf{m}_t = \beta_2 \mathbf{m}_{t-1} + (1 - \beta_2) \hat{\mathbf{g}_t}$
-
-            \EndFor
-        \EndFunction
+        \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d > 0$, parameters $\beta_1, \beta_2 \in [0, 1)$, a sequence of step sizes $\{\alpha_t\}_{t=1,2,\dots}$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and oracle access to gradients of $f : \mathbb{R}^d \to \mathbb{R}$.
+        \State Initialize: $\mathbf{m}_0 = \mathbf{0}$
+        \For{$t = 1, 2, \dots$}
+            \State Compute gradient $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+            \State Clip gradient $\mathbf{g}_t = \mathbf{g}_t / \max(1, \frac{\lVert \mathbf{g}_t \rVert_2}{C})$
+            \State Add noise: $\hat{\mathbf{g}}_t = \mathbf{g}_t + \mathcal{N}(0, \sigma^2 C^2 I)$
+            \State Compute $c_{t} = \beta_1 m_{t-1} + (1 - \beta_1) \hat{\mathbf{g}}_t$
+            \State Descent: $\mathbf{x}_t = \mathbf{x}_{t-1} - \alpha_t (\text{sign}(c_{t}) + \lambda \mathbf{x}_{t-1})$
+            \State Calculate moving average of gradient $\mathbf{m}_t = \beta_2 \mathbf{m}_{t-1} + (1 - \beta_2) \hat{\mathbf{g}}_t$
+        \EndFor
     \end{algorithmic}
 \end{algorithm}
+
 
 \subsection{Privacy Proof}\label{subsec:incremental-improvements}
