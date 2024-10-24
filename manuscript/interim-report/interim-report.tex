@@ -15,7 +15,6 @@
 \usepackage{algpseudocode}
 \usepackage{amsmath}
 
-
 \title{Differential Privacy in Image Classification using ResNet-20 and DP-SGD, DP-Adam, and DP-RMSProp Optimization techniques}
 
 \author{
@@ -42,7 +41,7 @@
 
     \maketitle
     \begin{abstract}
-    test
+    
 
     \end{abstract}
 
@@ -59,34 +58,91 @@
     vanishing/exploding gradient phenomenon. Adam, similarly, includes an estimation of first and second moment of gradients. Adam attempts to build on and improve on both RMSProp and AdaGrad \cite{kingma2017adammethodstochasticoptimization}.
 
     While implementing these additional optimizers is not novel unto itself, we believe it provides a solid groundwork for additional novelty and testing going forward. This interim report will
-    highlight the current results of our testing and the anticipated path forward, given our now full implementation of DP-SGD, DP-RMSProp, and DP-Adam.
+    highlight the current results of our testing and the anticipated path forward. We will briefly describe our proposed transition to a new optimization technique called Lion. To ensure Lion satisfies
+    differential privacy, we will need to make adjustments, specifically by adding noise and clipping.
 
     \section{Formal Description of Models Tried}\label{sec:models}
     \input{models-tried}
-    \break
     \section{Related Work}\label{sec:related-work}
 
-    \break
     \section{Preliminary Results}\label{sec:prelim-results}
     % \input{prelim-results}
 
  
-    \break
     \section{Discussion of Results}\label{sec:results-discussion}
     % \input{results-discussion}
 
-    \break
     \section{Learned and Plans}\label{sec:learned-and-plans}
-    
+    \input{learned-planned}
 
     \bibliographystyle{plain}
     \bibliography{references}
-
 
     \section*{GitHub Contributions}
     The code and related materials for this project are available at our GitHub repository:
     \url{https://github.com/CS8960-Privacy-Preserving-Data-Analysis/final-project}.
     Contributions, issues, and discussions are welcome.
 
+    \break
+    \section*{Appendix A: Full Model Results}
+    \begin{table}[!ht]
+        \caption{Experimental Results\\All experiments were conducted with a constant privacy budget $\delta = 10^{-5}$, momentum $\beta = 0.9$, weight decay $\lambda = 10^{-4}$ and a maximum gradient norm of $C = 1.0$.}
+        \centering  
+        \resizebox{\textwidth}{!}{  
+            \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+                \hline
+                \textbf{Experiment ID} & \textbf{Optimizer} & \textbf{Epochs} & \textbf{Accuracy} & \textbf{Training Time (s)} & \textbf{Privacy Cost} & \textbf{Learning Rate} & \textbf{Batch Size} & \textbf{Noise Multiplier} \\ [0.5ex]
+                \hline\hline
+                1  & SGD      & 100 & 87\%    & -       & -      & 0.1  & 128  & -  \\
+                2  & SGD      & 200 & 94\%    & -       & -      & 0.1  & -    & -  \\
+                3  & DP-SGD   & 30  & 41\%    & 481.49  & 3      & 0.1  & 128  & 1.1 \\
+                4  & DP-SGD   & 30  & 40\%    & 598.68  & 3      & 0.2  & 128  & 1.1 \\
+                5  & DP-SGD   & 30  & 39\%    & 527.37  & 3      & 0.3  & 128  & 1.1 \\
+                6  & DP-SGD   & 30  & 37\%    & 584.55  & 3      & 0.4  & 128  & 1.1 \\
+                7  & DP-SGD   & 30  & 38\%    & 597.60  & 3      & 0.5  & 128  & 1.1 \\
+                8  & DP-SGD   & 30  & 35\%    & 995.68  & 3      & 0.1  & 64   & 1.1 \\
+                9  & DP-SGD   & 30  & 44\%    & 473.86  & 3      & 0.1  & 256  & 1.1 \\
+                10 & DP-SGD   & 30  & 44\%    & 597.29  & 2.99   & 0.1  & 512  & 1.1 \\
+                11 & DP-SGD   & 30  & 42\%    & 677.04  & 3      & 0.1  & 1024 & 1.1 \\
+                12 & DP-SGD   & 30  & 43\%    & 519.55  & 8.01   & 0.1  & 128  & 1.1 \\
+                13 & DP-SGD   & 30  & 44\%    & 627.49  & 10.01  & 0.1  & 128  & 1.1 \\
+                14 & DP-SGD   & 30  & 48\%    & 553.12  & 50.04  & 0.1  & 128  & 0.1 \\
+                15 & DP-SGD   & 30  & 50\%    & 375.37  & 50.04  & 0.1  & 256  & 0.1 \\
+                16 & DP-Adam  & 30  & 42\%    & 852.44  & 3      & 0.1  & 128  & 1.1 \\
+                17 & DP-Adam  & 30  & 35.55\% & 1426.00 & 3      & 0.1  & 64   & 1.1 \\
+                18 & DP-Adam  & 30  & 45\%    & 686.00  & 3      & 0.1  & 256  & 1.1 \\
+                19 & DP-Adam  & 30  & 45\%    & 688.00  & 3      & 0.1  & 512  & 1.1 \\
+                20 & DP-Adam  & 30  & 42.30\% & 740.00  & 3      & 0.1  & 1024 & 1.1 \\
+                21 & DP-Adam  & 30  & 40.13\% & 713.50  & 3      & 0.2  & 128  & 1.1 \\
+                22 & DP-Adam  & 30  & 39.34\% & 725.00  & 3      & 0.3  & 128  & 1.1 \\
+                23 & DP-Adam  & 30  & 36.80\% & 717.70  & 3      & 0.4  & 128  & 1.1 \\
+                24 & DP-Adam  & 30  & 38.28\% & 733.40  & 3      & 0.5  & 128  & 1.1 \\
+                25 & DP-Adam  & 30  & 30\%    & 642.00  & 3      & 0.2  & 256  & 1.1 \\
+                26 & DP-Adam  & 30  & 38\%    & 690.00  & 10     & 0.1  & 256  & 1.1 \\
+                27 & DP-Adam  & 30  & 39\%    & 743.00  & 50     & 0.1  & 256  & 1.1 \\
+                28 & DP-Adam  & 100 & 36\%    & 2247.00 & 3      & 0.1  & 256  & 1.1 \\
+                32 & RMSProp  & 30  & 42\%    & 459.73  & 3      & 0.01 & 128  & 1.1 \\
+                33 & RMSProp  & 30  & 43\%    & 673.73  & 3      & 0.01 & 256  & 1.1 \\
+                34 & RMSProp  & 30  & 48\%    & 684.61  & 7.99   & 0.01 & 256  & 1.1 \\
+                35 & RMSProp  & 30  & 45\%    & 684.67  & 10     & 0.01 & 256  & 1.1 \\
+                36 & RMSProp  & 30  & 44\%    & 667.19  & 3      & 0.01 & 256  & 0.1 \\
+                37 & RMSProp  & 30  & 39\%    & 669.75  & 3      & 0.1  & 256  & 1.1 \\
+                38 & RMSProp  & 30  & 44\%    & 664.00  & 3      & 0.005 & 256 & 1.1 \\
+                39 & RMSProp  & 30  & 46\%    & 674.38  & 7.99   & 0.005 & 256 & 0.1 \\
+                40 & RMSProp  & 30  & 45\%    & 672.98  & 8      & 0.01  & 256 & 0.1 \\
+                41 & RMSProp  & 30  & 47\%    & 772.55  & 8.01   & 0.01  & 128 & 1.1 \\
+                42 & RMSProp  & 30  & 39\%    & 772.55  & 3      & 0.01  & 128 & 0.1 \\
+                43 & RMSProp  & 30  & 42\%    & 759.14  & 3      & 0.005 & 128 & 1.1 \\
+                44 & RMSProp  & 30  & 45\%    & 775.69  & 8      & 0.005 & 128 & 1.1 \\
+                45 & RMSProp  & 30  & 41\%    & 1283.99 & 8      & 0.001 & 64  & 1.1 \\
+                46 & RMSProp  & 30  & 44.65\% & 544.07  & 3      & 0.01  & 512 & 1.1 \\
+                47 & RMSProp  & 30  & 43.82\% & 756.23  & 3      & 0.01  & 1024 & 1.1 \\
+                \hline
+            \end{tabular}
+        }
+        \label{tab:exp_results}
+    \end{table}
+
 
 \end{document}
+

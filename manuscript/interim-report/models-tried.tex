@@ -1,6 +1,6 @@
 \subsection{Motivation and Rationale}\label{subsec:motivation-and-rationale}
 
-As mentioned earlier in the report, the motivation for trying these optimizers was to appropriately bound the strength of the 3 optimization techniques for CIFAR-10. 
+As mentioned, the motivation for trying these optimizers was to appropriately bound the strength of the 3 optimization techniques for CIFAR-10. 
 This lays a strong groundwork for future additions to the algorithms and allows us to have a wide range of options in making these adjustments. 
 
 DP-SGD is likely the most common optimization algorithm used in differentially private image classification. The motivation for using DP-SGD is simply to have a strong 
@@ -89,8 +89,46 @@ Below are pseudocodes for the DP-SGD, DP-RMSprop, and DP-Adam algorithms that we
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Modification and Variations}\label{subsec:modification-and-variations}
+\subsection{Proposed Modifications and Variations}\label{subsec:modification-and-variations}
+Most of our current work has focused on implementing and testing the existing DP-SGD, DP-RMSProp, and DP-Adam optimization techniques. The main axes
+of testing involved changing hyperparameters like epsilon, batch size, or noise level. This has allowed us to establish a base with 3 optimization techniques
+that can each be used to test our proposed modifications and variations going forward.
 
+Our next proposed approach will be privatizing Evolved Sign Momentum (Lion) optimizer. This optimization technique builds on variants of SGD and Adam and having 
+differentially private implementations, of those, available should provide a good basis of comparison for our newly privatized version of Lion, DP-Lion. In the private world,
+DP-SGD is still the most popular optimization technique, however in the non-private world, versions of Adam (AdamW) or Adafactor are the usual choices for training
+a deep neural netwrok. \cite{chen2023symbolicdiscoveryoptimizationalgorithms} We feel that transitioning from the primary private optimizer to a newly privatized Lion optimizer
+will be an interesting approach to examine.
+
+To privatize Lion, we will need to add gaussian noise that is relative to the number of iterations, epsilon, and sensitivity. This will take a very similar form to the privatization
+done for DP-SGD, DP-RMSProp, and DP-Adam. Next, we also plan to implement a clipping constant C, so as to properly bound the sensitivity associated with neighboring datasets. The following psuedocode
+introduces our proposed adjustments to the Lion Optimizer from \cite{chen2023symbolicdiscoveryoptimizationalgorithms}.
+
+\begin{algorithm}
+    \caption{DP-Lion}
+    \label{alg:lion}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} A constant vector $\mathbb{R}^d \ni \xi \mathbf{1}_d > 0$, parameters $\beta_1, \beta_2 \in [0, 1)$, a sequence of step sizes $\{\alpha_t\}_{t=1,2,\dots}$, initial starting point $\mathbf{x}_1 \in \mathbb{R}^d$, and oracle access to the gradients of $f : \mathbb{R}^d \to \mathbb{R}$.
+        \Function{Lion}{$\mathbf{x}_1, \beta_1, \beta_2, \{\alpha_t\}, \xi$}
+            \State Initialize: $\mathbf{m}_0 = \mathbf{0}$, $\mathbf{v}_0 = \mathbf{0}$
+            \For{$t = 1, 2, \dots$}
+            \State \textbf{Compute gradient}
+                \State $\mathbf{g}_t = \nabla f(\mathbf{x}_t)$
+                \State \textbf{Clip gradient}
+                \State $\mathbf{g}_t = \mathbf{g}_t/max(1, \frac{\lVert \mathbf{g}_t \rVert_{2} }{C})$
+                \State \textbf{Add Noise}
+                \State $\hat{\mathbf{g}_t} = \mathbf{g}_t + \mathcal{N}(0,\sigma^{2}C^{2}I)$
+
+                \State \textbf{Descent}
+                \State $c_{t} = \beta_1 m_{t-1} + (1 - \beta_1) \hat{\mathbf{g}_t}$
+                \State $\mathbf{x}_{t} = \mathbf{x}_{t-1} - \alpha_{t} (sign(c_{t}) + \lambda \mathbf{x}_{t-1})$
+
+                \State \textbf{Calculate Moving Average of Gradient}
+                \State $\mathbf{m}_t = \beta_2 \mathbf{m}_{t-1} + (1 - \beta_2) \hat{\mathbf{g}_t}$
+
+            \EndFor
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
 
 \subsection{Privacy Proof}\label{subsec:incremental-improvements}
-
