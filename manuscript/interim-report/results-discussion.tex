@@ -1,12 +1,34 @@
-\subsection{Train/Test Loss/Accuracy with varied Epochs}\label{subsec:train-testloss-accuracy}
-\begin{itemize}
-    \item \textbf{Accuracy/Training Loss:} Accuracy and training loss on CIFAR-10~\cite{cifar10_dataset}.
-    \item \textbf{Privacy Cost:} We will measure $(\epsilon, \delta)$ using RDP~\cite{Mironov_2017_RenyiDP} to ensure privacy compliance.
-    \item \textbf{Training Time:} Time complexity and memory usage will be tracked.
-\end{itemize}
+\subsection{Train Accuracy Discussion}\label{subsec:train-testloss-accuracy}
+Currently, our best models are able to achieve accuracies in the high 40\%'s. We have not been able to break that 50\% threshold
+consistently yet. Given the results above, we find that the "best" hyperparameters for the 3 optimization techniques are relatively 
+consistent. For each, a batch size around 256 and 512 performs the best. We are aware of recommended batch sizes from Soham De et al. (2022) \cite{De_2022_ScaleDP_ImageClassification}
+recommending batch sizes that are much larger for CIFAR-10. We are planning to continue testing on Google Colab in the future, which should 
+provide the additional computing power needed to test larger batch sizes. This will also allow us to run models for more epochs.
 
-\subsection{Ablation Study}\label{subsec:ablation-study}
+The results also indicate that the best learning rates are small (compared to our current grid of testing). Currently the best performing 
+learning rate for DP-SGD and DP-Adam is 0.1. For DP-RMSProp, we found that a smaller learning rate, nearer to 0.01 was effective in getting 
+higher test accuracies.
 
-\subsection{Graphs showing effects of Hyperparameters}\label{subsec:graphs-hyperparamters}
+\subsection{Moving Forward with Lion Hyperparameters}\label{subsec:train-testloss-accuracy}
+We now have a good basis to start testing a privatized DP-Lion. Once we're able to get that algorithm functioning with opacus and pytorch, we will
+use the hyperparameters that showed the best accuracy as our starting points. Obviously, there is no guarantee that these hyperparameters will be "best"
+for DP-Lion, but it at least guides our hyperparameter search for our newly proposed algorithm.
 
-\subsection{Tables summarizing results (with standard deviation)}\label{subsec:summary-table-results}
+\subsection{Lessons Learned and Plans to Improve}\label{subsec:train-testloss-accuracy}
+We've come to find that our algorithms struggle to break 50\% accuracy on a consistent basis. The varying of the optimizers, while potentially valuable
+in a non-private setting, has not driven much (if any) improvement in private test accuracies. DP-SGD output our best test accuracy to date. We believe that
+migrating to a new optimizer, Lion, might help us break into higher test accuracies, but we realize that this might not be as true in a private setting, as it is
+in a non-private setting.
+
+In our "related work review", Zhou et al. (2020) \cite{zhou_2020_private_adaptive_algorithms} showed that DP-Adam and DP-RMSProp could outperform DP-SGD in certain 
+sitations. With that in mind, we believe there is additional optimizations we can make to these algorithms to improve their test accuracies. We plan to consult this
+paper heavily in future testing to improve the outputs of these 2 models.
+
+Another area of improvement could be data augmentation. Currently, our data augmentation implementation only flips and crops the images in CIFAR-10, while training. 
+This can be improved by introducing rotation and some additional translations. We believe that adding more augmentation will correlate with improved model results.
+
+Lastly, the hyperparameter grid search conducted in this first half of the project gave us keen insight into testing going forward. We've now built pipelines to
+succinctly run multiple model runs in succession and to easily output their results to graphs and charts. We plan to continue developing this pipeline going forward, to allow 
+for faster and cleaner post-run analysis.
+
+

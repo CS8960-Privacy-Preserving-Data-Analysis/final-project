@@ -99,7 +99,23 @@ introduces our proposed adjustments to the Lion Optimizer from~\cite{chen2023sym
 \end{algorithm}
 
 
-\subsection{Privacy Proof}\label{subsec:privacy-proof}
+% \subsection{Privacy Proof}\label{subsec:privacy-proof}
+
+% % \begin{theorem}[Theorem 2]
+% %     In DPAGD, set $\sigma$ to be as in (6), and for any $\mu > 0$, $\varepsilon$, $\delta$ and sample size $n$ satisfying $\varepsilon \leq \frac{\sigma}{13}$,
+% %     $\delta \leq \frac{\sigma \exp(-\mu^2/2)}{13 \ln(26/\sigma)}$ and $n \geq \frac{2 \ln(8/\delta)}{\varepsilon^2}$, the noisy gradients $\tilde{g}_1, \dots, \tilde{g}_T$ produced in Algorithm 1 satisfy
+% %     \[
+% %     P \left\{ \|\tilde{g}_t - g_t\| \geq \sqrt{p} \sigma (1 + \mu) \right\} \leq 4p \exp(-\mu^2/2)
+% %     \]
+% %     for all $t \in [T]$.
+% % \end{theorem}
+    
+% % Theorem 2 indicates that gradient $\tilde \g_t$ produced by DPAGD is concentrated around population gradient $\g_t$ with a tight concentration error bound $\sqrt{p}\sigma(1+\mu)$. The noise variance $\sigma$ illustrates a trade-off between privacy and accuracy: 
+% % A higher noise level $\sigma$ brings a better privacy guarantee (i.e., a smaller $\epsilon$), but meanwhile incurs a larger concentration error $\sqrt{p}\sigma(1+\mu)$. 
+% % To obtain a generalization bound (i.e., the upper bound on the $\ell_2$-norm of the population gradient) of Algorithm 2 with the guarantee of being $(\epsilon,\delta)$-differential private, we set the parameter $\sigma$, iteration $T$ in Algorithm 1 to satisfy the conditions in Theorem 2, which also brings out an requirement on the sample size $n$. We present the details and the convergence of the population gradient for DP GD, DP RMSprop and DP Adam in the following section.
+
+
+
 
 \subsection{Related Work: DP-SGD}\label{subsec:related-work}
 Abadi et al. \cite{Abadi_2016_DeepLearningDifferentialPrivacy} introduced DP-SGD, which has become a foundational technique for
@@ -114,8 +130,16 @@ layers on CIFAR-100 before migrating to CIFAR-10, assuming that CIFAR-100 is a p
 \end{figure}
 
 \subsection{Related Work: DP-RMSProp and DP-Adam}\label{subsec:related-work-RMSProp}
-For comparison of DP-RMSProp and DP-Adam, we turn to the results from Zhou et al. (2020) \cite{zhou_2020_private_adaptive_algorithms}. They 
-similarly 
+For comparison of DP-RMSProp and DP-Adam, we turn to the results from Zhou et al. (2020) \cite{zhou_2020_private_adaptive_algorithms} and Tang et al. (2023) \cite{tang2023dpadambcdpadamactuallydpsgd}.
+These 2 papers illustrate some situations where DP-Adam and DP-RMSProp greatly outperform DP-SGD. They also show that these algorithms perform
+very similarly on other tasks, specifically on CIFAR-10 in many cases.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{zhou.PNG}
+    \caption{DP-Adam Results on CIFAR-10 \cite{tang2023dpadambcdpadamactuallydpsgd}}
+    \label{fig:image_label}
+\end{figure}
 
 \begin{figure}[ht]
     \centering
