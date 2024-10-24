@@ -1,8 +1,9 @@
 \subsection{Optimizer Details (with Hyperparameter values)}\label{subsec:optimizer-details}
+In the course of testing these 3 optimizers, we have looked to vary the following hyperparameters: Batch Size, Learning Rate, and Epsilon. We used a basic grid search
+approach to testing the hyperparameters for each optimizer. We varied Batch Size from 64 to 1024, we varied learning rate from 0.1 to 0.5, and we varied epsilon from 3 to 50. The
+table below shows the entire grid of possible combinations used for each optimizer. The grid search approach allowed us to effectively test the hyperparameter space and appropriately
+isolate the effects of these changes. The results of these tests will be provided in the following section.
 
-\subsection{DP Details (Budget Accounting, Noise Scale, No. Iterations)}\label{subsec:dp-details}
-\begin{itemize}
-    \item \textbf{Budget Accounting:} 
-    \item \textbf{Noise Scale:}
-    \item \textbf{Number of Iterations:}
-\end{itemize}
+
+\subsection{Results varying (Budget Accounting, Noise Scale, No. Iterations)}\label{subsec:dp-details}
+
