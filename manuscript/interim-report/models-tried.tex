@@ -99,4 +99,27 @@ introduces our proposed adjustments to the Lion Optimizer from~\cite{chen2023sym
 \end{algorithm}
 
 
-\subsection{Privacy Proof}\label{subsec:incremental-improvements}
+\subsection{Privacy Proof}\label{subsec:privacy-proof}
+
+\subsection{Related Work: DP-SGD}\label{subsec:related-work}
+Abadi et al. \cite{Abadi_2016_DeepLearningDifferentialPrivacy} introduced DP-SGD, which has become a foundational technique for
+privacy-preserving model training. When specifically working on the CIFAR-10 dataset, this 2016 paper was able to achieve accuracies
+of 65-75\% while keeping epsilon at or below 8. The biggest difference in their analysis and ours, is that they pretrain their convolutional
+layers on CIFAR-100 before migrating to CIFAR-10, assuming that CIFAR-100 is a public dataset. Their results are seen below:
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{dp-sgd_results.PNG}
+    \caption{DP-SGD Results on CIFAR-10 \cite{Abadi_2016_DeepLearningDifferentialPrivacy}}
+    \label{fig:image_label}
+\end{figure}
+
+\subsection{Related Work: DP-RMSProp and DP-Adam}\label{subsec:related-work-RMSProp}
+For comparison of DP-RMSProp and DP-Adam, we turn to the results from Zhou et al. (2020) \cite{zhou_2020_private_adaptive_algorithms}. They 
+similarly 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{dp-adam-rms-results.PNG}
+    \caption{DP-Adam Results on CIFAR-10 \cite{tang2023dpadambcdpadamactuallydpsgd}}
+    \label{fig:image_label}
+\end{figure}
