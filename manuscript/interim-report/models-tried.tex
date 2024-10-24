@@ -99,21 +99,19 @@ introduces our proposed adjustments to the Lion Optimizer from~\cite{chen2023sym
 \end{algorithm}
 
 
-% \subsection{Privacy Proof}\label{subsec:privacy-proof}
+\subsection{Privacy Proof}\label{subsec:privacy-proof}
+Below is a privacy proof from Zhou et al. (2020) \cite{zhou_2020_private_adaptive_algorithms} that provides generalization bounds for the DP algorithms that we have implemented. This
+is taken directly from that paper:
 
-% % \begin{theorem}[Theorem 2]
-% %     In DPAGD, set $\sigma$ to be as in (6), and for any $\mu > 0$, $\varepsilon$, $\delta$ and sample size $n$ satisfying $\varepsilon \leq \frac{\sigma}{13}$,
-% %     $\delta \leq \frac{\sigma \exp(-\mu^2/2)}{13 \ln(26/\sigma)}$ and $n \geq \frac{2 \ln(8/\delta)}{\varepsilon^2}$, the noisy gradients $\tilde{g}_1, \dots, \tilde{g}_T$ produced in Algorithm 1 satisfy
-% %     \[
-% %     P \left\{ \|\tilde{g}_t - g_t\| \geq \sqrt{p} \sigma (1 + \mu) \right\} \leq 4p \exp(-\mu^2/2)
-% %     \]
-% %     for all $t \in [T]$.
-% % \end{theorem}
-    
-% % Theorem 2 indicates that gradient $\tilde \g_t$ produced by DPAGD is concentrated around population gradient $\g_t$ with a tight concentration error bound $\sqrt{p}\sigma(1+\mu)$. The noise variance $\sigma$ illustrates a trade-off between privacy and accuracy: 
-% % A higher noise level $\sigma$ brings a better privacy guarantee (i.e., a smaller $\epsilon$), but meanwhile incurs a larger concentration error $\sqrt{p}\sigma(1+\mu)$. 
-% % To obtain a generalization bound (i.e., the upper bound on the $\ell_2$-norm of the population gradient) of Algorithm 2 with the guarantee of being $(\epsilon,\delta)$-differential private, we set the parameter $\sigma$, iteration $T$ in Algorithm 1 to satisfy the conditions in Theorem 2, which also brings out an requirement on the sample size $n$. We present the details and the convergence of the population gradient for DP GD, DP RMSprop and DP Adam in the following section.
 
+In DPAGD, set $\sigma$ to be as in (6), and for any $\mu > 0$, $\varepsilon$, $\delta$ and sample size $n$ satisfying $\varepsilon \leq \frac{\sigma}{13}$,
+$\delta \leq \frac{\sigma \exp(-\mu^2/2)}{13 \ln(26/\sigma)}$ and $n \geq \frac{2 \ln(8/\delta)}{\varepsilon^2}$, the noisy gradients $\tilde{g}_1, \dots, \tilde{g}_T$ produced in Algorithm 1 satisfy
+\[
+P \left\{ \|\tilde{g}_t - g_t\| \geq \sqrt{p} \sigma (1 + \mu) \right\} \leq 4p \exp(-\mu^2/2)
+\]
+for all $t \in [T]$.
+
+To obtain a generalization bound (i.e., the upper bound on the $L_2$-norm of the population gradient) of Algorithm 1 with the guarantee of being $(\varepsilon, \delta)$-differentially private, we set the parameter $\sigma$ and the iteration $T$ in Algorithm 1 to satisfy the conditions in Theorem 2. This also imposes a requirement on the sample size $n$. 
 
 
 
