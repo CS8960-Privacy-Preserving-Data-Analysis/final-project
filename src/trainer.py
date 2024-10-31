@@ -67,14 +67,49 @@ parser.add_argument('--noise-multiplier', default=1.1, type=float,
 parser.add_argument('--max-grad-norm', default=1.0, type=float,
                     help='Max grad norm for differential privacy (default: 1.0)')
 
+# For RMSprop
+parser.add_argument('--alpha', default=0.99, type=float, 
+                    help='RMSprop smoothing constnt (default: 0.99)')
+parser.add_argument('--rms-epsilon', default=1e-8, type=float, 
+                    help='RMSprop epsilon (default: 1e-8)')
+parser.add_argument('--centered', default=False, type=bool, 
+                    help='RMSprop centered (default: False)')
+
 # For Adam optimizer
 parser.add_argument('--beta1', default=0.9, type=float,
                     help='Beta1 for Adam optimizer')
 parser.add_argument('--beta2', default=0.999, type=float,
                     help='Beta2 for Adam optimizer')
 
+# Choose Optimizer Type
+parser.add_argument('--optimizer', default='DP-SGD', type=str,
+                    help='Choose Optimizer (default: DP-SGD)')
+
 best_prec1 = 0
 
+
+def choose_optimizer(args,model):
+    if args.optimizer == 'DP-SGD':
+        optimizer = torch.optim.SGD(model.parameters(), args.lr,
+                                momentum=args.momentum,
+                                weight_decay=args.weight_decay)
+    elif args.optimizer == 'DP-Adam':
+
+        optimizer = torch.optim.Adam(
+            model.parameters(),
+            lr=args.lr,
+            betas=(args.beta1, args.beta2),
+            weight_decay=args.weight_decay
+        )
+    elif args.optimizer == 'DP-RMSprop':
+       optimizer = torch.optim.RMSprop(model.parameters(), 
+                                    lr=args.lr,
+                                    alpha=args.alpha, 
+                                    eps=args.rms_epsilon,
+                                    weight_decay=args.weight_decay, 
+                                    momentum=args.momentum, 
+                                    centered=args.centered) 
+    return optimizer
 
 def main():
     global args, best_prec1, train_losses, train_accuracies, val_losses, val_accuracies
