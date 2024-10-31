@@ -13,7 +13,7 @@ from opacus.validators import ModuleValidator
 
 import resnet
 from data_loader import get_data_loaders
-from src.visualizer import plot_train_test_loss_accuracy_vs_epochs
+from visualizer import plot_train_test_loss_accuracy_vs_epochs
 from utils import accuracy, AverageMeter, save_checkpoint, log_metrics
 
 model_names = sorted(name for name in resnet.__dict__
