@@ -4,7 +4,7 @@ import torchvision.transforms as transforms
 
 def get_data_loaders(batch_size, workers):
 
-    # Normalize the data
+    # Normalize the data (This standardizes the data based on the mean and std dev. (X-mu/sigma). RGB channels)
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
