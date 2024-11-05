@@ -1,18 +1,20 @@
 import argparse
 import os
 import time
-
+import random
+import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-from opacus import PrivacyEngine
+from opacus import PrivacyEngine, GradSampleModule
 from opacus.validators import ModuleValidator
 
 import resnet
 from data_loader import get_data_loaders
+from src.lion import Lion
 from src.visualizer import plot_train_test_loss_accuracy_vs_epochs
 from utils import accuracy, AverageMeter, save_checkpoint, log_metrics
 
@@ -80,6 +82,17 @@ def main():
     global args, best_prec1, train_losses, train_accuracies, val_losses, val_accuracies
     args = parser.parse_args()
 
+    # Let's set a random seed before training to make the experiments reproducible
+    seed = 8960
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
+
     # Clear global lists before starting a new experiment
     train_losses = []
     train_accuracies = []
@@ -138,7 +151,7 @@ def main():
         model.half()
         criterion.half()
 
-    optimizer = torch.optim.Adam(
+    optimizer = Lion(
         model.parameters(),
         lr=args.lr,
         betas=(args.beta1, args.beta2),
@@ -219,7 +232,7 @@ def main():
     print("Training completed.")
 
     # TODO: Fix the optimizer name later
-    experiment_id = f"experiment_DPADAM_{args.batch_size}_{args.lr}_{int(time.time())}"
+    experiment_id = f"experiment_DPLION_{args.batch_size}_{args.lr}_{int(time.time())}"
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     save_dir = os.path.join(project_root, 'experiments', experiment_id)
 
