@@ -1,18 +1,20 @@
 import argparse
 import os
 import time
-
+import random
+import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-from opacus import PrivacyEngine
+from opacus import PrivacyEngine, GradSampleModule
 from opacus.validators import ModuleValidator
 
 import resnet
 from data_loader import get_data_loaders
+from lion import Lion
 from visualizer import plot_train_test_loss_accuracy_vs_epochs
 from utils import accuracy, AverageMeter, save_checkpoint, log_metrics
 
@@ -68,11 +70,11 @@ parser.add_argument('--max-grad-norm', default=1.0, type=float,
                     help='Max grad norm for differential privacy (default: 1.0)')
 
 # For RMSprop
-parser.add_argument('--alpha', default=0.99, type=float, 
+parser.add_argument('--alpha', default=0.99, type=float,
                     help='RMSprop smoothing constnt (default: 0.99)')
-parser.add_argument('--rms-epsilon', default=1e-8, type=float, 
+parser.add_argument('--rms-epsilon', default=1e-8, type=float,
                     help='RMSprop epsilon (default: 1e-8)')
-parser.add_argument('--centered', default=False, type=bool, 
+parser.add_argument('--centered', default=False, type=bool,
                     help='RMSprop centered (default: False)')
 
 # For Adam optimizer
@@ -102,18 +104,44 @@ def choose_optimizer(args,model):
             weight_decay=args.weight_decay
         )
     elif args.optimizer == 'DP-RMSprop':
-       optimizer = torch.optim.RMSprop(model.parameters(), 
+       optimizer = torch.optim.RMSprop(model.parameters(),
                                     lr=args.lr,
-                                    alpha=args.alpha, 
+                                    alpha=args.alpha,
                                     eps=args.rms_epsilon,
-                                    weight_decay=args.weight_decay, 
-                                    momentum=args.momentum, 
-                                    centered=args.centered) 
+                                    weight_decay=args.weight_decay,
+                                    momentum=args.momentum,
+                                    centered=args.centered)
+
+    elif args.optimizer == 'DP-Lion':
+        optimizer = Lion(
+            model.parameters(),
+            lr=args.lr,
+            betas=(args.beta1, args.beta2),
+            weight_decay=args.weight_decay
+        )
+
+    else:
+        print('Error: Choose Optimizer from DP-SGD, DP-Adam, DP-RMSprop, DP-Lion')
+        raise ValueError(f"Unknown optimizer: {args.optimizer}")
+    
+    print(f"Optimizer: {args.optimizer} initialized.")
+
     return optimizer
 
 def main():
     global args, best_prec1, train_losses, train_accuracies, val_losses, val_accuracies
     args = parser.parse_args()
+
+    # Let's set a random seed before training to make the experiments reproducible
+    seed = 8960
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
 
     # Clear global lists before starting a new experiment
     train_losses = []
@@ -139,6 +167,9 @@ def main():
     # Modify the model to use GroupNorm instead of BatchNorm since BathNorm is not supported in DP-SGD
     print("Replacing BatchNorm with GroupNorm for differential privacy...")
     model = ModuleValidator.fix(model)
+
+    # This is required for Opacus to calculate per-sample gradients
+    model = GradSampleModule(model)
 
     # Validate the model for DP compatibility
     errors = ModuleValidator.validate(model, strict=True)
@@ -173,12 +204,7 @@ def main():
         model.half()
         criterion.half()
 
-    optimizer = torch.optim.Adam(
-        model.parameters(),
-        lr=args.lr,
-        betas=(args.beta1, args.beta2),
-        weight_decay=args.weight_decay
-    )
+    optimizer = choose_optimizer(args, model)
     print("Optimizer initialized.")
 
     # Create a privacy engine
