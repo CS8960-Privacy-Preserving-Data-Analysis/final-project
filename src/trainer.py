@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-from opacus import PrivacyEngine
+from opacus import PrivacyEngine, GradSampleModule
 from opacus.validators import ModuleValidator
 
 import resnet
@@ -111,6 +111,21 @@ def choose_optimizer(args,model):
                                     weight_decay=args.weight_decay,
                                     momentum=args.momentum,
                                     centered=args.centered)
+
+    elif args.optimizer == 'DP-Lion':
+        optimizer = Lion(
+            model.parameters(),
+            lr=args.lr,
+            betas=(args.beta1, args.beta2),
+            weight_decay=args.weight_decay
+        )
+
+    else:
+        print('Error: Choose Optimizer from DP-SGD, DP-Adam, DP-RMSprop, DP-Lion')
+        raise ValueError(f"Unknown optimizer: {args.optimizer}")
+    
+    print(f"Optimizer: {args.optimizer} initialized.")
+
     return optimizer
 
 def main():
@@ -153,6 +168,9 @@ def main():
     print("Replacing BatchNorm with GroupNorm for differential privacy...")
     model = ModuleValidator.fix(model)
 
+    # This is required for Opacus to calculate per-sample gradients
+    model = GradSampleModule(model)
+
     # Validate the model for DP compatibility
     errors = ModuleValidator.validate(model, strict=True)
     if errors:
@@ -186,12 +204,7 @@ def main():
         model.half()
         criterion.half()
 
-    optimizer = Lion(
-        model.parameters(),
-        lr=args.lr,
-        betas=(args.beta1, args.beta2),
-        weight_decay=args.weight_decay
-    )
+    optimizer = choose_optimizer(args, model)
     print("Optimizer initialized.")
 
     # Create a privacy engine
