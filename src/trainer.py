@@ -159,7 +159,7 @@ def main():
         print("WARNING: Contents of the directory will be overwritten.")
         print("path of the directory: ", os.path.abspath(args.save_dir))
 
-    print("Initializing model...")
+    print(f"Initializing {args.optimizer} model...")
     model = resnet.__dict__[args.arch]().cuda()
 
     print(f"Model {args.arch} initialized.")
