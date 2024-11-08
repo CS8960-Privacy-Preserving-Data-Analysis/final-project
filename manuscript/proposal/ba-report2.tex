@@ -1,4 +1,4 @@
-\subsection{Current Implementation Overview}\label{subsec:current-implementation}
+\subsection{Current Implementation Overview}\label{subsec:current-implementation2}
 
 \begin{table}[!ht]
     \caption{Experimental Results\\All experiments were conducted with a constant privacy budget $\delta = 10^{-5}$, momentum $\beta = 0.9$, weight decay    $\lambda = 10^{-4}$ and a maximum gradient norm of $C = 1.0$.}
@@ -28,36 +28,46 @@
             \hline
         \end{tabular}
     } % End of \resizebox
-    \label{tab:exp_results}  % Label of the table
+    \label{tab:exp_results2}  % Label of the table
 \end{table}
 
+
+\subsection{Visualizations}\label{subsec:best-accuracy-viz2}
+\includegraphics[width=0.7\textwidth]{batch_size_vs_accuracy.png}
+\includegraphics[width=0.7\textwidth]{learning_rate_vs_accuracy.png}
+
 \subsection{Best Observed Accuracy and Components/Hyperparameters}\label{subsec:best-accuracy}
-In the Experimental testing above, we varied hyperparameters to maximize accuracy of classification on the CIFAR10 dataset. We employed the
-($\epsilon$, $\delta$)-Differentially Private - Stochastic Gradient Descent (DP-SGD) as our optimizer. For our loss function, we used the built-in PyTorch CrossEntropy function.
-The bolded lines, in the table above, indicate the maximum accuracies achieved by varying each of the hyperparameters. As a baseline, we also implemented
-a non-private SGD to give an upper bound on potential accuracy for the CIFAR10 dataset. We were able to achieve 94\% accuracy with non-private SGD over 200 epochs.
+The biggest change from the BA report \#1 was the privatization of the Lion Optimizer. To privatize, we made the gradients used in the algorithm "noisy" by introducing clipping
+at the per example gradient level and then adding noise for the batch. The above results indicate the first round of testing completed with the new DP-Lion Optimizer.
+
+We began our testing with a grid-search of possible hyperparameter combinations for batch size, learning rate, and noise multiplier. The main takeaways were that batch size,
+when changed indepedently, appears to be optimal around 512 batch size. For Learning rate, it appeared that a learning rate of .001 showed the highest accuracy over a set of 5
+runs. Finally, for noise multiplier, we found that raising the multiplier to 4.1 from 1.1 might provide some improvements in accuracy. We also found there to be marginal differences
+between higher and lower noise multipliers when using large batch sizes.
+
+In this suite of testing, our highest accuracy was roughly 46\%. We then turned to the original non-private Lion paper for some guidance on how they adjusted hyperparameters. They recommend 
+large batch sizes and relatively small learning rates (relative to DP-Adam, DP-SGD, DP-RMSprop). They also recommend a $Beta_{1}$ value of 0.95 and a $Beta_{2}$ value of 0.98. We tested
+these beta values also with increasing the epochs from 30 to 200 and achieved a peak accuracy of 54.43\%. This is the highest private accuracy we have been able to generate in our testing
+yet. 
+
+In our early testing, it seems that non-private Lion and Private Lion might prefer the same types of hyperparameters, namely large batch sizes, small learning rates, $Beta_{1}$ value of 0.95,
+and a $Beta_{2}$ value of 0.98.
+
 \begin{itemize}
-    \item \textbf{Learning Rate:} We varied learning rate from 0.1 to 0.5. The smallest learning rate (0.1) yielded the highest accuracy of 41\%.
-    \item \textbf{Batch Size:} We varied batch size from 64 to 1024. A batch size of 256 yielded the highest accuracy of 44\% among its peers.
-    \item \textbf{Epsilon/Privacy Budget:} Higher epsilons mean lower privacy, but also can mean higher utility. When the epsilon was adjusted to 50, accuracy peaked at 50\%.
-    \item \textbf{Noise Multiplier:} Along with Epsilon changes, our highest accuracy (50\%) run also coincided with a decrease in noise multiplier (0.1).
+    \item \textbf{Learning Rate:} We varied learning rate from 0.1 to 0.0001. The middle learning rate (0.001) yielded the highest accuracy of 45\%.
+    \item \textbf{Batch Size:} We varied batch size from 64 to 2048. A batch size of 512 yielded the highest accuracy of 44\% among its peers.
+    \item \textbf{Noise Multiplier:} Along with Epsilon changes, our highest accuracy, 54.43\%, also coincided with an increase in noise multiplier (10.1).
 \end{itemize}
 
-\subsection{Failed Approaches}\label{subsec:failed-approaches}
-Below is discussion of the approaches that either failed to improve accuracy or reduced the accuracy from our first DP-SGD model run (Experiment ID \#3).
+\subsection{Failed Approaches}\label{subsec:failed-approaches2}
+It seems that using smaller batch sizes is not optimal for accuracy of Lion. We also notice that large learning rates like those used in DP-SGD degrade accuracy dramatically. Lastly, 
+we found that $Beta_{1}$ value of 0.9 and a $Beta_{2}$ value of 0.999, which are the commonly used values for Adam, are not optimal for DP-Lion.
 
-\begin{itemize}
-    \item \textbf{Increasing learning rate:} Adjusting the learning rate from 0.3 to 0.5 still yielded lower accuracy, ranging between 37\% and 39\%.
-    \item \textbf{Adjusting Batch Sizes:} Decreasing the batch size to 64 was a failure on 2 fronts. It first decreased the accuracy of the model to 35\% and it was noticeably slower than all other approaches at more than 900 seconds to completion. Higher Batch Sizes, near 1000, also experienced some slowdown (more than 650 seconds). Any batch size other than the 256 or 512 seemed to have no positive effect on accuracy. CUDA also indicated a memory warning when batch size was 1024.
-\end{itemize}
+\subsection{Implementation Challenges}\label{subsec:implementation-challenges2}
+We needed to find an implementation of Lion to be used in our model. We used the following non-private Lion implementation from the google automl repository: 
+\url{https://github.com/google/automl/blob/master/lion/lion_pytorch.py}. 
 
-\subsection{Implementation Challenges}\label{subsec:implementation-challenges}
-In the course of completing these tests, we ran into numerous issues. These issues mainly during the implementation of the Opacus Privacy Engine. Our original implementation builds a Residual Network
-with 20 layers (Resnet20) and uses non-private SGD as its optimizer.
-\begin{itemize}
-    \item \textbf{BatchNorm to GroupNorm:} Opacus was not compatible with BatchNorm (which was used in our base implementation \cite{Idelbayev_ResNet20}). To fix this, we employed Opacus' ModuleValidator.fix(model) built-in function, which replaces all the BatchNorms with GroupNorms.
-    \item \textbf{Lambda Layer:} Next, we replaced the Lambda layer (from the base implementation \cite{Idelbayev_ResNet20}) with a Shortcut layer, as the Lambda layer was using Serializable functions which weren't compatible with ModuleValidator.fix(model). This occurs because Lambda layers use unnamed functions which are not serializable.
-    \item \textbf{Dead Module:} Lastly, we encountered an error with a "dead module". Specifically, while calling the loss.backward() function, our model would return an RuntimeError indicating that we were trying to call the hook of a dead module. This arose due to the base implementations \cite{Idelbayev_ResNet20} usage of torch.nn.DataParallel. To fix this, we removed this parallelization from the code.
-
-\end{itemize}
-
+From there, we needed to then pass the optimizer through the opacus make private function to return the noisy gradients optimization.
+As we're looking to improve the accuracy of our models, we're needing to increase the batch size and the epochs the model runs for. This is causing us to hit a computing
+limit. Some of our runs take upwards of 3600 seconds (roughly 1 hour) and can use considerable memory as well. This isn't a persistent issue, but sometimes the runs will hit memory
+allocation or OOM issues on CUDA.
