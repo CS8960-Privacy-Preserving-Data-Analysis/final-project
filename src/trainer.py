@@ -87,6 +87,10 @@ parser.add_argument('--beta2', default=0.999, type=float,
 parser.add_argument('--optimizer', default='DP-SGD', type=str,
                     help='Choose Optimizer (default: DP-SGD)')
 
+# Choose Optimizer Type
+parser.add_argument('--seed', default=100, type=int,
+                    help='Choose Random Seed (default:100)')
+
 best_prec1 = 0
 
 
@@ -133,7 +137,7 @@ def main():
     args = parser.parse_args()
 
     # Let's set a random seed before training to make the experiments reproducible
-    seed = 8960
+    seed = args.seed
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
