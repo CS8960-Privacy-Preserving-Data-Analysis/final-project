@@ -11,6 +11,9 @@ import torch.optim
 import torch.utils.data
 from opacus import PrivacyEngine, GradSampleModule
 from opacus.validators import ModuleValidator
+from opacus.grad_sample.functorch import make_functional
+from torch.func import grad_and_value, vmap
+
 
 import resnet
 from data_loader import get_data_loaders
@@ -224,6 +227,7 @@ def main():
             target_delta=args.delta,
             epochs=args.epochs,
             max_grad_norm=args.max_grad_norm,
+            grad_sample_mode="no_op"
         )
         print(f"Model made private with target epsilon: {args.target_epsilon}")
     else:
@@ -324,6 +328,22 @@ def train(train_loader, model, criterion, optimizer, epoch, privacy_engine=None)
     # switch to train mode
     model.train()
 
+    fmodel, _fparams = make_functional(model)
+
+    def compute_loss_stateless_model(params, sample, target):
+        batch = sample.unsqueeze(0)
+        targets = target.unsqueeze(0)
+
+        predictions = fmodel(params, batch)
+        loss = criterion(predictions, targets)
+        return loss
+    
+    ft_compute_grad = grad_and_value(compute_loss_stateless_model)
+    ft_compute_sample_grad = vmap(ft_compute_grad, in_dims=(None, 0, 0))
+    # Using model.parameters() instead of fparams
+    # as fparams seems to not point to the dynamically updated parameters
+    params = list(model.parameters())
+
     end = time.time()
     for i, (input, target) in enumerate(train_loader):
         import pdb;pdb.set_trace()
@@ -338,12 +358,22 @@ def train(train_loader, model, criterion, optimizer, epoch, privacy_engine=None)
 
         # compute output
         output = model(input_var)
+
+        per_sample_grads, per_sample_losses = ft_compute_sample_grad(
+            params, input_var, target_var
+        )
+        per_sample_grads = [g.detach() for g in per_sample_grads]
+        loss = torch.mean(per_sample_losses)
+        for p, g in zip(params, per_sample_grads):
+            p.grad_sample = g
+
+
         loss = criterion(output, target_var)
 
         # compute gradient and do SGD step
-        optimizer.zero_grad()
-        loss.backward()
+        # loss.backward()
         optimizer.step()
+        optimizer.zero_grad()
 
         output = output.float()
         loss = loss.float()
