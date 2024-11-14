@@ -13,13 +13,13 @@ from opacus import PrivacyEngine, GradSampleModule
 from opacus.validators import ModuleValidator
 from opacus.grad_sample.functorch import make_functional
 from torch.func import grad_and_value, vmap
-from src.augmented_grad_samplers import AugmentationMultiplicity
+from augmented_grad_samplers import AugmentationMultiplicity
 from opacus.utils.batch_memory_manager import BatchMemoryManager
 import torchvision.transforms as transforms
-from src.utils import (init_distributed_mode,initialize_exp,bool_flag,accuracy,get_noise_from_bs,get_epochs_from_bs,print_params,)
-from src.privacy_engine_augmented import PrivacyEngineAugmented
-from src.prepare_models import prepare_data_cifar, prepare_augmult_cifar
-from src.EMA_without_class import create_ema, update
+from utils import (init_distributed_mode,initialize_exp,bool_flag,accuracy,get_noise_from_bs,get_epochs_from_bs,print_params,)
+from privacy_engine_augmented import PrivacyEngineAugmented
+from prepare_models import prepare_data_cifar, prepare_augmult_cifar
+from EMA_without_class import create_ema, update
 
 
 
@@ -482,6 +482,22 @@ def parse_args():
     parser.add_argument("--nb_groups",type=int,default=16,help="number of groups for the group norms",)
     parser.add_argument("--ref_nb_steps",default=2500,type=int,help="reference number of steps used with reference noise and batch size to create our physical constant",)
 
+    parser.add_argument("--dump_path",type=str,default="",help="Where results will be stored",)
+    parser.add_argument("--transform",type=int,default=0,help="using augmentation multiplicity",)
+    parser.add_argument("--freq_log", type=int, default=20, help="every each freq_log steps, we log",)
+    parser.add_argument("--freq_log_val",type=int,default=100,help="every each freq_log steps, we log val and ema acc",)
+    parser.add_argument("--poisson_sampling",type=bool_flag,default=True,help="using Poisson sampling",)
+    parser.add_argument("--proportion",default=1,type=float,help="proportion of the training set to use for training",)
+    parser.add_argument("--exp_name", type=str, default="bypass")
+    parser.add_argument("--init", type=int, default=0)
+    parser.add_argument("--order1", type=int, default=0)
+    parser.add_argument("--order2", type=int, default=0)
+    parser.add_argument("--local_rank", type=int, default=-1)
+    parser.add_argument("--master_port", type=int, default=-1)
+    parser.add_argument("--debug_slurm", type=bool_flag, default=False)
+
+
+
     parser.add_argument('--max-grad-norm', default=1.0, type=float,
                         help='Max grad norm for differential privacy (default: 1.0)')
 
@@ -506,6 +522,8 @@ def parse_args():
     # Choose Optimizer Type
     parser.add_argument('--seed', default=100, type=int,
                         help='Choose Random Seed (default:100)')
+
+
 
     return parser.parse_args()
 
