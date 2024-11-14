@@ -212,7 +212,6 @@ def init_distributed_mode(params):
     logger.info(PREFIX + "Multi-GPU      : %s" % str(params.multi_gpu))
     logger.info(PREFIX + "Hostname       : %s" % socket.gethostname())
 
-    import pdb;pdb.set_trace()
     # set GPU device
     torch.cuda.set_device(params.local_rank)
 
