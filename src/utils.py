@@ -316,3 +316,46 @@ def trainable_parameters(module):
     yield from (
         (p_name, p) for (p_name, p) in module.named_parameters() if p.requires_grad
     )
+
+
+def get_dump_path(params):
+    """
+    Create a directory to store the experiment.
+    """
+    if params.exp_name == "bypass":
+        dump_path = params.dump_path.rstrip("/")
+        params.exp_id = os.path.basename(dump_path)
+        sweep_path = os.path.dirname(dump_path)
+        if sweep_path == '':
+            sweep_path = "/tmp"
+    else:
+        dump_path = DUMP_PATH if params.dump_path == '' else params.dump_path
+        assert len(params.exp_name) > 0
+        assert os.path.isdir(dump_path)
+        # create the sweep path if it does not exist
+        sweep_path = os.path.join(dump_path, params.exp_name)
+        if not os.path.exists(sweep_path):
+            subprocess.Popen("mkdir -p %s" % sweep_path, shell=True).wait()
+
+    # create an ID for the job if it is not given in the parameters.
+    # if we run on the cluster, the job ID is the one of Chronos.
+    # otherwise, it is randomly generated
+    if params.exp_id == '':
+        chronos_job_id = os.environ.get('CHRONOS_JOB_ID')
+        slurm_job_id = os.environ.get('SLURM_JOB_ID')
+        assert chronos_job_id is None or slurm_job_id is None
+        exp_id = chronos_job_id if chronos_job_id is not None else slurm_job_id
+        if exp_id is None:
+            chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
+            while True:
+                exp_id = ''.join(random.choice(chars) for _ in range(10))
+                if not os.path.isdir(os.path.join(sweep_path, exp_id)):
+                    break
+        else:
+            assert exp_id.isdigit()
+        params.exp_id = exp_id
+
+    # create the dump folder / update parameters
+    params.dump_path = os.path.join(sweep_path, params.exp_id)
+    if not os.path.isdir(params.dump_path):
+        subprocess.Popen("mkdir -p %s" % params.dump_path, shell=True).wait()
