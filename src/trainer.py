@@ -11,7 +11,6 @@ import torch.optim
 import torch.utils.data
 from opacus import PrivacyEngine, GradSampleModule
 from opacus.validators import ModuleValidator
-from opacus.grad_sample.functorch import make_functional
 from torch.func import grad_and_value, vmap
 from augmented_grad_samplers import AugmentationMultiplicity
 from opacus.utils.batch_memory_manager import BatchMemoryManager
