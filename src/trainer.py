@@ -116,7 +116,7 @@ def main():
     model = resnet.__dict__[args.arch]().cuda()
 
     print(f"Model {args.arch} initialized.")
-    print_params(model)
+    # print_params(model)
 
     rank = args.global_rank
     is_main_worker = rank == 0
