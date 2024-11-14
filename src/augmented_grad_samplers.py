@@ -12,7 +12,7 @@ import torch
 import torch.nn as nn
 from opacus.utils.tensor_utils import unfold2d, unfold3d, sum_over_all_but_batch_and_last_n
 import torch.nn.functional as F
-from final_project.src.NFnet import MyScaledStdConv2d, unsqueeze_and_copy, get_standardized_weight
+from NFnet import MyScaledStdConv2d, unsqueeze_and_copy, get_standardized_weight
 
 class AugmentationMultiplicity:
     def __init__(self, K):
