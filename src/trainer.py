@@ -205,7 +205,7 @@ def main():
                                                 val_loader, is_main_worker, args, norms2_before_sigma, nb_steps)
 
         if is_main_worker:
-            print(f"epoch:{epoch}, Current loss:{losses[-1]:.2f},nb_steps:{nb_steps}, top1_acc of model (not ema){top1_accs[-1]:.2f},average gradient norm:{grad_sample_gradients_norms_per_step[-1]:.2f}")
+            print(f"epoch:{epoch}, Current Epsilon:{epsilons[-1]:.2f},Current loss:{losses[-1]:.2f},nb_steps:{nb_steps}, top1_acc of model (not ema){top1_accs[-1]:.2f},average gradient norm:{grad_sample_gradients_norms_per_step[-1]:.2f}")
 
     if is_main_worker:
         train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size)
