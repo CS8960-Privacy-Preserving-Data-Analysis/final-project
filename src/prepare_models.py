@@ -7,14 +7,14 @@
 
 
 import timm 
-import src.models.NFnet as NFnet
-from src.models.NFnet import MyScaledStdConv2d, MyScaledStdConv2dSame,Expand
+import NFnet as NFnet
+from NFnet import MyScaledStdConv2d, MyScaledStdConv2dSame,Expand
 import torch.nn as nn
 from opacus.validators import ModuleValidator
 import torchvision
-from src.data.dataset import get_data_loader,get_data_loader_augmented, populate_dataset, getImagenetTransform, build_transform
+from dataset import get_data_loader,get_data_loader_augmented, populate_dataset, getImagenetTransform, build_transform
 import torch.optim as optim
-from src.models.augmented_grad_samplers import AugmentationMultiplicity
+from augmented_grad_samplers import AugmentationMultiplicity
 import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10
 import numpy as np
