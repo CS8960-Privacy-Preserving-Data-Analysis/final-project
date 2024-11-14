@@ -128,12 +128,12 @@ def main():
     # This is required for Opacus to calculate per-sample gradients
     # model = GradSampleModule(model)
 
-    # # Validate the model for DP compatibility
-    # errors = ModuleValidator.validate(model, strict=True)
-    # if errors:
-    #     print("Model still has unsupported layers:", errors)
-    # else:
-    #     print("Model is now compatible with differential privacy.")
+    # Validate the model for DP compatibility
+    errors = ModuleValidator.validate(model, strict=True)
+    if errors:
+        print("Model still has unsupported layers:", errors)
+    else:
+        print("Model is now compatible with differential privacy.")
 
     # optionally resume from a checkpoint
     if args.resume:
