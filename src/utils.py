@@ -306,3 +306,12 @@ def print_params(net):
         print(f"{n_params // 1e3}K parameters")
     else:
         print(f"{n_params} parameters")
+
+def trainable_parameters(module):
+    """
+    Recursively iterates over all parameters, returning those that
+    are trainable (ie they want a grad).
+    """
+    yield from (
+        (p_name, p) for (p_name, p) in module.named_parameters() if p.requires_grad
+    )
