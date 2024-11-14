@@ -20,7 +20,7 @@ import torch
 from torch import optim
 import time
 import numpy as np
-from .logger import create_logger
+from logger import create_logger
 from math import ceil
 
 
