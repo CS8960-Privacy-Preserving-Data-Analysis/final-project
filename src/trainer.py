@@ -126,7 +126,7 @@ def main():
     model = ModuleValidator.fix(model)
 
     # This is required for Opacus to calculate per-sample gradients
-    # model = GradSampleModule(model)
+    model = GradSampleModule(model)
 
     # Validate the model for DP compatibility
     errors = ModuleValidator.validate(model, strict=True)
