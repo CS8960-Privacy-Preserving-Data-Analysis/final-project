@@ -14,10 +14,10 @@ from opacus.accountants.utils import get_noise_multiplier
 from opacus.data_loader import DPDataLoader, switch_generator
 from opacus.distributed import DifferentiallyPrivateDistributedDataParallel as DPDDP
 #from opacus.grad_sample.grad_sample_module import GradSampleModule
-from src.opacus_augmented.grad_sample_module_augmented import GradSampleModuleAugmented
+from grad_sample_module_augmented import GradSampleModuleAugmented
 from opacus.optimizers import DPOptimizer, get_optimizer_class
 from opacus.scheduler import _NoiseScheduler
-from src.utils.utils import trainable_parameters
+from utils import trainable_parameters
 from opacus.validators.module_validator import ModuleValidator
 from torch import nn, optim
 from torch.nn.parallel import DistributedDataParallel as DDP
