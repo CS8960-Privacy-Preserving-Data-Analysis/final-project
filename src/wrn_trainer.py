@@ -17,7 +17,7 @@ Taining of a WideResNet on CIFAR-10 with DP-SGD
 # import torchvision.transforms as transforms
 # from src.models.wideresnet import WideResNet
 # import torch.nn as nn
-# import torch.optim as optim
+
 # from src.opacus_augmented.privacy_engine_augmented import PrivacyEngineAugmented
 # from opacus.validators import ModuleValidator
 # from tqdm import tqdm
@@ -46,7 +46,7 @@ import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.nn.parallel
-import torch.optim
+import torch.optim as optim
 import torch.utils.data
 from opacus import PrivacyEngine, GradSampleModule
 from opacus.validators import ModuleValidator
