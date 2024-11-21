@@ -478,6 +478,7 @@ def parse_args():
                         help='Noise multiplier for differential privacy (default: 1.1)')
 
     parser.add_argument("--WRN_depth",default=16,type=int)
+    parser.add_argument("--WRN_k",default=4,type=int,help="k of resnet block",)
     parser.add_argument("--ref_noise",type=float,default=3,help="reference noise used with reference batch size and number of steps to create our physical constant",)
     parser.add_argument("--ref_B",type=int,default=4096,help="reference batch size used with reference noise and number of steps to create our physical constant",)
     parser.add_argument("--nb_groups",type=int,default=16,help="number of groups for the group norms",)
