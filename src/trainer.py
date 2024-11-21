@@ -21,10 +21,12 @@ from prepare_models import prepare_data_cifar, prepare_augmult_cifar
 from EMA_without_class import create_ema, update
 import json
 
+from wideresnet import WideResNet
 
 
 
 import resnet
+import wideresnet
 from data_loader import get_data_loaders
 from lion import Lion
 from visualizer import plot_train_test_loss_accuracy_vs_epochs
@@ -113,8 +115,8 @@ def main():
         print("path of the directory: ", os.path.abspath(args.save_dir))
 
     print(f"Initializing {args.optimizer} model...")
-    model = resnet.__dict__[args.arch]().cuda()
-
+    #model = resnet.__dict__[args.arch]().cuda()
+    model = WideResNet(args.WRN_depth,10,args.WRN_k,args.nb_groups,args.init,args.order1,args.order2)
     print(f"Model {args.arch} initialized.")
     # print_params(model)
 
