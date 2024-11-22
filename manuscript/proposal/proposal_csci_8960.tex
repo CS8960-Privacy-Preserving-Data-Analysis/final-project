@@ -4,7 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
-\usepackage{url}
+% \usepackage{url}
 \usepackage{booktabs}
 \usepackage{amsfonts}
 \usepackage{nicefrac}
@@ -14,8 +14,13 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{amsmath}
-\usepackage{graphicx}
 \usepackage{array}
+\usepackage{multirow}
+\usepackage{pdflscape}
+\usepackage{appendix}
+\usepackage{adjustbox}
+
+
 
 \title{Differential Privacy in Image Classification using ResNet-20 and DP-SGD Optimization}
 
@@ -105,6 +110,9 @@
     \section{Best Accuracy Report \#1}\label{sec:best-accuracy-report}
     \input{ba-report}
 
+    \section{Best Accuracy Report \#2}\label{sec:best-accuracy-report2}
+    \input{ba-report2}
+
     \bibliographystyle{plain}
     \bibliography{references}
 
@@ -112,6 +120,12 @@
     The code and related materials for this project are available at our GitHub repository:
     \url{https://github.com/CS8960-Privacy-Preserving-Data-Analysis/final-project}.
     Contributions, issues, and discussions are welcome.
+
+    \appendix
+    \begin{appendices}  % If using the 'appendix' package
+    \section{Detailed Experiment Results}\label{sec:detailed-experiment-results}\nopagebreak
+    \input{appendix}
+    \end{appendices}
 
 
 \end{document}

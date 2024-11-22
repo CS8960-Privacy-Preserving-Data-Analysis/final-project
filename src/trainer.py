@@ -1,19 +1,21 @@
 import argparse
 import os
 import time
-
+import random
+import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-from opacus import PrivacyEngine
+from opacus import PrivacyEngine, GradSampleModule
 from opacus.validators import ModuleValidator
 
 import resnet
 from data_loader import get_data_loaders
-from src.visualizer import plot_train_test_loss_accuracy_vs_epochs
+from lion import Lion
+from visualizer import plot_train_test_loss_accuracy_vs_epochs
 from utils import accuracy, AverageMeter, save_checkpoint, log_metrics
 
 model_names = sorted(name for name in resnet.__dict__
@@ -67,18 +69,83 @@ parser.add_argument('--noise-multiplier', default=1.1, type=float,
 parser.add_argument('--max-grad-norm', default=1.0, type=float,
                     help='Max grad norm for differential privacy (default: 1.0)')
 
+# For RMSprop
+parser.add_argument('--alpha', default=0.99, type=float,
+                    help='RMSprop smoothing constnt (default: 0.99)')
+parser.add_argument('--rms-epsilon', default=1e-8, type=float,
+                    help='RMSprop epsilon (default: 1e-8)')
+parser.add_argument('--centered', default=False, type=bool,
+                    help='RMSprop centered (default: False)')
+
 # For Adam optimizer
 parser.add_argument('--beta1', default=0.9, type=float,
                     help='Beta1 for Adam optimizer')
 parser.add_argument('--beta2', default=0.999, type=float,
                     help='Beta2 for Adam optimizer')
 
+# Choose Optimizer Type
+parser.add_argument('--optimizer', default='DP-SGD', type=str,
+                    help='Choose Optimizer (default: DP-SGD)')
+
+# Choose Optimizer Type
+parser.add_argument('--seed', default=100, type=int,
+                    help='Choose Random Seed (default:100)')
+
 best_prec1 = 0
 
+
+def choose_optimizer(args,model):
+    if args.optimizer == 'DP-SGD':
+        optimizer = torch.optim.SGD(model.parameters(), args.lr,
+                                momentum=args.momentum,
+                                weight_decay=args.weight_decay)
+    elif args.optimizer == 'DP-Adam':
+
+        optimizer = torch.optim.Adam(
+            model.parameters(),
+            lr=args.lr,
+            betas=(args.beta1, args.beta2),
+            weight_decay=args.weight_decay
+        )
+    elif args.optimizer == 'DP-RMSprop':
+       optimizer = torch.optim.RMSprop(model.parameters(),
+                                    lr=args.lr,
+                                    alpha=args.alpha,
+                                    eps=args.rms_epsilon,
+                                    weight_decay=args.weight_decay,
+                                    momentum=args.momentum,
+                                    centered=args.centered)
+
+    elif args.optimizer == 'DP-Lion':
+        optimizer = Lion(
+            model.parameters(),
+            lr=args.lr,
+            betas=(args.beta1, args.beta2),
+            weight_decay=args.weight_decay
+        )
+
+    else:
+        print('Error: Choose Optimizer from DP-SGD, DP-Adam, DP-RMSprop, DP-Lion')
+        raise ValueError(f"Unknown optimizer: {args.optimizer}")
+    
+    print(f"Optimizer: {args.optimizer} initialized.")
+
+    return optimizer
 
 def main():
     global args, best_prec1, train_losses, train_accuracies, val_losses, val_accuracies
     args = parser.parse_args()
+
+    # Let's set a random seed before training to make the experiments reproducible
+    seed = args.seed
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
 
     # Clear global lists before starting a new experiment
     train_losses = []
@@ -96,7 +163,7 @@ def main():
         print("WARNING: Contents of the directory will be overwritten.")
         print("path of the directory: ", os.path.abspath(args.save_dir))
 
-    print("Initializing model...")
+    print(f"Initializing {args.optimizer} model...")
     model = resnet.__dict__[args.arch]().cuda()
 
     print(f"Model {args.arch} initialized.")
@@ -104,6 +171,9 @@ def main():
     # Modify the model to use GroupNorm instead of BatchNorm since BathNorm is not supported in DP-SGD
     print("Replacing BatchNorm with GroupNorm for differential privacy...")
     model = ModuleValidator.fix(model)
+
+    # This is required for Opacus to calculate per-sample gradients
+    model = GradSampleModule(model)
 
     # Validate the model for DP compatibility
     errors = ModuleValidator.validate(model, strict=True)
@@ -138,12 +208,7 @@ def main():
         model.half()
         criterion.half()
 
-    optimizer = torch.optim.Adam(
-        model.parameters(),
-        lr=args.lr,
-        betas=(args.beta1, args.beta2),
-        weight_decay=args.weight_decay
-    )
+    optimizer = choose_optimizer(args, model)
     print("Optimizer initialized.")
 
     # Create a privacy engine
@@ -219,7 +284,7 @@ def main():
     print("Training completed.")
 
     # TODO: Fix the optimizer name later
-    experiment_id = f"experiment_DPADAM_{args.batch_size}_{args.lr}_{int(time.time())}"
+    experiment_id = f"experiment_{args.optimizer}_{args.batch_size}_{args.lr}_{int(time.time())}"
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     save_dir = os.path.join(project_root, 'experiments', experiment_id)
 
