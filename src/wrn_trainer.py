@@ -260,16 +260,15 @@ def main():  ## for non poisson, divide bs by world size
     train_dataset,train_loader, test_loader = prepare_data_cifar(args.data_root,args.batch_size,args.proportion)
     # loss and optimizer
     criterion = nn.CrossEntropyLoss()
-    if (args.optimizer == 'Lion'){
+    if (args.optimizer == 'Lion'):
         optimizer = Lion(
                 model.parameters(),
                 lr=args.lr,
                 betas=(args.beta1, args.beta2),
                 weight_decay=args.weight_decay
             )
-    } else {
+    else:
         optimizer = optim.SGD(weights, lr=args.lr, momentum=args.momentum)
-    }
     
     # Creating the privacy engine
     privacy_engine = PrivacyEngineAugmented(GradSampleModule.GRAD_SAMPLERS)
@@ -367,6 +366,8 @@ def parse_args():
     parser.add_argument("--beta1",type=int,default=.9,help="beta1 for Lion",)
     parser.add_argument("--beta2",type=int,default=.999,help="beta2 for Lion",)
     parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float, metavar='W', help='weight decay (default: 1e-4)')
+    # Choose Optimizer Type
+    parser.add_argument('--optimizer', default='SGD', type=str, help='Choose Optimizer (default: DP-SGD)')
 
     parser.add_argument("--freq_log", type=int, default=20, help="every each freq_log steps, we log",)
 
