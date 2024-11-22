@@ -363,8 +363,8 @@ def parse_args():
     parser.add_argument("--dump_path",type=str,default="",help="Where results will be stored",)
     parser.add_argument("--transform",type=int,default=0,help="using augmentation multiplicity",)
 
-    parser.add_argument("--beta1",type=int,default=.9,help="beta1 for Lion",)
-    parser.add_argument("--beta2",type=int,default=.999,help="beta2 for Lion",)
+    parser.add_argument("--beta1",type=float,default=.9,help="beta1 for Lion",)
+    parser.add_argument("--beta2",type=float,default=.999,help="beta2 for Lion",)
     parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float, metavar='W', help='weight decay (default: 1e-4)')
     # Choose Optimizer Type
     parser.add_argument('--optimizer', default='SGD', type=str, help='Choose Optimizer (default: DP-SGD)')
