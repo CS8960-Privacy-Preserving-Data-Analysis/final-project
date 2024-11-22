@@ -1,0 +1,42 @@
+\begin{thebibliography}{1}
+
+\bibitem{Abadi_2016_DeepLearningDifferentialPrivacy}
+Martin Abadi, Andy Chu, Ian Goodfellow, H.~Brendan McMahan, Ilya Mironov, Kunal
+  Talwar, and Li~Zhang.
+\newblock Deep learning with differential privacy.
+\newblock In {\em Proceedings of the 2016 ACM SIGSAC Conference on Computer and
+  Communications Security}, CCS '16, page 308–318, New York, NY, USA, 2016.
+  Association for Computing Machinery.
+
+\bibitem{DBLP:journals/corr/abs-1807-06766}
+Amitabh Basu, Soham De, Anirbit Mukherjee, and Enayat Ullah.
+\newblock Convergence guarantees for rmsprop and {ADAM} in non-convex
+  optimization and their comparison to nesterov acceleration on autoencoders.
+\newblock {\em CoRR}, abs/1807.06766, 2018.
+
+\bibitem{chen2023symbolicdiscoveryoptimizationalgorithms}
+Xiangning Chen, Chen Liang, Da~Huang, Esteban Real, Kaiyuan Wang, Yao Liu, Hieu
+  Pham, Xuanyi Dong, Thang Luong, Cho-Jui Hsieh, Yifeng Lu, and Quoc~V. Le.
+\newblock Symbolic discovery of optimization algorithms, 2023.
+
+\bibitem{De_2022_ScaleDP_ImageClassification}
+Soham De, Leonard Berrada, Jamie Hayes, Samuel~L. Smith, and Borja Balle.
+\newblock Unlocking high-accuracy differentially private image classification
+  through scale, 2022.
+
+\bibitem{kingma2017adammethodstochasticoptimization}
+Diederik~P. Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization, 2017.
+
+\bibitem{tang2023dpadambcdpadamactuallydpsgd}
+Qiaoyue Tang, Frederick Shpilevskiy, and Mathias Lécuyer.
+\newblock Dp-adambc: Your dp-adam is actually dp-sgd (unless you apply bias
+  correction), 2023.
+
+\bibitem{zhou_2020_private_adaptive_algorithms}
+Yingxue Zhou, Xiangyi Chen, Mingyi Hong, Zhiwei~Steven Wu, and Arindam
+  Banerjee.
+\newblock Private stochastic non-convex optimization: Adaptive algorithms and
+  tighter generalization bounds, 2020.
+
+\end{thebibliography}
